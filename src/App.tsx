@@ -1,25 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./assets/css/app.css";
+import "./assets/css/index.css";
+import { ConfigProvider } from "antd";
+import routes from "./routes/_routes";
+import { StyleProvider } from "@ant-design/cssinjs";
+import { useRoutes, HashRouter } from "react-router-dom";
+import { AuthProvider } from "./provider/auth/provider.auth";
+import { QueryClient, QueryClientProvider } from "react-query";
 
+const AppRoute = () => {
+  const appRoute = useRoutes(routes);
+  return appRoute;
+};
+
+const client = new QueryClient({
+  defaultOptions: {
+    queries: { refetchOnWindowFocus: false, retry: 0 },
+  },
+});
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <QueryClientProvider client={client}>
+      <HashRouter>
+        <ConfigProvider
+          theme={{
+            token: { colorPrimary: "#2F58CD" },
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <StyleProvider hashPriority="high">
+            <AuthProvider>
+              <AppRoute />
+            </AuthProvider>
+          </StyleProvider>
+        </ConfigProvider>
+      </HashRouter>
+    </QueryClientProvider>
   );
 }
 
