@@ -1,7 +1,11 @@
 import { throwResponse } from "../../../config/axios/axios.config";
-
 import { IProfile, IUser } from "../../../interface/IUser";
-import { UseQueryResult, useQuery } from "react-query";
+import {
+  UseQueryResult,
+  useQuery,
+  UseMutationResult,
+  useMutation,
+} from "react-query";
 import axios from "../../../config/axios/axios.config";
 import endpoints from "../api.endpoint";
 
@@ -21,6 +25,28 @@ export async function getProfile() {
   return !statusSuccess.includes(res.status) ? throwResponse(res) : res.data;
 }
 
+// useQuery
+
+export const UseSignin = (): UseMutationResult<unknown, Error> => {
+  return useMutation(async ({ params }: any) => {
+    const res = await axios.post(`${endpoints.user.login}`, params);
+    if (res.status === 200) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
+export const UseRegister = (): UseMutationResult<unknown, Error> => {
+  return useMutation(async ({ params }: any) => {
+    const res = await axios.post(`${endpoints.user.register}`, params);
+    if (res.status === 200) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
 export const UseGetProfile = (): UseQueryResult<IProfile, Error> => {
   return useQuery([
     "get-profile",
@@ -33,12 +59,3 @@ export const UseGetProfile = (): UseQueryResult<IProfile, Error> => {
     },
   ]);
 };
-
-export const authenApi = {
-  signin,
-  register,
-  getProfile,
-  UseGetProfile,
-};
-
-export default authenApi;

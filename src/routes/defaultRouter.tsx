@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import DefaultLayout from "../components/layouts";
+import AppLayout from "../components/layouts";
 import NoLayout from "../components/layouts/no-layout";
 import Error404 from "../pages/error/Error404";
 import Error500 from "../pages/error/Error500";
@@ -15,8 +15,8 @@ export const routerDefault: Array<RouteObject> = [
       { path: "/error/500", element: <Error500 /> },
     ],
   },
+
   { path: "/login", element: <Signin /> },
-  { path: "/", element: <DefaultLayout /> },
-  { path: "/home", element: <Home /> },
+  { path: "/", element: <AppLayout />, children: [] },
   { path: "*", element: <Error404 /> },
 ];
