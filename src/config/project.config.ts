@@ -3,7 +3,7 @@ const projectConfig = {
   projectDescription: "",
   favicon: "",
 
-  baseURL: "",
+  baseURL: "http://localhost:3002",
   apiVersion: "api",
 };
 

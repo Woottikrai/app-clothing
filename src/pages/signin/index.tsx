@@ -3,12 +3,30 @@ import { Row, Col, Typography, Form, Button, Image, Space } from "antd";
 import React from "react";
 import { CInput, CInputPassword } from "../../components/input/c-input";
 import { ISignin } from "../../services/auth/interface";
-
+import authenApi from "../../services/auth/authen/authen";
+import { openNotification } from "../../components/notification";
+import { useNavigate } from "react-router-dom";
 type Props = {};
 
-export default function SignIn({}: Props) {
-  const onFinish = (values: ISignin) => {
-    const { email, password } = values;
+export default function SignIn({ }: Props) {
+  const navigate = useNavigate();
+
+  const onFinish = (value: ISignin) => {
+    authenApi
+      .signin({
+        email: value.email,
+        password: value.password,
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.accessToken);
+        openNotification({ type: "success", title: "success" });
+      })
+      .catch((err) => {
+        openNotification({ type: "error", title: "wrong email or password!" });
+      })
+      .finally(() => {
+        navigate("/");
+      });
   };
   return (
     <React.Fragment>
