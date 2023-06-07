@@ -16,7 +16,7 @@ export const endpoints = {
     login: `${projectConfig.baseURL}/authentication/siginin`,
     register: `${projectConfig.baseURL}/user/register`,
     profile: `${projectConfig.baseURL}/authentication/profile`,
-    // updateUser: `${projectConfig.baseURL}/user/update:id`,
+    updateUser: `${projectConfig.baseURL}/user/update`,
     updatePssword: `${projectConfig.baseURL}/user/update-password`,
   },
 };

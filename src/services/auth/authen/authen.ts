@@ -28,7 +28,7 @@ export async function getProfile() {
 // useQuery
 
 export const UseSignin = (): UseMutationResult<unknown, Error> => {
-  return useMutation(async ({ params }: any) => {
+  return useMutation(async (params: any) => {
     const res = await axios.post(`${endpoints.user.login}`, params);
     if (res.status === 200) {
       return res.data;
@@ -59,3 +59,10 @@ export const UseGetProfile = (): UseQueryResult<IProfile, Error> => {
     },
   ]);
 };
+
+export const authenApi = {
+  UseGetProfile,
+  getProfile,
+};
+
+export default authenApi;

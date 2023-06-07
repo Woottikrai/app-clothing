@@ -18,8 +18,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import signout from "../../../pages/signout";
 import emptyProfile from "../../../assets/images/image-profile.jpeg";
+import SignIn from "../../../pages/signin";
+import { IProfile } from "../../../interface/IUser";
+import { authenApi } from "../../../services/auth/authen/authen";
 
 export default function Header() {
+  const [getData, setData] = React.useState({} as Partial<IProfile>);
+
   return (
     <Layout.Header
       style={{
@@ -118,15 +123,31 @@ const Link = () => {
 };
 
 const Profile = () => {
+  const navigate = useNavigate();
+
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+
   const items: MenuProps["items"] = [
     {
       key: "profile",
       className: "profile",
       label: (
         <Row>
-          <Typography.Text onClick={() => {}}>
+          <Typography.Text onClick={() => { }}>
             <ProfileOutlined /> โปรไฟล์
+          </Typography.Text>
+        </Row>
+      ),
+    },
+    {
+      key: "signin",
+      className: "signin",
+      label: (
+        <Row>
+          <Typography.Text onClick={() => {
+            navigate('/login')
+          }}>
+            <LogoutOutlined /> เข้าสู่ระบบ
           </Typography.Text>
         </Row>
       ),
@@ -136,7 +157,10 @@ const Profile = () => {
       className: "signout",
       label: (
         <Row>
-          <Typography.Text onClick={signout}>
+          <Typography.Text onClick={() => {
+            navigate('/login')
+            localStorage.clear()
+          }}>
             <LogoutOutlined /> ออกจากระบบ
           </Typography.Text>
         </Row>
@@ -144,12 +168,23 @@ const Profile = () => {
     },
   ];
 
+  const [getData, setData] = React.useState({} as Partial<IProfile>);
+  React.useEffect(() => {
+    (async () => {
+      const res = await authenApi.getProfile().then((res) => {
+        setData({
+          ...res,
+
+        });
+      });
+    })();
+  }, [isModalOpen]);
   return (
     <React.Fragment>
       <Space wrap size={30}>
         <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
           <Avatar
-            src={"" || emptyProfile}
+            src={getData?.img || emptyProfile}
             alt={"image-profile"}
             style={{
               backgroundColor: "#FFFFFF",

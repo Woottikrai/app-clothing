@@ -98,31 +98,20 @@ export default function AddProduct({ onAny: disabled }: Props) {
 
   React.useEffect(() => {
     (async () => {
-      const res = await productApi.getAllColor();
-      setColor(res);
+      const res1 = await productApi.getAllColor();
+      setColor(res1);
+
+      const res2 = await productApi.getProducttypeAll();
+      setProducttype(res2);
+
+      const res3 = await productApi.getSizeAll();
+      setSize(res3);
+
+      const res4 = await productApi.getSuitabilityAll();
+      setSuitability(res4);
     })();
   }, []);
 
-  React.useEffect(() => {
-    (async () => {
-      const res = await productApi.getProducttypeAll();
-      setProducttype(res);
-    })();
-  }, []);
-
-  React.useEffect(() => {
-    (async () => {
-      const res = await productApi.getSizeAll();
-      setSize(res);
-    })();
-  }, []);
-
-  React.useEffect(() => {
-    (async () => {
-      const res = await productApi.getSuitabilityAll();
-      setSuitability(res);
-    })();
-  }, []);
 
   const onFinish = (values: IProduct) => {
     console.log(values);

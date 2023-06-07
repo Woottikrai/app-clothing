@@ -48,6 +48,7 @@ export const usegetProductAll = (
     return res.data;
   });
 };
+
 export const productApi = {
   getAllColor,
   getProducttypeAll,

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { UseSignin } from "../../services/auth/authen/authen";
 type Props = {};
 
-export default function SignIn({}: Props) {
+export default function SignIn({ }: Props) {
   const navigate = useNavigate();
   const signin = UseSignin();
   const onFinish = (value: ISignin) => {
@@ -21,13 +21,13 @@ export default function SignIn({}: Props) {
       {
         onSuccess: (res: any) => {
           openNotification({ type: "success" });
-          localStorage.setItem("token", res.token);
+          localStorage.setItem("token", res.accessToken);
         },
         onError: ({ message }) => {
           openNotification({ type: "error", description: message });
         },
         onSettled: () => {
-          navigate("/home");
+          navigate("/");
         },
       }
     );
