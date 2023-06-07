@@ -1,21 +1,24 @@
-
-import { Col, Form, Input, Row, Select, UploadFile, UploadProps } from 'antd'
+import { Col, Form, Input, Row, Select, UploadFile, UploadProps } from "antd";
 import { useNavigate } from "react-router-dom";
-import { IColor, IProduct, IProducttype, ISize, ISuitability } from '../../interface/IProduct';
-import React from 'react';
+import {
+  IColor,
+  IProduct,
+  IProducttype,
+  ISize,
+  ISuitability,
+} from "../../interface/IProduct";
+import React from "react";
 
-import Upload, { UploadChangeParam, RcFile } from 'antd/es/upload';
+import Upload, { UploadChangeParam, RcFile } from "antd/es/upload";
 
 import { Image } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import imageProfile from "../../assets/img/camera.jpg";
-import { openNotification } from '../../components/notification';
-import { productApi } from '../../services/auth/product/product.axios';
-import Container from '../../components/container/contyainer';
-import HeadTitle from '../../components/headtitle';
-import { fileToDataUrl } from '../../util/media';
-
-
+import { openNotification } from "../../components/notification";
+import { productApi } from "../../services/auth/product/product.axios";
+import Container from "../../components/container";
+import HeadTitle from "../../components/headtitle";
+import { fileToDataUrl } from "../../util/media";
 
 type Props = {
   onAny?: (value: IProduct) => void;
@@ -27,21 +30,20 @@ const accepts = {
   string: ".jpg,.jpeg,.png,.webp",
 };
 
-
-
-
 export default function AddProduct({ onAny: disabled }: Props) {
   const navigate = useNavigate();
   const [statusUpload, setStatusUpload] = React.useState(true);
   const [form] = Form.useForm();
   const [loading, setLoading] = React.useState(false);
   const [getColor, setColor] = React.useState<Array<IColor>>([]);
-  const [getProducttype, setProducttype] = React.useState<Array<IProducttype>>([]);
+  const [getProducttype, setProducttype] = React.useState<Array<IProducttype>>(
+    []
+  );
   const [getSize, setSize] = React.useState<Array<ISize>>([]);
-  const [getSuitability, setSuitability] = React.useState<Array<ISuitability>>([]);
+  const [getSuitability, setSuitability] = React.useState<Array<ISuitability>>(
+    []
+  );
   const [imageUrl, setImageUrl] = React.useState<string>();
-
-
 
   const handleChange: UploadProps["onChange"] = async (
     info: UploadChangeParam<UploadFile>
@@ -122,7 +124,6 @@ export default function AddProduct({ onAny: disabled }: Props) {
     })();
   }, []);
 
-
   const onFinish = (values: IProduct) => {
     console.log(values);
 
@@ -136,7 +137,6 @@ export default function AddProduct({ onAny: disabled }: Props) {
         producttypeId: values.producttypeId,
         suitabilityId: values.suitabilityId,
         colorId: values.colorId,
-
       })
       .then(() => {
         openNotification({ type: "success", title: "success" });
@@ -147,18 +147,18 @@ export default function AddProduct({ onAny: disabled }: Props) {
       .finally(() => {
         navigate(-1);
       });
-  }
-
+  };
 
   return (
     <>
-
       <Container>
-        <Form name="addproduct"
+        <Form
+          name="addproduct"
           labelCol={{ span: 24 }}
           layout="vertical"
           initialValues={{ remember: true }}
-          onFinish={onFinish}>
+          onFinish={onFinish}
+        >
           <Row gutter={[12, 12]}>
             <Col span={24}>
               <HeadTitle
@@ -203,7 +203,7 @@ export default function AddProduct({ onAny: disabled }: Props) {
                   {
                     required: true,
                     message: "Please input your Product Price!",
-                    min: 0
+                    min: 0,
                   },
                 ]}
               >
@@ -211,12 +211,16 @@ export default function AddProduct({ onAny: disabled }: Props) {
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item name="colorId" label="เลือกสี" rules={[
-                {
-                  required: true,
-                  message: "Please input your Product Color!",
-                },
-              ]}>
+              <Form.Item
+                name="colorId"
+                label="เลือกสี"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your Product Color!",
+                  },
+                ]}
+              >
                 <Select
                   defaultValue={"Select"}
                   options={getColor.map((it) => {
@@ -226,18 +230,19 @@ export default function AddProduct({ onAny: disabled }: Props) {
                     width: "100%",
                   }}
                 />
-
               </Form.Item>
-
             </Col>
             <Col span={6}>
-
-              <Form.Item name="producttypeId" label="เลือกชนิดสินค้า" rules={[
-                {
-                  required: true,
-                  message: "Please input your Product Type!",
-                },
-              ]}>
+              <Form.Item
+                name="producttypeId"
+                label="เลือกชนิดสินค้า"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your Product Type!",
+                  },
+                ]}
+              >
                 <Select
                   defaultValue={"Select"}
                   options={getProducttype.map((it) => {
@@ -247,18 +252,19 @@ export default function AddProduct({ onAny: disabled }: Props) {
                     width: "100%",
                   }}
                 />
-
               </Form.Item>
-
             </Col>
             <Col span={6}>
-
-              <Form.Item name="sizeId" label="เลือกขนาด" rules={[
-                {
-                  required: true,
-                  message: "Please input your Product Size!",
-                },
-              ]}>
+              <Form.Item
+                name="sizeId"
+                label="เลือกขนาด"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your Product Size!",
+                  },
+                ]}
+              >
                 <Select
                   defaultValue={"Select"}
                   options={getSize.map((it) => {
@@ -268,18 +274,19 @@ export default function AddProduct({ onAny: disabled }: Props) {
                     width: "100%",
                   }}
                 />
-
               </Form.Item>
-
             </Col>
             <Col span={6}>
-
-              <Form.Item name="suitabilityId" label="เลือกความเหมาะสม" rules={[
-                {
-                  required: true,
-                  message: "Please input your Product Size!",
-                },
-              ]}>
+              <Form.Item
+                name="suitabilityId"
+                label="เลือกความเหมาะสม"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your Product Size!",
+                  },
+                ]}
+              >
                 <Select
                   defaultValue={"Select "}
                   options={getSuitability.map((it) => {
@@ -289,9 +296,7 @@ export default function AddProduct({ onAny: disabled }: Props) {
                     width: "100%",
                   }}
                 />
-
               </Form.Item>
-
             </Col>
           </Row>
           <Col span={24}>
@@ -332,14 +337,9 @@ export default function AddProduct({ onAny: disabled }: Props) {
                 </Upload>
               </Form.Item>
             </center>
-
-
           </Col>
         </Form>
-
       </Container>
-
     </>
-  )
+  );
 }
-

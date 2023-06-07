@@ -9,7 +9,10 @@ interface Props {
 
 const Container = ({ children, height = "100%", className }: Props) => {
   return (
-    <Card style={{ height: height, width: "100%" }} className={`${className}`}>
+    <Card
+      style={{ height: height, width: "100%" }}
+      className={`${className} !px-7 py-10`}
+    >
       {children}
     </Card>
   );

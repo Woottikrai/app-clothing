@@ -1,6 +1,6 @@
 import { Layout } from "antd";
-import Header from "../../pages/header/header";
 import Content from "./content";
+import Header from "./header";
 
 type Props = {};
 

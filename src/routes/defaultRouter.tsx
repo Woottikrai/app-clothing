@@ -17,6 +17,17 @@ export const routerDefault: Array<RouteObject> = [
   },
 
   { path: "/login", element: <Signin /> },
-  { path: "/", element: <AppLayout />, children: [] },
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/home",
+        element: <Home />,
+      },
+      {},
+      {},
+    ],
+  },
   { path: "*", element: <Error404 /> },
 ];

@@ -1,6 +1,8 @@
-import { SaveOutlined } from "@ant-design/icons";
-import { Row, Col, Typography, Space, Button, theme } from "antd";
+import { HomeOutlined, SaveOutlined } from "@ant-design/icons";
+import { Row, Col, Typography, Space, Button, theme, Breadcrumb } from "antd";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 type Props = {
   children?: React.ReactNode;
@@ -23,12 +25,29 @@ export default function HeadTitle({
   onExcel,
   action,
   actionName,
-  children,
+  breadcrumbNameMap,
   className,
 }: Props) {
   const {
     token: { colorTextLabel, colorPrimary },
   } = theme.useToken();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const pathSnippets = location.pathname.split("/").filter((i) => i);
+
+  const extraBreadcrumbItems = pathSnippets.map((_, index) => {
+    const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
+    return {
+      key: url,
+      title: (
+        <Space>
+          <HomeOutlined onClick={() => navigate(-1)} />
+          <span className="mx-.5 text-gray-500">/</span>
+          <Link to={url}>{breadcrumbNameMap?.[url]}</Link>
+        </Space>
+      ),
+    };
+  });
 
   return (
     <Row
@@ -40,7 +59,7 @@ export default function HeadTitle({
       }}
     >
       <Col>
-        {title && (
+        {!!title && (
           <Typography.Title
             level={4}
             style={{
@@ -56,6 +75,7 @@ export default function HeadTitle({
             {title}
           </Typography.Title>
         )}
+        {!!breadcrumbNameMap && <Breadcrumb items={extraBreadcrumbItems} />}
       </Col>
       <Col>
         {!action && (
