@@ -54,10 +54,10 @@ export default function HeadTitle({
       className={`!mb-5 ${className}`}
       justify="space-between"
       align="middle"
-      style={{
-        marginBottom: 10,
-      }}
     >
+      <Col span={12}>
+        {!!breadcrumbNameMap && <Breadcrumb items={extraBreadcrumbItems} />}
+      </Col>
       <Col>
         {!!title && (
           <Typography.Title
@@ -75,9 +75,8 @@ export default function HeadTitle({
             {title}
           </Typography.Title>
         )}
-        {!!breadcrumbNameMap && <Breadcrumb items={extraBreadcrumbItems} />}
       </Col>
-      <Col>
+      {/* <Col>
         {!action && (
           <Space>
             {!!onCancel && (
@@ -113,7 +112,7 @@ export default function HeadTitle({
           </Space>
         )}
         {action}
-      </Col>
+      </Col> */}
     </Row>
   );
 }

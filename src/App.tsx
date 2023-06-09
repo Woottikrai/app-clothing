@@ -23,7 +23,7 @@ function App() {
       <HashRouter>
         <ConfigProvider
           theme={{
-            token: { colorPrimary: "#2F58CD" },
+            token: { colorPrimary: "#E7C98D" },
           }}
         >
           <StyleProvider hashPriority="high">

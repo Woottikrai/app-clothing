@@ -1,4 +1,13 @@
-import { Col, Form, Input, Row, Select, UploadFile, UploadProps } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Select,
+  UploadFile,
+  UploadProps,
+} from "antd";
 import { useNavigate } from "react-router-dom";
 import {
   IColor,
@@ -7,19 +16,29 @@ import {
   ISize,
   ISuitability,
 } from "../../interface/IProduct";
-import React from "react";
+import React, { FC } from "react";
 
 import Upload, { UploadChangeParam, RcFile } from "antd/es/upload";
-import img from '../../assets/images/camera.jpg'
+import img from "../../assets/images/camera.jpg";
 import { Image } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { openNotification } from "../../components/notification";
 import Container from "../../components/container";
 import HeadTitle from "../../components/headtitle";
 import { fileToDataUrl } from "../../util/media";
-import { addProduct, getAllColor, getProducttypeAll, getSizeAll, getSuitabilityAll } from "../../services/auth/product/product.axios";
+import {
+  addProduct,
+  getAllColor,
+  getProducttypeAll,
+  getSizeAll,
+  getSuitabilityAll,
+} from "../../services/auth/product/product.axios";
 import { error } from "console";
 import { type } from "os";
+import CCard from "../../components/card";
+import { CInput } from "../../components/input/c-input";
+import TextArea from "antd/es/input/TextArea";
+import { breadcrumbNameMap } from "../../routes/breadcrumb";
 
 type Props = {
   onAny?: (value: IProduct) => void;
@@ -86,36 +105,28 @@ export default function AddProduct({ onAny: disabled }: Props) {
     setLoading(false);
   };
 
-  const onCancel = () => {
-    navigate(-1);
-  };
-
-  const onSubmit = () => {
-    form.submit();
-  };
   const HeadTitleProps = {
-    title: "Create Product",
+    title: "เพิ่มสินค้า",
+    breadcrumbNameMap: breadcrumbNameMap,
   };
 
-  React.useEffect(() => {
-    (async () => {
-      const res1 = await getAllColor();
-      setColor(res1);
+  // React.useEffect(() => {
+  //   (async () => {
+  //     const res1 = await getAllColor();
+  //     setColor(res1);
 
-      const res2 = await getProducttypeAll();
-      setProducttype(res2);
+  //     const res2 = await getProducttypeAll();
+  //     setProducttype(res2);
 
-      const res3 = await getSizeAll();
-      setSize(res3);
+  //     const res3 = await getSizeAll();
+  //     setSize(res3);
 
-      const res4 = await getSuitabilityAll();
-      setSuitability(res4);
-    })();
-  }, []);
+  //     const res4 = await getSuitabilityAll();
+  //     setSuitability(res4);
+  //   })();
+  // }, []);
 
-
-
-  const onFinish = ((values: IProduct) => {
+  const onFinish = (values: IProduct) => {
     addProduct({
       name: values.name,
       detail: values.detail,
@@ -125,62 +136,177 @@ export default function AddProduct({ onAny: disabled }: Props) {
       producttypeId: values.producttypeId,
       suitabilityId: values.suitabilityId,
       colorId: values.colorId,
-    }).then(() => {
-      openNotification({ type: "success", title: "success" });
-    }).catch((err) => {
-      openNotification({ type: "error", title: `${err}` });
     })
+      .then(() => {
+        openNotification({ type: "success", title: "success" });
+      })
+      .catch((err) => {
+        openNotification({ type: "error", title: `${err}` });
+      })
       .finally(() => {
         navigate(-1);
       });
-  })
-
+  };
 
   return (
-    <>
-      <Container>
-        <Form
-          name="addproduct"
-          labelCol={{ span: 24 }}
-          layout="vertical"
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-        >
+    <Container>
+      <HeadTitle {...HeadTitleProps} />
+      <Form
+        name="addproduct"
+        labelCol={{ span: 24 }}
+        layout="vertical"
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+      >
+        <Row gutter={[12, 12]}>
+          <Col span={8}>
+            <UploadImage
+              handleChange={handleChange}
+              imageUrl={imageUrl}
+              loading={loading}
+              emptyImg={""}
+            />
+          </Col>
+          <Col span={16}>
+            <InputForm />
+          </Col>
+        </Row>
+      </Form>
+    </Container>
+  );
+}
 
-          <Form.Item label="Upload" valuePropName="fileList" >
-            <Upload name="img"
-              className="avatar-uploader"
+interface UploadImageProps {
+  handleChange?: (info?: any) => void;
+  loading?: boolean;
+  imageUrl?: string;
+  emptyImg?: string;
+}
+
+const UploadImage: FC<UploadImageProps> = ({
+  handleChange,
+  loading,
+  imageUrl,
+  emptyImg,
+}) => {
+  return (
+    <React.Fragment>
+      <CCard className="">
+        <>
+          <Form.Item
+            valuePropName="fileList"
+            rules={[{ required: true }]}
+            className="w-full"
+            style={{
+              display: "grid",
+              justifyContent: "center",
+              margin: 0,
+            }}
+          >
+            <Upload
+              name="img"
+              className="avatar-uploader !h-[250px]"
               showUploadList={false}
               accept={accepts.string}
               beforeUpload={() => false}
               onChange={handleChange}
-              listType="picture-card">
-              <div>
+              listType="picture-card"
+              style={{}}
+            >
+              <div className="">
                 {loading ? (
                   <LoadingOutlined />
                 ) : !!imageUrl ? (
                   <Image
                     preview={false}
                     src={imageUrl}
-                    alt="img"
-                    className="!h-52 !w-52 object-fill"
+                    // alt="img"
+                    className="!object-fill"
                   />
                 ) : (
                   <Image
                     preview={false}
-                    // src={img}
-                    alt="img"
-                    className="!h-52 !w-52 object-fill"
+                    src={emptyImg}
+                    // alt="img"
+                    className="!object-fill"
                   />
                 )}
                 <PlusOutlined />
-                <div style={{ marginTop: 8, }}>Upload</div>
+                <div style={{ marginTop: 8 }}>Upload</div>
               </div>
             </Upload>
           </Form.Item>
-
-        </Form>
-      </Container>
-    </>
+        </>
+      </CCard>
+    </React.Fragment>
   );
-}
+};
+
+interface InputFormProps {}
+
+const InputForm: FC<InputFormProps> = ({}) => {
+  return (
+    <React.Fragment>
+      <CCard>
+        <Row gutter={[12, 0]}>
+          <Col span={12}>
+            <Form.Item
+              name="name"
+              label="ชื่อสินค้า"
+              rules={[{ required: true }]}
+            >
+              <CInput />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item name="price" label="ราคา" rules={[{ required: true }]}>
+              <CInput type="number" min={0} />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Form.Item>
+          <TextArea rows={4} />
+        </Form.Item>{" "}
+        <Row gutter={[12, 0]}>
+          <Col span={12}>
+            <Form.Item>
+              <CInput />
+            </Form.Item>{" "}
+          </Col>
+          <Col span={12}>
+            <Form.Item>
+              <CInput />
+            </Form.Item>{" "}
+          </Col>
+        </Row>
+        <Row gutter={[12, 0]}>
+          <Col span={12}>
+            <Form.Item>
+              <CInput />
+            </Form.Item>{" "}
+          </Col>
+          <Col span={12}>
+            <Form.Item>
+              <CInput />
+            </Form.Item>{" "}
+          </Col>
+        </Row>
+        <div className="text-end">
+          <Button
+            htmlType="reset"
+            type="default"
+            size="large"
+            style={{
+              marginRight: 10,
+            }}
+          >
+            ยกเลิก
+          </Button>
+          <Button htmlType="submit" type="primary" size="large">
+            บันทึก
+          </Button>
+        </div>
+      </CCard>
+    </React.Fragment>
+  );
+};

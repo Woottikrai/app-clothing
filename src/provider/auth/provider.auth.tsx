@@ -14,6 +14,7 @@ export const AuthProvider: FC<AuthProps> = ({ children }) => {
   const token = getToken();
   const { pathname } = useLocation();
   const isPublic = pathname === "/login";
+
   if (!token && !isPublic) {
     return <Navigate to="/login" replace />;
   }
