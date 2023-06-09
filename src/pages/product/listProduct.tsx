@@ -4,8 +4,9 @@ import { useForm } from "antd/es/form/Form";
 import { TablePaginationConfig } from "antd";
 import ProductCard from "./card";
 import { IProduct } from "../../interface/IProduct";
-import { productApi } from "../../services/auth/product/product.axios";
+
 import { initParams } from "../../config/axios/interface";
+import { useGetProductAll } from "../../services/auth/product/product.axios";
 type Props = {};
 export default function ListProduct({ }: Props) {
 
@@ -13,7 +14,7 @@ export default function ListProduct({ }: Props) {
     const [selectTabs, setSelectTabs] = React.useState<String>("1");
     const navigate = useNavigate();
     const [params, setParams] = React.useState<any>(initParams);
-    const { data: getProductAll, } = productApi.usegetProductAll(params);
+    const { data: getProductAll, } = useGetProductAll(params);
 
     console.log(getProductAll?.data)
 

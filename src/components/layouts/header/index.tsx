@@ -86,12 +86,12 @@ const Link = () => {
 
   const nav: Array<Nav> = [
     {
-      name: "home",
+      name: "หน้าหลัก",
       path: "/home",
     },
     {
-      name: "about",
-      path: "/about",
+      name: "เพิ่มสินค้า",
+      path: "/addproduct",
     },
     {
       name: "contact",

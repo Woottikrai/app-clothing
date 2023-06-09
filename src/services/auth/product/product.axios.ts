@@ -35,7 +35,7 @@ export async function getProductAll(params?: IProduct) {
   return !statusSuccess.includes(res.status) ? throwResponse(res) : res.data;
 }
 
-export const usegetProductAll = (
+export const useGetProductAll = (
   params?: Partial<IProduct>
 ): UseQueryResult<IProductResult, Error> => {
   return useQuery(["find-all", params], async () => {
@@ -47,14 +47,4 @@ export const usegetProductAll = (
     }
     return res.data;
   });
-};
-
-export const productApi = {
-  getAllColor,
-  getProducttypeAll,
-  getSizeAll,
-  getSuitabilityAll,
-  addProduct,
-  getProductAll,
-  usegetProductAll,
 };

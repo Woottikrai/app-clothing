@@ -5,6 +5,7 @@ import Error404 from "../pages/error/Error404";
 import Error500 from "../pages/error/Error500";
 import Home from "../pages/home";
 import Signin from "../pages/signin";
+import AddProduct from "../pages/product/addProduct";
 
 export const routerDefault: Array<RouteObject> = [
   {
@@ -25,7 +26,10 @@ export const routerDefault: Array<RouteObject> = [
         path: "/home",
         element: <Home />,
       },
-      {},
+      {
+        path: "/addproduct",
+        element: <AddProduct />
+      },
       {},
     ],
   },

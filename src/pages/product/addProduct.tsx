@@ -10,15 +10,16 @@ import {
 import React from "react";
 
 import Upload, { UploadChangeParam, RcFile } from "antd/es/upload";
-
+import img from '../../assets/images/camera.jpg'
 import { Image } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
-import imageProfile from "../../assets/img/camera.jpg";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { openNotification } from "../../components/notification";
-import { productApi } from "../../services/auth/product/product.axios";
 import Container from "../../components/container";
 import HeadTitle from "../../components/headtitle";
 import { fileToDataUrl } from "../../util/media";
+import { addProduct, getAllColor, getProducttypeAll, getSizeAll, getSuitabilityAll } from "../../services/auth/product/product.axios";
+import { error } from "console";
+import { type } from "os";
 
 type Props = {
   onAny?: (value: IProduct) => void;
@@ -98,45 +99,42 @@ export default function AddProduct({ onAny: disabled }: Props) {
 
   React.useEffect(() => {
     (async () => {
-      const res1 = await productApi.getAllColor();
+      const res1 = await getAllColor();
       setColor(res1);
 
-      const res2 = await productApi.getProducttypeAll();
+      const res2 = await getProducttypeAll();
       setProducttype(res2);
 
-      const res3 = await productApi.getSizeAll();
+      const res3 = await getSizeAll();
       setSize(res3);
 
-      const res4 = await productApi.getSuitabilityAll();
+      const res4 = await getSuitabilityAll();
       setSuitability(res4);
     })();
   }, []);
 
 
-  const onFinish = (values: IProduct) => {
-    console.log(values);
 
-    productApi
-      .addProduct({
-        name: values.name,
-        detail: values.detail,
-        price: values.price,
-        img: imageUrl,
-        sizeId: values.sizeId,
-        producttypeId: values.producttypeId,
-        suitabilityId: values.suitabilityId,
-        colorId: values.colorId,
-      })
-      .then(() => {
-        openNotification({ type: "success", title: "success" });
-      })
-      .catch((err) => {
-        openNotification({ type: "error", title: `${err}` });
-      })
+  const onFinish = ((values: IProduct) => {
+    addProduct({
+      name: values.name,
+      detail: values.detail,
+      price: values.price,
+      img: imageUrl,
+      sizeId: values.sizeId,
+      producttypeId: values.producttypeId,
+      suitabilityId: values.suitabilityId,
+      colorId: values.colorId,
+    }).then(() => {
+      openNotification({ type: "success", title: "success" });
+    }).catch((err) => {
+      openNotification({ type: "error", title: `${err}` });
+    })
       .finally(() => {
         navigate(-1);
       });
-  };
+  })
+
 
   return (
     <>
@@ -148,185 +146,39 @@ export default function AddProduct({ onAny: disabled }: Props) {
           initialValues={{ remember: true }}
           onFinish={onFinish}
         >
-          <Row gutter={[12, 12]}>
-            <Col span={24}>
-              <HeadTitle
-                {...HeadTitleProps}
-                onSubmit={!disabled && onSubmit}
-                onCancel={onCancel}
-              />
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                label="ชื่อสินค้า"
-                name="name"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Product Name!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                label="รายละเอียดสินค้า"
-                name="detail"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Product Name!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                label="ราคาสินค้า"
-                name="price"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Product Price!",
-                    min: 0,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="colorId"
-                label="เลือกสี"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Product Color!",
-                  },
-                ]}
-              >
-                <Select
-                  defaultValue={"Select"}
-                  options={getColor.map((it) => {
-                    return { value: it.id, label: it.color_name };
-                  })}
-                  style={{
-                    width: "100%",
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="producttypeId"
-                label="เลือกชนิดสินค้า"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Product Type!",
-                  },
-                ]}
-              >
-                <Select
-                  defaultValue={"Select"}
-                  options={getProducttype.map((it) => {
-                    return { value: it.id, label: it.producttype_name };
-                  })}
-                  style={{
-                    width: "100%",
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="sizeId"
-                label="เลือกขนาด"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Product Size!",
-                  },
-                ]}
-              >
-                <Select
-                  defaultValue={"Select"}
-                  options={getSize.map((it) => {
-                    return { value: it.id, label: it.size_name };
-                  })}
-                  style={{
-                    width: "100%",
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="suitabilityId"
-                label="เลือกความเหมาะสม"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Product Size!",
-                  },
-                ]}
-              >
-                <Select
-                  defaultValue={"Select "}
-                  options={getSuitability.map((it) => {
-                    return { value: it.id, label: it.suitability_name };
-                  })}
-                  style={{
-                    width: "100%",
-                  }}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Col span={24}>
-            <center>
-              <Form.Item
-                name={"img"}
-                valuePropName="src"
-                className="w-full center"
-                style={{ margin: 0 }}
-              >
-                <Upload
-                  name="img"
-                  className="avatar-uploader"
-                  showUploadList={false}
-                  accept={accepts.string}
-                  beforeUpload={() => false}
-                  onChange={handleChange}
-                >
-                  <div className="avatar-item">
-                    {loading ? (
-                      <LoadingOutlined />
-                    ) : !!imageUrl ? (
-                      <Image
-                        preview={false}
-                        src={imageUrl}
-                        alt="img"
-                        className="!h-52 !w-52 object-fill"
-                      />
-                    ) : (
-                      <Image
-                        preview={false}
-                        src={imageProfile}
-                        alt="img"
-                        className="!h-52 !w-52 object-fill"
-                      />
-                    )}
-                  </div>
-                </Upload>
-              </Form.Item>
-            </center>
-          </Col>
+
+          <Form.Item label="Upload" valuePropName="fileList" >
+            <Upload name="img"
+              className="avatar-uploader"
+              showUploadList={false}
+              accept={accepts.string}
+              beforeUpload={() => false}
+              onChange={handleChange}
+              listType="picture-card">
+              <div>
+                {loading ? (
+                  <LoadingOutlined />
+                ) : !!imageUrl ? (
+                  <Image
+                    preview={false}
+                    src={imageUrl}
+                    alt="img"
+                    className="!h-52 !w-52 object-fill"
+                  />
+                ) : (
+                  <Image
+                    preview={false}
+                    // src={img}
+                    alt="img"
+                    className="!h-52 !w-52 object-fill"
+                  />
+                )}
+                <PlusOutlined />
+                <div style={{ marginTop: 8, }}>Upload</div>
+              </div>
+            </Upload>
+          </Form.Item>
+
         </Form>
       </Container>
     </>

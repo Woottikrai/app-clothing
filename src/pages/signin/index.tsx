@@ -6,6 +6,7 @@ import { ISignin } from "../../services/auth/interface";
 import { openNotification } from "../../components/notification";
 import { useNavigate } from "react-router-dom";
 import { UseSignin } from "../../services/auth/authen/authen";
+import logo from '../../assets/images/Logostore.jpg'
 type Props = {};
 
 export default function SignIn({ }: Props) {
@@ -43,7 +44,7 @@ export default function SignIn({ }: Props) {
             }}
           >
             <Image
-              src={""}
+              src={logo}
               preview={false}
               alt="image-logo"
               className="w-16 h-16 object-cover"
