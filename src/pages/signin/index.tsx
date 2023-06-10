@@ -6,10 +6,10 @@ import { ISignin } from "../../services/auth/interface";
 import { openNotification } from "../../components/notification";
 import { useNavigate } from "react-router-dom";
 import { UseSignin } from "../../services/auth/authen/authen";
-import logo from '../../assets/images/Logostore.jpg'
+import logo from "../../assets/images/LogoNo.png";
 type Props = {};
 
-export default function SignIn({ }: Props) {
+export default function SignIn({}: Props) {
   const navigate = useNavigate();
   const signin = UseSignin();
   const onFinish = (value: ISignin) => {
@@ -47,7 +47,7 @@ export default function SignIn({ }: Props) {
               src={logo}
               preview={false}
               alt="image-logo"
-              className="w-16 h-16 object-cover"
+              className="!w-44 !h-44 object-cover"
             />
           </Space>
           <Form

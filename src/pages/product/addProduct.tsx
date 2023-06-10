@@ -1,13 +1,4 @@
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Row,
-  Select,
-  UploadFile,
-  UploadProps,
-} from "antd";
+import { Button, Col, Form, Row, UploadFile, UploadProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import {
   IColor,
@@ -33,12 +24,11 @@ import {
   getSizeAll,
   getSuitabilityAll,
 } from "../../services/auth/product/product.axios";
-import { error } from "console";
-import { type } from "os";
 import CCard from "../../components/card";
 import { CInput } from "../../components/input/c-input";
 import TextArea from "antd/es/input/TextArea";
 import { breadcrumbNameMap } from "../../routes/breadcrumb";
+import { CSelect } from "../../components/input/c-select";
 
 type Props = {
   onAny?: (value: IProduct) => void;
@@ -168,7 +158,7 @@ export default function AddProduct({ onAny: disabled }: Props) {
             />
           </Col>
           <Col span={16}>
-            <InputForm />
+            <InputForm optionColors={getColor} />
           </Col>
         </Row>
       </Form>
@@ -242,9 +232,11 @@ const UploadImage: FC<UploadImageProps> = ({
   );
 };
 
-interface InputFormProps {}
+interface InputFormProps {
+  optionColors?: IColor[];
+}
 
-const InputForm: FC<InputFormProps> = ({}) => {
+const InputForm: FC<InputFormProps> = ({ optionColors }) => {
   return (
     <React.Fragment>
       <CCard>
@@ -269,25 +261,29 @@ const InputForm: FC<InputFormProps> = ({}) => {
         </Form.Item>{" "}
         <Row gutter={[12, 0]}>
           <Col span={12}>
-            <Form.Item>
-              <CInput />
+            <Form.Item
+              name="color"
+              label="เลือกสี"
+              rules={[{ required: true }]}
+            >
+              <CSelect options={optionColors} />
             </Form.Item>{" "}
           </Col>
           <Col span={12}>
             <Form.Item>
-              <CInput />
+              <CSelect />
             </Form.Item>{" "}
           </Col>
         </Row>
         <Row gutter={[12, 0]}>
           <Col span={12}>
             <Form.Item>
-              <CInput />
+              <CSelect />
             </Form.Item>{" "}
           </Col>
           <Col span={12}>
             <Form.Item>
-              <CInput />
+              <CSelect />
             </Form.Item>{" "}
           </Col>
         </Row>
