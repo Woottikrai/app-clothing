@@ -100,21 +100,21 @@ export default function AddProduct({ onAny: disabled }: Props) {
     breadcrumbNameMap: breadcrumbNameMap,
   };
 
-  // React.useEffect(() => {
-  //   (async () => {
-  //     const res1 = await getAllColor();
-  //     setColor(res1);
+  React.useEffect(() => {
+    (async () => {
+      const res1 = await getAllColor();
+      setColor(res1);
 
-  //     const res2 = await getProducttypeAll();
-  //     setProducttype(res2);
+      const res2 = await getProducttypeAll();
+      setProducttype(res2);
 
-  //     const res3 = await getSizeAll();
-  //     setSize(res3);
+      const res3 = await getSizeAll();
+      setSize(res3);
 
-  //     const res4 = await getSuitabilityAll();
-  //     setSuitability(res4);
-  //   })();
-  // }, []);
+      const res4 = await getSuitabilityAll();
+      setSuitability(res4);
+    })();
+  }, []);
 
   const onFinish = (values: IProduct) => {
     addProduct({
@@ -134,10 +134,9 @@ export default function AddProduct({ onAny: disabled }: Props) {
         openNotification({ type: "error", title: `${err}` });
       })
       .finally(() => {
-        navigate(-1);
+        navigate(0);
       });
   };
-
   return (
     <Container>
       <HeadTitle {...HeadTitleProps} />
@@ -158,7 +157,8 @@ export default function AddProduct({ onAny: disabled }: Props) {
             />
           </Col>
           <Col span={16}>
-            <InputForm optionColors={getColor} />
+            <InputForm optionColors={getColor} optionSize={getSize} optionSuitability={getSuitability} optionsProducttype={getProducttype} />
+
           </Col>
         </Row>
       </Form>
@@ -234,10 +234,16 @@ const UploadImage: FC<UploadImageProps> = ({
 
 interface InputFormProps {
   optionColors?: IColor[];
+  optionSize?: ISize[]
+  optionsProducttype?: IProducttype[],
+  optionSuitability?: ISuitability[]
+
 }
 
-const InputForm: FC<InputFormProps> = ({ optionColors }) => {
+const InputForm: FC<InputFormProps> = ({ optionColors, optionSize, optionSuitability, optionsProducttype }) => {
+  console.log(optionSize)
   return (
+
     <React.Fragment>
       <CCard>
         <Row gutter={[12, 0]}>
@@ -256,34 +262,42 @@ const InputForm: FC<InputFormProps> = ({ optionColors }) => {
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item>
+        <Form.Item name="detail" label="ราคา" rules={[{ required: true }]}>
           <TextArea rows={4} />
         </Form.Item>{" "}
         <Row gutter={[12, 0]}>
           <Col span={12}>
             <Form.Item
-              name="color"
+              name="colorId"
               label="เลือกสี"
               rules={[{ required: true }]}
             >
-              <CSelect options={optionColors} />
+              <CSelect options={optionColors?.map((it) => {
+                return { value: it.id, label: it.color_name }
+              })} />
             </Form.Item>{" "}
           </Col>
           <Col span={12}>
-            <Form.Item>
-              <CSelect />
+            <Form.Item name='sizeId' label='เลือกขนาด' rules={[{ required: true }]}>
+              <CSelect options={optionSize?.map((it) => {
+                return { value: it.id, label: it.size_name }
+              })} />
             </Form.Item>{" "}
           </Col>
         </Row>
         <Row gutter={[12, 0]}>
           <Col span={12}>
-            <Form.Item>
-              <CSelect />
+            <Form.Item name='producttypeId' label='เลือกหมวดหมู่' rules={[{ required: true }]}>
+              <CSelect options={optionsProducttype?.map((it) => {
+                return { value: it.id, label: it.producttype_name }
+              })} />
             </Form.Item>{" "}
           </Col>
           <Col span={12}>
-            <Form.Item>
-              <CSelect />
+            <Form.Item name='suitabilityId' label='เลือกความเหมาะสม' rules={[{ required: true }]}>
+              <CSelect options={optionSuitability?.map((it) => {
+                return { value: it.id, label: it.suitability_name }
+              })} />
             </Form.Item>{" "}
           </Col>
         </Row>

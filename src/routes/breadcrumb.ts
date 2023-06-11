@@ -1,5 +1,5 @@
 export const breadcrumbNameMap: Record<string, string> = {
-  "/home": "home",
+  "/home": "หน้าหลัก",
   "/addproduct": "เพิ่มสินค้า",
-  "/contact": "contact",
+  "/listproduct": "สินค้า",
 };
