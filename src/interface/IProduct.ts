@@ -43,6 +43,18 @@ export interface IColor {
   color_name: string;
 }
 
+export enum Color {
+  red = "red",
+  orange = "orange",
+  yellow = "yellow",
+}
+
+export const useColor = [
+  { id: 1, color: Color.red },
+  { id: 2, color: Color.orange },
+  { id: 3, color: Color.yellow },
+];
+
 export interface IStock {
   id: number;
   stock_name: string;

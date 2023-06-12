@@ -93,7 +93,7 @@ export default function AddProduct({ onAny: disabled }: Props) {
   };
 
   const HeadTitleProps = {
-    title: "เพิ่มสินค้า",
+    // title: "เพิ่มสินค้า",
     breadcrumbNameMap: breadcrumbNameMap,
   };
 
