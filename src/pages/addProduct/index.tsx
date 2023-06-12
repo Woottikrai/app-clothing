@@ -1,5 +1,4 @@
 import { Button, Col, Form, Row, UploadFile, UploadProps } from "antd";
-import { useNavigate } from "react-router-dom";
 import {
   IColor,
   IProduct,
@@ -10,7 +9,6 @@ import {
 import React, { FC } from "react";
 
 import Upload, { UploadChangeParam, RcFile } from "antd/es/upload";
-import img from "../../assets/images/camera.jpg";
 import { Image } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { openNotification } from "../../components/notification";
@@ -18,11 +16,11 @@ import Container from "../../components/container";
 import HeadTitle from "../../components/headtitle";
 import { fileToDataUrl } from "../../util/media";
 import {
-  addProduct,
   getAllColor,
   getProducttypeAll,
   getSizeAll,
   getSuitabilityAll,
+  usePostProduct,
 } from "../../services/auth/product/product.axios";
 import CCard from "../../components/card";
 import { CInput } from "../../components/input/c-input";
@@ -41,9 +39,8 @@ const accepts = {
 };
 
 export default function AddProduct({ onAny: disabled }: Props) {
-  const navigate = useNavigate();
+  const post = usePostProduct();
   const [statusUpload, setStatusUpload] = React.useState(true);
-  const [form] = Form.useForm();
   const [loading, setLoading] = React.useState(false);
   const [getColor, setColor] = React.useState<Array<IColor>>([]);
   const [getProducttype, setProducttype] = React.useState<Array<IProducttype>>(
@@ -117,26 +114,22 @@ export default function AddProduct({ onAny: disabled }: Props) {
   }, []);
 
   const onFinish = (values: IProduct) => {
-    addProduct({
-      name: values.name,
-      detail: values.detail,
-      price: values.price,
-      img: imageUrl,
-      sizeId: values.sizeId,
-      producttypeId: values.producttypeId,
-      suitabilityId: values.suitabilityId,
-      colorId: values.colorId,
-    })
-      .then(() => {
-        openNotification({ type: "success", title: "success" });
-      })
-      .catch((err) => {
-        openNotification({ type: "error", title: `${err}` });
-      })
-      .finally(() => {
-        navigate(0);
-      });
+    post.mutate(
+      {
+        ...values,
+        img: imageUrl,
+      },
+      {
+        onSuccess: () => {
+          openNotification({ type: "success" });
+        },
+        onError: ({ message }) => {
+          openNotification({ type: "error", description: message });
+        },
+      }
+    );
   };
+
   return (
     <Container>
       <HeadTitle {...HeadTitleProps} />
@@ -157,8 +150,12 @@ export default function AddProduct({ onAny: disabled }: Props) {
             />
           </Col>
           <Col span={16}>
-            <InputForm optionColors={getColor} optionSize={getSize} optionSuitability={getSuitability} optionsProducttype={getProducttype} />
-
+            <InputForm
+              optionColors={getColor}
+              optionSize={getSize}
+              optionSuitability={getSuitability}
+              optionsProducttype={getProducttype}
+            />
           </Col>
         </Row>
       </Form>
@@ -234,16 +231,19 @@ const UploadImage: FC<UploadImageProps> = ({
 
 interface InputFormProps {
   optionColors?: IColor[];
-  optionSize?: ISize[]
-  optionsProducttype?: IProducttype[],
-  optionSuitability?: ISuitability[]
-
+  optionSize?: ISize[];
+  optionsProducttype?: IProducttype[];
+  optionSuitability?: ISuitability[];
 }
 
-const InputForm: FC<InputFormProps> = ({ optionColors, optionSize, optionSuitability, optionsProducttype }) => {
-  console.log(optionSize)
+const InputForm: FC<InputFormProps> = ({
+  optionColors,
+  optionSize,
+  optionSuitability,
+  optionsProducttype,
+}) => {
+  console.log(optionSize);
   return (
-
     <React.Fragment>
       <CCard>
         <Row gutter={[12, 0]}>
@@ -253,17 +253,21 @@ const InputForm: FC<InputFormProps> = ({ optionColors, optionSize, optionSuitabi
               label="ชื่อสินค้า"
               rules={[{ required: true }]}
             >
-              <CInput />
+              <CInput placeholder="ชื่อสินค้า" />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item name="price" label="ราคา" rules={[{ required: true }]}>
-              <CInput type="number" min={0} />
+              <CInput type="number" min={0} placeholder="ราคา" />
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item name="detail" label="ราคา" rules={[{ required: true }]}>
-          <TextArea rows={4} />
+        <Form.Item
+          name="detail"
+          label="รายละเอียดสินค้า"
+          rules={[{ required: true }]}
+        >
+          <TextArea rows={5} placeholder="...รายละเอียดสินค้า" />
         </Form.Item>{" "}
         <Row gutter={[12, 0]}>
           <Col span={12}>
@@ -272,32 +276,56 @@ const InputForm: FC<InputFormProps> = ({ optionColors, optionSize, optionSuitabi
               label="เลือกสี"
               rules={[{ required: true }]}
             >
-              <CSelect options={optionColors?.map((it) => {
-                return { value: it.id, label: it.color_name }
-              })} />
+              <CSelect
+                options={optionColors?.map((it) => {
+                  return { value: it.id, label: it.color_name };
+                })}
+                placeholder="เลือกสี"
+              />
             </Form.Item>{" "}
           </Col>
           <Col span={12}>
-            <Form.Item name='sizeId' label='เลือกขนาด' rules={[{ required: true }]}>
-              <CSelect options={optionSize?.map((it) => {
-                return { value: it.id, label: it.size_name }
-              })} />
+            <Form.Item
+              name="sizeId"
+              label="เลือกขนาด"
+              rules={[{ required: true }]}
+            >
+              <CSelect
+                options={optionSize?.map((it) => {
+                  return { value: it.id, label: it.size_name };
+                })}
+                placeholder="เลือกขนาด"
+              />
             </Form.Item>{" "}
           </Col>
         </Row>
         <Row gutter={[12, 0]}>
           <Col span={12}>
-            <Form.Item name='producttypeId' label='เลือกหมวดหมู่' rules={[{ required: true }]}>
-              <CSelect options={optionsProducttype?.map((it) => {
-                return { value: it.id, label: it.producttype_name }
-              })} />
+            <Form.Item
+              name="producttypeId"
+              label="เลือกหมวดหมู่"
+              rules={[{ required: true }]}
+            >
+              <CSelect
+                options={optionsProducttype?.map((it) => {
+                  return { value: it.id, label: it.producttype_name };
+                })}
+                placeholder="เลือกหมวดหมู่"
+              />
             </Form.Item>{" "}
           </Col>
           <Col span={12}>
-            <Form.Item name='suitabilityId' label='เลือกความเหมาะสม' rules={[{ required: true }]}>
-              <CSelect options={optionSuitability?.map((it) => {
-                return { value: it.id, label: it.suitability_name }
-              })} />
+            <Form.Item
+              name="suitabilityId"
+              label="เลือกความเหมาะสม"
+              rules={[{ required: true }]}
+            >
+              <CSelect
+                options={optionSuitability?.map((it) => {
+                  return { value: it.id, label: it.suitability_name };
+                })}
+                placeholder="เลือกความเหมาะสม"
+              />
             </Form.Item>{" "}
           </Col>
         </Row>

@@ -1,6 +1,11 @@
 import axios, { throwResponse } from "../../../config/axios/axios.config";
 import { IProduct, IProductResult } from "../../../interface/IProduct";
-import { useQuery, UseQueryResult } from "react-query";
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+  UseQueryResult,
+} from "react-query";
 import endpoints from "../api.endpoint";
 
 const statusSuccess = [200, 201];
@@ -35,9 +40,7 @@ export async function getProductAll(params?: IProduct) {
   return !statusSuccess.includes(res.status) ? throwResponse(res) : res.data;
 }
 
-export const useGetProductAll = (
-  params?: Partial<IProduct>
-): UseQueryResult<IProductResult, Error> => {
+export const useGetProductAll = (params?: any): UseQueryResult<any, Error> => {
   return useQuery(["find-all", params], async () => {
     const res = await axios.get(`${endpoints.product.getProductAll}`, {
       params: { ...params },
@@ -46,5 +49,20 @@ export const useGetProductAll = (
       throwResponse(res);
     }
     return res.data;
+  });
+};
+
+export const usePostProduct = (): UseMutationResult<
+  unknown,
+  Error,
+  IProduct,
+  unknown
+> => {
+  return useMutation(async (params: any) => {
+    const res = await axios.get(`${endpoints.product.addProduct}`, params);
+    if (res.status === 200) {
+      return res.data;
+    }
+    throwResponse(res);
   });
 };

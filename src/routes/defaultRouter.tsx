@@ -5,7 +5,7 @@ import Error404 from "../pages/error/Error404";
 import Error500 from "../pages/error/Error500";
 import Home from "../pages/home";
 import Signin from "../pages/signin";
-import AddProduct from "../pages/addProduct/addProduct";
+import AddProduct from "../pages/addProduct";
 import ListProduct from "../pages/listProductUser/index";
 // import ListProduct from "../pages/addProduct/listProduct";
 export const routerDefault: Array<RouteObject> = [
@@ -29,11 +29,11 @@ export const routerDefault: Array<RouteObject> = [
       },
       {
         path: "/addproduct",
-        element: <AddProduct />
+        element: <AddProduct />,
       },
       {
         path: "/listproduct",
-        element: <ListProduct />
+        element: <ListProduct />,
       },
     ],
   },
