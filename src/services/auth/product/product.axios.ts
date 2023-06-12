@@ -36,19 +36,21 @@ export async function addProduct(params?: IProduct) {
 }
 
 export async function getProductAll(params?: IProduct) {
-  const res = await axios.post(`${endpoints.product.addProduct}`, params);
+  const res = await axios.get(`${endpoints.product.getProductAll}`);
   return !statusSuccess.includes(res.status) ? throwResponse(res) : res.data;
 }
 
-export const useGetProductAll = (params?: any): UseQueryResult<any, Error> => {
+export const useGetProductAll = (
+  params?: IProduct
+): UseQueryResult<IProduct, Error> => {
   return useQuery(["find-all", params], async () => {
     const res = await axios.get(`${endpoints.product.getProductAll}`, {
       params: { ...params },
     });
-    if (!statusSuccess.includes(res.status)) {
-      throwResponse(res);
+    if (res.status === 200) {
+      return res.data;
     }
-    return res.data;
+    throwResponse(res);
   });
 };
 

@@ -1,4 +1,9 @@
+import Container from "../../components/container";
 
 export function listProdcutAdmin() {
-    return (<></>)
+    return (
+        <Container>
+
+        </Container>
+    )
 }

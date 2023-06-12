@@ -4,7 +4,7 @@ export interface IProduct {
   detail?: string;
   price?: number;
   img?: string;
-
+  idx?: number | string;
   sizeId?: number;
   size?: ISize;
 

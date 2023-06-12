@@ -1,10 +1,11 @@
 import React from "react";
+import { IProduct } from "../../interface/IProduct";
 type Props<T> = {
-  items: Array<T>;
+  items?: Array<T>;
   renderItem: (itemProps: {
     item: T;
     idx: number;
-    key: number | string;
+    key?: number | string;
     array: Array<T>;
   }) => React.ReactNode;
   className?: string;
@@ -16,12 +17,12 @@ export default function OptionalLayout({
   renderItem,
   className,
   style,
-}: Props<any>) {
+}: Props<IProduct>) {
   return (
     <div className={`${className}`} style={style}>
       {items?.map((item, idx, array) => {
         return (
-          <React.Fragment key={item.idx}>
+          <React.Fragment key={item.id}>
             {renderItem({ item, idx, array, key: item.idx })}
           </React.Fragment>
         );
