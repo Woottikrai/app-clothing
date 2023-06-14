@@ -61,8 +61,8 @@ export const usePostProduct = (): UseMutationResult<
   unknown
 > => {
   return useMutation(async (params: any) => {
-    const res = await axios.get(`${endpoints.product.addProduct}`, params);
-    if (res.status === 200) {
+    const res = await axios.post(`${endpoints.product.addProduct}`, params);
+    if (res.status === 200 || res.status === 201) {
       return res.data;
     }
     throwResponse(res);

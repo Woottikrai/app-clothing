@@ -28,7 +28,7 @@ export default function CardProduct(product: IProduct) {
       setProduct(res.data);
     })();
   }, []);
-  interface cardProductUser extends IProduct {}
+  interface cardProductUser extends IProduct { }
 
   const CardProductUser: FC<{
     product?: cardProductUser;
@@ -75,16 +75,6 @@ export default function CardProduct(product: IProduct) {
                 className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
               />
             </div>
-          </div>
-          <div className="mt-6">
-            <Button
-              type="primary"
-              style={{
-                width: "100%",
-              }}
-            >
-              ซื้อสินค้า
-            </Button>
           </div>
         </div>
       </React.Fragment>
