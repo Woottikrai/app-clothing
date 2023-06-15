@@ -17,7 +17,7 @@ export default function OptionalLayout({
   renderItem,
   className,
   style,
-}: Props<IProduct>) {
+}: Props<any>) {
   return (
     <div className={`${className}`} style={style}>
       {items?.map((item, idx, array) => {

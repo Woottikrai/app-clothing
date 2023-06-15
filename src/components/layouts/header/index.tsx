@@ -122,7 +122,7 @@ const Profile = () => {
       className: "profile",
       label: (
         <Row>
-          <Typography.Text onClick={() => { }}>
+          <Typography.Text onClick={() => {}}>
             <ProfileOutlined /> โปรไฟล์
           </Typography.Text>
         </Row>
@@ -190,15 +190,17 @@ const Profile = () => {
         <ShoppingCartOutlined
           style={{
             transform: "scale(2)",
+            cursor: "pointer",
           }}
+          onClick={() => navigate("/cartproduct")}
         />
       </Space>
     </React.Fragment>
   );
 };
 
-interface ModalProfileProps { }
+interface ModalProfileProps {}
 
-const ModalProfile: FC<ModalProfileProps> = ({ }) => {
+const ModalProfile: FC<ModalProfileProps> = ({}) => {
   return <React.Fragment></React.Fragment>;
 };

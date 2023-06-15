@@ -7,7 +7,7 @@ import Home from "../pages/home";
 import Signin from "../pages/signin";
 import AddProduct from "../pages/addProduct";
 import ListProduct from "../pages/listProductUser/index";
-// import ListProduct from "../pages/addProduct/listProduct";
+import Cart from "../pages/cart";
 export const routerDefault: Array<RouteObject> = [
   {
     path: "/error",
@@ -34,6 +34,10 @@ export const routerDefault: Array<RouteObject> = [
       {
         path: "/listproduct",
         element: <ListProduct />,
+      },
+      {
+        path: "/cartproduct",
+        element: <Cart />,
       },
     ],
   },
