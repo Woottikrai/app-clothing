@@ -41,7 +41,7 @@ export default function HeadTitle({
       key: url,
       title: (
         <Space>
-          <HomeOutlined onClick={() => navigate(-1)} />
+          <HomeOutlined onClick={() => navigate("/home")} />
           <span className="mx-.5 text-gray-500">/</span>
           <Link to={url}>{breadcrumbNameMap?.[url]}</Link>
         </Space>

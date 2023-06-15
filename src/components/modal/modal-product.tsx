@@ -1,4 +1,4 @@
-import { Row, Col, Image, Space, Typography, Button } from "antd";
+import { Row, Col, Image, Space, Typography, Button, FormInstance } from "antd";
 import React, { FC } from "react";
 import { CModalProps, StyledModal } from ".";
 import { IProduct } from "../../interface/IProduct";
@@ -6,6 +6,7 @@ import { IProduct } from "../../interface/IProduct";
 export interface CModalProductProps extends CModalProps {
   top?: number;
   children?: React.ReactNode;
+  form?: FormInstance;
 }
 
 export const CModalProduct: FC<CModalProductProps> = ({
@@ -17,6 +18,7 @@ export const CModalProduct: FC<CModalProductProps> = ({
   closable = false,
   top = 150,
   children,
+  form,
   ...props
 }) => {
   return (

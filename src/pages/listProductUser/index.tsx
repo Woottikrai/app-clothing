@@ -7,13 +7,13 @@ import OptionalLayout from "../../components/layouts/optionalLayout";
 import Container from "../../components/container";
 import HeadTitle from "../../components/headtitle";
 import { breadcrumbNameMap } from "../../routes/breadcrumb";
-import { Button, Col, Row, Typography } from "antd";
+import { Col, Row, Typography } from "antd";
 import {
   CModalProduct,
   DisplayProduct,
 } from "../../components/modal/modal-product";
 
-export default function CardProduct(product: IProduct) {
+export default function ListProduct(product: IProduct) {
   const navigate = useNavigate();
   const [params, setParams] = React.useState<any>(initParams);
   const [getProduct, setProduct] = React.useState<Array<IProduct>>([]);
@@ -28,7 +28,7 @@ export default function CardProduct(product: IProduct) {
       setProduct(res.data);
     })();
   }, []);
-  interface cardProductUser extends IProduct { }
+  interface cardProductUser extends IProduct {}
 
   const CardProductUser: FC<{
     product?: cardProductUser;
