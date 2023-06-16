@@ -19,6 +19,11 @@ export const endpoints = {
     updateUser: `${projectConfig.baseURL}/user/update`,
     updatePssword: `${projectConfig.baseURL}/user/update-password`,
   },
+
+  cart: {
+    addToCart: `${projectConfig.baseURL}/add-to-cart`,
+    getCartByUser: `${projectConfig.baseURL}/cart`,
+  },
 };
 
 export default endpoints;

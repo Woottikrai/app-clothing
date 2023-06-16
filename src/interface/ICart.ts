@@ -1,7 +1,20 @@
-export interface Cart {
+import { IProduct } from "./IProduct";
+
+export interface ICart {
   quantity?: number;
   sumPrice?: number;
+
+  product?: IProduct;
   productId?: number;
+
+  status?: IStatus;
+  statusId?: number;
+
   userId?: number;
   orderId?: number;
+}
+
+export interface IStatus {
+  id?: number;
+  status_name?: string;
 }
