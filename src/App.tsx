@@ -6,6 +6,7 @@ import { StyleProvider } from "@ant-design/cssinjs";
 import { useRoutes, HashRouter } from "react-router-dom";
 import { AuthProvider } from "./provider/auth/provider.auth";
 import { QueryClient, QueryClientProvider } from "react-query";
+import WithListProduct from "./provider/listProduct/provider.listProcuts";
 
 const AppRoute = () => {
   const appRoute = useRoutes(routes);
@@ -28,7 +29,9 @@ function App() {
         >
           <StyleProvider hashPriority="high">
             <AuthProvider>
-              <AppRoute />
+              <WithListProduct>
+                <AppRoute />
+              </WithListProduct>
             </AuthProvider>
           </StyleProvider>
         </ConfigProvider>

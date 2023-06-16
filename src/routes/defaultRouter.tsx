@@ -6,8 +6,8 @@ import Error500 from "../pages/error/Error500";
 import Home from "../pages/home";
 import Signin from "../pages/signin";
 import AddProduct from "../pages/addProduct";
-import ListProduct from "../pages/listProductUser/index";
 import Cart from "../pages/cart";
+import ListProduct from "../pages/listProductUser";
 export const routerDefault: Array<RouteObject> = [
   {
     path: "/error",

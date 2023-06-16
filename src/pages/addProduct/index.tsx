@@ -38,8 +38,9 @@ const accepts = {
   string: ".jpg,.jpeg,.png,.webp",
 };
 
-export default function AddProduct({ onAny: disabled }: Props) {
+export default function AddProduct() {
   const post = usePostProduct();
+  const [form] = Form.useForm();
   const [statusUpload, setStatusUpload] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const [getColor, setColor] = React.useState<Array<IColor>>([]);
@@ -122,6 +123,8 @@ export default function AddProduct({ onAny: disabled }: Props) {
       {
         onSuccess: () => {
           openNotification({ type: "success" });
+          form.resetFields();
+          setImageUrl("");
         },
         onError: ({ message }) => {
           openNotification({ type: "error", description: message });
@@ -139,6 +142,7 @@ export default function AddProduct({ onAny: disabled }: Props) {
         layout="vertical"
         initialValues={{ remember: true }}
         onFinish={onFinish}
+        form={form}
       >
         <Row gutter={[12, 12]}>
           <Col span={8}>

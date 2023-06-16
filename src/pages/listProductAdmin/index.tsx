@@ -1,9 +1,5 @@
 import Container from "../../components/container";
 
-export function listProdcutAdmin() {
-    return (
-        <Container>
-
-        </Container>
-    )
+export function ListProdcutAdmin() {
+  return <Container></Container>;
 }

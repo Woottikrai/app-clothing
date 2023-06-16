@@ -7,11 +7,11 @@ interface Props {
   className?: string;
 }
 
-const Container = ({ children, height = "100%", className }: Props) => {
+const Container = ({ children, height = "", className }: Props) => {
   return (
     <Card
       style={{ height: height, width: "100%" }}
-      className={`${className} !px-7 py-10`}
+      className={`${className} min-h-full !px-7 py-10`}
     >
       {children}
     </Card>

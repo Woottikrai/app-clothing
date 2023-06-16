@@ -1,56 +1,66 @@
 import { XMarkIcon } from "@heroicons/react/20/solid";
-import { Row, Col, Button, Space, Typography, Divider } from "antd";
+import { Row, Col, Button, Space, Typography, Divider, Image } from "antd";
 import React from "react";
 import { FC } from "react";
+import { useQueryClient } from "react-query";
 import Container from "../../components/container";
 import HeadTitle from "../../components/headtitle";
 import OptionalLayout from "../../components/layouts/optionalLayout";
+import { ICart } from "../../interface/ICart";
+import { useAuthContext } from "../../provider/auth/provider.auth";
 import { breadcrumbNameMap } from "../../routes/breadcrumb";
+import {
+  getCartByUser,
+  useDeleteCart,
+  useGetCartByUser,
+} from "../../services/auth/cart/cart.axios";
 
-const products = [
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Sienna",
-    inStock: true,
-    size: "Large",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in sienna.",
-  },
-  {
-    id: 2,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Black",
-    inStock: false,
-    leadTime: "3–4 weeks",
-    size: "Large",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-  },
-  {
-    id: 3,
-    name: "Nomad Tumbler",
-    href: "#",
-    price: "$35.00",
-    color: "White",
-    inStock: true,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-03.jpg",
-    imageAlt: "Insulated bottle with white base and black snap lid.",
-  },
-];
+// const products = [
+//   {
+//     id: 1,
+//     name: "Basic Tee",
+//     href: "#",
+//     price: "$32.00",
+//     color: "Sienna",
+//     inStock: true,
+//     size: "Large",
+//     imageSrc:
+//       "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg",
+//     imageAlt: "Front of men's Basic Tee in sienna.",
+//   },
+//   {
+//     id: 2,
+//     name: "Basic Tee",
+//     href: "#",
+//     price: "$32.00",
+//     color: "Black",
+//     inStock: false,
+//     leadTime: "3–4 weeks",
+//     size: "Large",
+//     imageSrc:
+//       "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg",
+//     imageAlt: "Front of men's Basic Tee in black.",
+//   },
+//   {
+//     id: 3,
+//     name: "Nomad Tumbler",
+//     href: "#",
+//     price: "$35.00",
+//     color: "White",
+//     inStock: true,
+//     imageSrc:
+//       "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-03.jpg",
+//     imageAlt: "Insulated bottle with white base and black snap lid.",
+//   },
+// ];
 
 export default function Cart() {
   const HeadTitleProps = {
     // title: "เพิ่มสินค้า",
     breadcrumbNameMap: breadcrumbNameMap,
   };
+  const { profile } = useAuthContext();
+  const { data: products } = useGetCartByUser(profile?.id);
 
   return (
     <Container>
@@ -68,7 +78,7 @@ export default function Cart() {
 }
 
 interface ICartProduct {
-  product: any[];
+  product?: ICart[];
 }
 
 const CartProduct: FC<ICartProduct> = ({ product }) => {
@@ -78,26 +88,31 @@ const CartProduct: FC<ICartProduct> = ({ product }) => {
         className="overflow-auto h-[550px] rounded-lg border"
         items={product}
         renderItem={({ item, key }: { item: any; key?: string | number }) => (
-          <CartList product={product} key={key} />
+          <CartList product={item} key={key} />
         )}
       />
     </>
   );
 };
 
-interface ICardList {
-  product: any;
-}
-
-const CartList: FC<ICardList> = ({ product }) => {
+const CartList: FC<{ product?: ICart }> = ({ product }) => {
+  const qClient = useQueryClient();
+  const deleteCart = useDeleteCart();
+  const onDelete = () => {
+    deleteCart.mutate(product?.id, {
+      onSuccess: () => {
+        qClient.invalidateQueries(["cart"]);
+      },
+    });
+  };
   return (
     <React.Fragment>
-      <li key={product.id} className="flex py-6 sm:py-10 p-5">
+      <li key={product?.orderId} className="flex py-6 sm:py-10 p-5">
         <div className="flex-shrink-0">
-          <img
-            src={product.imageSrc}
-            alt={product.imageAlt}
-            className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
+          <Image
+            src={product?.product.img}
+            alt={"product-img"}
+            className="!h-52 !w-52 !rounded-md !object-cover !object-center !sm:h-48 !sm:w-48"
           />
         </div>
 
@@ -106,24 +121,21 @@ const CartList: FC<ICardList> = ({ product }) => {
             <div>
               <div className="flex justify-between">
                 <h3 className="text-sm">
-                  <a
-                    href={product.href}
-                    className="font-medium text-gray-700 hover:text-gray-800"
-                  >
-                    {product.name}
+                  <a className="font-medium text-gray-700 hover:text-gray-800">
+                    {product?.product.name}
                   </a>
                 </h3>
               </div>
               <div className="mt-1 flex text-sm">
-                <p className="text-gray-500">{product.color}</p>
-                {product.size ? (
+                <p className="text-gray-500">red</p>
+                {product?.product.size ? (
                   <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">
-                    {product.size}
+                    {/* {product.product.size} */} L
                   </p>
                 ) : null}
               </div>
               <p className="mt-1 text-sm font-medium text-gray-900">
-                {product.price}
+                {product?.product.price}
               </p>
             </div>
 
@@ -132,6 +144,7 @@ const CartList: FC<ICardList> = ({ product }) => {
                 <button
                   type="button"
                   className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
+                  onClick={onDelete}
                 >
                   <span className="sr-only">Remove</span>
                   <XMarkIcon className="h-5 w-5" aria-hidden="true" />

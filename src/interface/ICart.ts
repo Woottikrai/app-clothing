@@ -1,10 +1,11 @@
 import { IProduct } from "./IProduct";
 
 export interface ICart {
-  quantity?: number;
+  id: number;
+  quantity: number;
   sumPrice?: number;
 
-  product?: IProduct;
+  product: IProduct;
   productId?: number;
 
   status?: IStatus;

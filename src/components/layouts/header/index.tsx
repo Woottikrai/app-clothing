@@ -12,7 +12,6 @@ import {
   Row,
   Space,
   Typography,
-  Image,
 } from "antd";
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,11 +20,14 @@ import logoStore from "../../../assets/images/Logostore.jpg";
 import logo from "../../../assets/images/LogoNo.png";
 
 import { IProfile } from "../../../interface/IUser";
-import { authenApi } from "../../../services/auth/authen/authen";
+import {
+  authenApi,
+  getProfile,
+  UseGetProfile,
+} from "../../../services/auth/authen/authen";
+import { useAuthContext } from "../../../provider/auth/provider.auth";
 
 export default function Header() {
-  const [getData, setData] = React.useState({} as Partial<IProfile>);
-
   return (
     <Layout.Header
       style={{
@@ -113,8 +115,7 @@ const Link = () => {
 
 const Profile = () => {
   const navigate = useNavigate();
-
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const { profile: getData } = useAuthContext();
 
   const items: MenuProps["items"] = [
     {
@@ -161,17 +162,6 @@ const Profile = () => {
     },
   ];
 
-  const [getData, setData] = React.useState({} as Partial<IProfile>);
-  // React.useEffect(() => {
-  //   (async () => {
-  //     const res = await authenApi.getProfile().then((res) => {
-  //       setData({
-  //         ...res,
-
-  //       });
-  //     });
-  //   })();
-  // }, [isModalOpen]);
   return (
     <React.Fragment>
       <Space wrap size={30}>

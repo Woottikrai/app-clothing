@@ -12,13 +12,17 @@ import {
   CModalProduct,
   DisplayProduct,
 } from "../../components/modal/modal-product";
+import WithListProduct, {
+  useListProduct,
+} from "../../provider/listProduct/provider.listProcuts";
+import IContextListProduct from "../../provider/listProduct/interface";
 
-export default function ListProduct(product: IProduct) {
+function ListProduct() {
   const navigate = useNavigate();
   const [params, setParams] = React.useState<any>(initParams);
   const [getProduct, setProduct] = React.useState<Array<IProduct>>([]);
   const [select, setSelect] = React.useState<any>({});
-  const [open, setOpen] = React.useState<boolean>(false);
+  const { open, setOpen } = useListProduct();
   const HeadTitleProps = {
     breadcrumbNameMap: breadcrumbNameMap,
   };
@@ -80,7 +84,6 @@ export default function ListProduct(product: IProduct) {
       </React.Fragment>
     );
   };
-  console.log(select);
 
   return (
     <Container>
@@ -116,3 +119,5 @@ export default function ListProduct(product: IProduct) {
     </Container>
   );
 }
+
+export default ListProduct;

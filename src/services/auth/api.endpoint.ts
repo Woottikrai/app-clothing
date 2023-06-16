@@ -23,6 +23,7 @@ export const endpoints = {
   cart: {
     addToCart: `${projectConfig.baseURL}/add-to-cart`,
     getCartByUser: `${projectConfig.baseURL}/cart`,
+    deleteCart: `${projectConfig.baseURL}/delete-from-cart`,
   },
 };
 
