@@ -1,8 +1,12 @@
 import { FormInstance } from "antd";
 import { ICart } from "../../interface/ICart";
+import { IProduct } from "../../interface/IProduct";
 
 export default interface IContextListProduct {
-  onOK?: (v?: FormInstance<any>) => void;
-  open: boolean;
+  onOK: (v?: any) => void;
+  open?: boolean;
   setOpen: (v: boolean) => void;
+  cart: IProduct;
+  setCart: (v: IProduct) => void;
+  modalListProduct: FormInstance;
 }

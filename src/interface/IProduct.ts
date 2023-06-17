@@ -2,7 +2,7 @@ export interface IProduct {
   id?: number;
   name?: string;
   detail?: string;
-  price: number;
+  price?: number;
   img?: string;
   idx?: number | string;
   sizeId?: number;
