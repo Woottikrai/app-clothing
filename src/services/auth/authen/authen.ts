@@ -63,6 +63,8 @@ export const UseGetProfile = (): UseQueryResult<IProfile, Error> => {
 export const authenApi = {
   UseGetProfile,
   getProfile,
+  UseRegister,
+  register,
 };
 
 export default authenApi;

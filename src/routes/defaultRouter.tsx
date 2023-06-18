@@ -8,6 +8,8 @@ import Signin from "../pages/signin";
 import AddProduct from "../pages/addProduct";
 import Cart from "../pages/cart";
 import ListProduct from "../pages/listProductUser";
+import Register from "../pages/register"
+import ListProdcutAdmin from "../pages/listProductAdmin"
 export const routerDefault: Array<RouteObject> = [
   {
     path: "/error",
@@ -42,4 +44,8 @@ export const routerDefault: Array<RouteObject> = [
     ],
   },
   { path: "*", element: <Error404 /> },
+
+  { path: "/register", element: <Register /> },
+
+  { path: "/listproductadmin", element: <ListProdcutAdmin /> }
 ];
