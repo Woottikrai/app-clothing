@@ -7,19 +7,13 @@ import {
   Typography,
   Button,
   FormInstance,
-  Input,
   InputNumber,
   Form,
 } from "antd";
 import React, { FC } from "react";
 import { CModalProps, StyledModal } from ".";
-import { ICart } from "../../interface/ICart";
 import { IProduct } from "../../interface/IProduct";
-import { useAuthContext } from "../../provider/auth/provider.auth";
 import { useListProduct } from "../../provider/listProduct/provider.listProcuts";
-import { useAddToCart } from "../../services/auth/cart/cart.axios";
-import { openNotification } from "../../util";
-import { CInput } from "../input/c-input";
 
 export interface CModalProductProps extends CModalProps {
   top?: number;
@@ -64,35 +58,11 @@ interface displayProductProps extends IProduct {
 export const DisplayProduct: FC<{ product?: displayProductProps }> = ({
   product,
 }) => {
-  const { onOK, open, setOpen } = useListProduct();
-  const [modalListProduct] = Form.useForm();
-  const { profile } = useAuthContext();
-  const post = useAddToCart();
-
-  const onFinish = (v: ICart) => {
-    if (product) {
-      const postItem = {
-        ...v,
-        sumPrice: v.quantity * product?.price,
-        productId: product?.id,
-        userId: profile?.id,
-      };
-      post.mutate(postItem, {
-        onSuccess: () => {
-          openNotification({ type: "success" });
-          setOpen(false);
-          modalListProduct.resetFields();
-        },
-        onError: () => {
-          openNotification({ type: "error" });
-        },
-      });
-    }
-  };
+  const { onOK, modalListProduct } = useListProduct();
 
   return (
     <React.Fragment>
-      <Form form={modalListProduct} onFinish={onFinish}>
+      <Form form={modalListProduct} onFinish={onOK}>
         <Row align="stretch">
           <Col>
             <Image

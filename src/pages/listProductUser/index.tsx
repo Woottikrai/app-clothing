@@ -1,7 +1,5 @@
 import React, { FC } from "react";
 import { IProduct, useColor } from "../../interface/IProduct";
-import { useNavigate } from "react-router-dom";
-import { initParams } from "../../config/axios/interface";
 import { getProductAll } from "../../services/auth/product/product.axios";
 import OptionalLayout from "../../components/layouts/optionalLayout";
 import Container from "../../components/container";
@@ -15,14 +13,10 @@ import {
 import WithListProduct, {
   useListProduct,
 } from "../../provider/listProduct/provider.listProcuts";
-import IContextListProduct from "../../provider/listProduct/interface";
 
 function ListProduct() {
-  const navigate = useNavigate();
-  const [params, setParams] = React.useState<any>(initParams);
   const [getProduct, setProduct] = React.useState<Array<IProduct>>([]);
-  const [select, setSelect] = React.useState<any>({});
-  const { open, setOpen } = useListProduct();
+  const { open, setOpen, cart, setCart } = useListProduct();
   const HeadTitleProps = {
     breadcrumbNameMap: breadcrumbNameMap,
   };
@@ -102,7 +96,7 @@ function ListProduct() {
             product={item}
             key={key}
             onClick={() => {
-              setSelect(item);
+              setCart(item);
               setOpen(true);
             }}
           />
@@ -114,7 +108,7 @@ function ListProduct() {
         onCancel={() => setOpen(false)}
         closable={true}
       >
-        <DisplayProduct product={select} />
+        <DisplayProduct product={cart} />
       </CModalProduct>
     </Container>
   );
