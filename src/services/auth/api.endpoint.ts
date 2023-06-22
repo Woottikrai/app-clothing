@@ -9,7 +9,9 @@ export const endpoints = {
     getProducrtAll: `${projectConfig.baseURL}/product/find-all`,
     addProduct: `${projectConfig.baseURL}/product/add-product`,
     getProductAll: `${projectConfig.baseURL}/product/find-all`,
-    getDeleteProduct: `${projectConfig.baseURL}`,
+    deleteProduct: `${projectConfig.baseURL}/product/delete`,
+    updateProduct: `${projectConfig.baseURL}/product/update`,
+    getProducrOne: `${projectConfig.baseURL}/product/find-one`,
   },
 
   user: {

@@ -40,10 +40,20 @@ export async function getProductAll(params?: IProduct) {
   return !statusSuccess.includes(res.status) ? throwResponse(res) : res.data;
 }
 
+export function useGetProductOne(id: number | undefined | string) {
+  return useQuery(["product", id], async () => {
+    const res = await axios.get(`${endpoints.product.getProducrOne}/${id}`);
+    if (!statusSuccess.includes(res.status)) {
+      throw new Error("Error");
+    }
+    return res.data;
+  });
+}
+
 export const useGetProductAll = (
-  params?: IProduct
-): UseQueryResult<IProduct, Error> => {
-  return useQuery(["find-all", params], async () => {
+  params?: IProductResult
+): UseQueryResult<IProductResult, Error> => {
+  return useQuery(["get-all", params], async () => {
     const res = await axios.get(`${endpoints.product.getProductAll}`, {
       params: { ...params },
     });
@@ -68,3 +78,40 @@ export const usePostProduct = (): UseMutationResult<
     throwResponse(res);
   });
 };
+
+export const useUpdateProduct = (): UseMutationResult<
+  unknown,
+  Error,
+  { id?: number; params: IProduct },
+  unknown
+> => {
+  return useMutation(async ({ id, ...params }: any) => {
+    const res = await axios.patch(
+      `${endpoints.product.updateProduct}/${id}`,
+      params
+    );
+    if (res.status === 200 || res.status === 201) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
+export const useDeleteProduct = (): UseMutationResult<
+  unknown,
+  Error,
+  unknown,
+  unknown
+> => {
+  return useMutation(async (id: any) => {
+    const res = await axios.delete(`${endpoints.product.deleteProduct}/${id}`);
+    if (res.status === 200) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
+export const productApi = {};
+
+export default productApi;

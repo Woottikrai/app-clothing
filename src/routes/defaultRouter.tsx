@@ -10,6 +10,7 @@ import Cart from "../pages/cart";
 import ListProduct from "../pages/listProductUser";
 import Register from "../pages/register"
 import ListProdcutAdmin from "../pages/listProductAdmin"
+import EditProduct from "../pages/editproduct";
 export const routerDefault: Array<RouteObject> = [
   {
     path: "/error",
@@ -47,5 +48,6 @@ export const routerDefault: Array<RouteObject> = [
 
   { path: "/register", element: <Register /> },
 
-  { path: "/listproductadmin", element: <ListProdcutAdmin /> }
+  { path: "/listproductadmin", element: <ListProdcutAdmin /> },
+  { path: "/editproduct/:id", element: <EditProduct /> }
 ];

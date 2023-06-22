@@ -85,7 +85,7 @@ export const DisplayProduct: FC<{ product?: displayProductProps }> = ({
               >{`$${product?.price}`}</Typography.Title>
               <Typography.Text>{`${product?.detail}` || `-`}</Typography.Text>
               <Form.Item name={"quantity"} rules={[{ required: true }]}>
-                <InputNumber
+                กรอกจำนวน <InputNumber
                   prefix={<NumberOutlined />}
                   min={0}
                   max={99}
