@@ -79,18 +79,13 @@ export const usePostProduct = (): UseMutationResult<
   });
 };
 
-export const useUpdateProduct = (): UseMutationResult<
-  unknown,
-  Error,
-  { id?: number; params: IProduct },
-  unknown
-> => {
-  return useMutation(async ({ id, ...params }: any) => {
+export const useUpdateProduct = (): UseMutationResult => {
+  return useMutation(async ({ id, ...values }: any) => {
     const res = await axios.patch(
       `${endpoints.product.updateProduct}/${id}`,
-      params
+      values
     );
-    if (res.status === 200 || res.status === 201) {
+    if (res.status === 200) {
       return res.data;
     }
     throwResponse(res);

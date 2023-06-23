@@ -26,6 +26,8 @@ export const endpoints = {
     addToCart: `${projectConfig.baseURL}/add-to-cart`,
     getCartByUser: `${projectConfig.baseURL}/cart`,
     deleteCart: `${projectConfig.baseURL}/delete-from-cart`,
+    cartConfirm: `${projectConfig.baseURL}/cart-confirm`, //user กดสั่งซื้อจาก cart patch
+    cartSuccess: `${projectConfig.baseURL}/cart-success`, //admin กดยืนยันการสั่งซื้อ
   },
 };
 

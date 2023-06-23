@@ -25,6 +25,32 @@ export const useAddToCart = (): UseMutationResult<unknown, Error> => {
   });
 };
 
+export const useCartSuccess = (): UseMutationResult<unknown, Error> => {
+  return useMutation(async ({ id, ...values }: any) => {
+    const res = await axios.patch(
+      `${endpoints.cart.cartSuccess}/${id}`,
+      values
+    );
+    if (res.status === 200 || res.status === 201) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
+export const useCartConfirm = (): UseMutationResult<unknown, Error> => {
+  return useMutation(async ({ id, ...values }: any) => {
+    const res = await axios.patch(
+      `${endpoints.cart.cartConfirm}/${id}`,
+      values
+    );
+    if (res.status === 200 || res.status === 201) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
 export async function getCartByUser(id?: number) {
   const res = await axios.get(`${endpoints.cart.getCartByUser}/${id}`);
   return !statusSuccess.includes(res.status) ? throwResponse(res) : res.data;

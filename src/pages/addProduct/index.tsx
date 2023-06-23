@@ -246,7 +246,7 @@ const InputForm: FC<InputFormProps> = ({
   optionSuitability,
   optionsProducttype,
 }) => {
-  console.log(optionSize);
+
   return (
     <React.Fragment>
       <CCard>

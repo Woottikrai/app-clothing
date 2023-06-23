@@ -46,7 +46,7 @@ export default function EditProduct() {
     const { id } = useParams();
     const update = useUpdateProduct();
     const [form] = Form.useForm();
-    // const [getProduct, setProduct] = React.useState<Partial<IProduct>>({})
+
     const [statusUpload, setStatusUpload] = React.useState(true);
     const [loading, setLoading] = React.useState(false);
     const [getColor, setColor] = React.useState<Array<IColor>>([]);
@@ -58,10 +58,7 @@ export default function EditProduct() {
         []
     );
     const [imageUrl, setImageUrl] = React.useState<string>();
-    const convertType = (data: string | number | undefined) => {
-        let val = typeof data === "string" ? parseInt(data) : data;
-        return val;
-    };
+
     const handleChange: UploadProps["onChange"] = async (
         info: UploadChangeParam<UploadFile>
     ) => {
@@ -134,33 +131,45 @@ export default function EditProduct() {
     }, [getProduct, form]);
 
     const onFinish = (values: IProduct) => {
+        // console.log("🚀 ~ file: index.tsx:134 ~ onFinish ~ values:", values)
         update.mutate(
             {
-                params: {
-
+                id: id,
+                values: {
                     ...values,
-                    img: imageUrl,
-                },
-                id: convertType(id)
-            },
-            {
-                onSuccess: () => {
-                    openNotification({ type: "success" });
-                    form.resetFields();
-                    setImageUrl("");
-                },
-                onError: ({ message }) => {
-                    openNotification({ type: "error", description: message });
-                },
+                    price: '20',
+                    img: imageUrl
+                }
             }
-        );
-    };
+        )
+    }
+    // const onFinish = (values: IProduct) => {
+    //     update.mutate(
+    //         {
+    //             id: convertType(id),
+    //             params: {
+
+    //                 ...values,
+    //                 img: imageUrl,
+    //             },
+
+    //         },
+    //         {
+    //             onSuccess: () => {
+    //                 openNotification({ type: "success" });
+    //                 form.resetFields();
+    //                 setImageUrl("");
+    //             },
+
+    //         }
+    //     );
+    // };
 
     return (
         <Container>
             <HeadTitle {...HeadTitleProps} />
             <Form
-                name="addproduct"
+                name="updateproduct"
                 labelCol={{ span: 24 }}
                 layout="vertical"
                 initialValues={{ remember: true }}

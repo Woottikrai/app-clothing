@@ -11,6 +11,7 @@ import { useAuthContext } from "../../provider/auth/provider.auth";
 import { breadcrumbNameMap } from "../../routes/breadcrumb";
 import {
   getCartByUser,
+  useCartConfirm,
   useDeleteCart,
   useGetCartByUser,
 } from "../../services/auth/cart/cart.axios";
@@ -24,6 +25,7 @@ export default function Cart() {
   const { profile } = useAuthContext();
   const { data: products } = useGetCartByUser(profile?.id);
 
+
   return (
     <Container>
       <HeadTitle {...HeadTitleProps} />
@@ -32,7 +34,7 @@ export default function Cart() {
           <CartProduct product={products} />
         </Col>
         <Col span={8}>
-          <OrderSummary />
+          <OrderSummary products={products} />
         </Col>
       </Row>
     </Container>
@@ -89,15 +91,19 @@ const CartList: FC<{ product?: ICart }> = ({ product }) => {
                 </h3>
               </div>
               <div className="mt-1 flex text-sm">
-                <p className="text-gray-500">red</p>
-                {product?.product.size ? (
-                  <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">
-                    {/* {product.product.size} */} L
-                  </p>
-                ) : null}
+                <p className="text-black"> {product?.product.detail}</p>
+              </div>
+              <div className="mt-1 flex text-sm">
+                <p className="text-gray-500">สี {product?.product.color?.color_name}</p>
+              </div>
+              <div className="mt-1 flex text-sm">
+                <p className="text-gray-500">ไซต์ {product?.product.size?.size_name}</p>
+              </div>
+              <div className="mt-1 flex text-sm">
+                <p className="text-gray-500">จำนวน {product?.quantity}</p>
               </div>
               <p className="mt-1 text-sm font-medium text-gray-900">
-                {product?.product.price}
+                {product?.product.price} บาท
               </p>
             </div>
 
@@ -121,10 +127,23 @@ const CartList: FC<{ product?: ICart }> = ({ product }) => {
 };
 
 interface IOrderSummary {
-  summary?: number;
+
+  products?: ICart[];
 }
 
-const OrderSummary: FC<IOrderSummary> = ({ summary }) => {
+const OrderSummary: FC<IOrderSummary> = ({ products }) => {
+  let totalSumPrice = 0;
+
+  if (products) {
+    totalSumPrice = products.reduce((sum, product) => sum + product?.sumPrice || 0, 0);
+  }
+
+  const cartConfirm = useCartConfirm()
+  const { profile } = useAuthContext();
+  const orderId = products?.[0]?.orderId
+  const onFinish = () => {
+    cartConfirm.mutate({ id: profile?.id, orderId });
+  };
   return (
     <React.Fragment>
       <Space
@@ -137,14 +156,15 @@ const OrderSummary: FC<IOrderSummary> = ({ summary }) => {
           id="summary-heading"
           className="text-lg font-medium text-gray-900"
         >
-          Order summary
+
+          สรุปการสั่งซื้อ
         </Typography.Title>
 
         <dl className="mt-6 space-y-4">
           <Row align={"middle"} justify="space-between">
-            <Col className="text-sm text-gray-600">Total</Col>
+            <Col className="text-sm text-gray-600">ราคารวม</Col>
             <Col className="text-sm font-medium text-gray-900">
-              {`${summary || "-"}`}
+              {totalSumPrice}
             </Col>
           </Row>
           <Divider
@@ -154,16 +174,16 @@ const OrderSummary: FC<IOrderSummary> = ({ summary }) => {
           />
           <Row align={"middle"} justify="space-between">
             <Col className="text-base font-medium text-gray-900">
-              Order total
+              ราคารวม
             </Col>
             <Col className="text-base font-medium text-gray-900">
-              {`${summary || "-"}`}
+              {totalSumPrice}
             </Col>
           </Row>
         </dl>
 
         <div className="mt-6">
-          <Button type="primary" className="w-full" size="large">
+          <Button type="primary" className="w-full" size="large" onClick={onFinish}>
             สั่งซื้อ
           </Button>
         </div>
