@@ -79,8 +79,16 @@ export const usePostProduct = (): UseMutationResult<
   });
 };
 
-export const useUpdateProduct = (): UseMutationResult => {
-  return useMutation(async ({ id, ...values }: any) => {
+type useUpdateProductProps = {
+  id: string;
+  values: IProduct;
+};
+export const useUpdateProduct = (): UseMutationResult<
+  unknown,
+  unknown,
+  useUpdateProductProps
+> => {
+  return useMutation(async ({ id, values }: any) => {
     const res = await axios.patch(
       `${endpoints.product.updateProduct}/${id}`,
       values
