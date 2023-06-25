@@ -12,6 +12,7 @@ import Register from "../pages/register"
 import ListProdcutAdmin from "../pages/listProductAdmin"
 import EditProduct from "../pages/editproduct";
 import OrderAdmin from "../pages/orderadmin";
+import OrderHistory from "../pages/orderlist";
 export const routerDefault: Array<RouteObject> = [
   {
     path: "/error",
@@ -52,5 +53,6 @@ export const routerDefault: Array<RouteObject> = [
   { path: "/listproductadmin", element: <ListProdcutAdmin /> },
   { path: "/editproduct/:id", element: <EditProduct /> },
 
-  { path: "/listorderadmin", element: <OrderAdmin /> }
+  { path: "/listorderadmin", element: <OrderAdmin /> },
+  { path: "/orderhistory", element: <OrderHistory /> }
 ];

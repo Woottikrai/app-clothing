@@ -1,4 +1,5 @@
 import { IProduct } from "./IProduct";
+import { IUser } from "./IUser";
 
 export interface ICart {
   id: number;
@@ -11,8 +12,9 @@ export interface ICart {
   status?: IStatus;
   statusId?: number;
 
+  user: IUser;
   userId?: number;
-  orderId?: number;
+  orderId: string;
 }
 
 export interface IStatus {

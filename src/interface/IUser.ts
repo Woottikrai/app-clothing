@@ -1,9 +1,14 @@
 import { PasswordProps } from "antd/es/input";
+import { ICart } from "./ICart";
 
 export interface IUser {
   id: number;
   name: string;
+  img?: string;
+  address?: string;
+  tel: string;
   email: string;
+  cart: ICart[];
   password: string;
   role: IRole;
   roleId: number;
