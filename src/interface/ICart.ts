@@ -15,6 +15,8 @@ export interface ICart {
   user: IUser;
   userId?: number;
   orderId: string;
+
+  listOrder?: boolean;
 }
 
 export interface IStatus {

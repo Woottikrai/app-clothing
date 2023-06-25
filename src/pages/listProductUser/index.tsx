@@ -26,7 +26,7 @@ function ListProduct() {
       setProduct(res.data);
     })();
   }, []);
-  interface cardProductUser extends IProduct { }
+  interface cardProductUser extends IProduct {}
 
   const CardProductUser: FC<{
     product?: cardProductUser;
@@ -108,7 +108,7 @@ function ListProduct() {
         onCancel={() => setOpen(false)}
         closable={true}
       >
-        <DisplayProduct product={cart} />
+        <DisplayProduct product={{ ...cart }} />
       </CModalProduct>
     </Container>
   );

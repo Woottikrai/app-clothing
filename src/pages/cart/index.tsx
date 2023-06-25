@@ -16,7 +16,6 @@ import {
   useGetCartByUser,
 } from "../../services/auth/cart/cart.axios";
 
-
 export default function Cart() {
   const HeadTitleProps = {
     // title: "เพิ่มสินค้า",
@@ -24,7 +23,6 @@ export default function Cart() {
   };
   const { profile } = useAuthContext();
   const { data: products } = useGetCartByUser(profile?.id);
-
 
   return (
     <Container>
@@ -59,7 +57,7 @@ const CartProduct: FC<ICartProduct> = ({ product }) => {
   );
 };
 
-const CartList: FC<{ product?: ICart }> = ({ product }) => {
+export const CartList: FC<{ product?: ICart }> = ({ product }) => {
   const qClient = useQueryClient();
   const deleteCart = useDeleteCart();
   const onDelete = () => {
@@ -69,6 +67,7 @@ const CartList: FC<{ product?: ICart }> = ({ product }) => {
       },
     });
   };
+
   return (
     <React.Fragment>
       <li key={product?.orderId} className="flex py-6 sm:py-10 p-5">
@@ -94,10 +93,14 @@ const CartList: FC<{ product?: ICart }> = ({ product }) => {
                 <p className="text-black"> {product?.product.detail}</p>
               </div>
               <div className="mt-1 flex text-sm">
-                <p className="text-gray-500">สี {product?.product.color?.color_name}</p>
+                <p className="text-gray-500">
+                  สี {product?.product.color?.color_name}
+                </p>
               </div>
               <div className="mt-1 flex text-sm">
-                <p className="text-gray-500">ไซต์ {product?.product.size?.size_name}</p>
+                <p className="text-gray-500">
+                  ไซต์ {product?.product.size?.size_name}
+                </p>
               </div>
               <div className="mt-1 flex text-sm">
                 <p className="text-gray-500">จำนวน {product?.quantity}</p>
@@ -109,14 +112,18 @@ const CartList: FC<{ product?: ICart }> = ({ product }) => {
 
             <div className="mt-4 sm:mt-0 sm:pr-9">
               <div className="absolute right-0 top-0">
-                <button
-                  type="button"
-                  className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
-                  onClick={onDelete}
-                >
-                  <span className="sr-only">Remove</span>
-                  <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-                </button>
+                {!!product?.listOrder ? (
+                  <></>
+                ) : (
+                  <button
+                    type="button"
+                    className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
+                    onClick={onDelete}
+                  >
+                    <span className="sr-only">Remove</span>
+                    <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -127,20 +134,23 @@ const CartList: FC<{ product?: ICart }> = ({ product }) => {
 };
 
 interface IOrderSummary {
-
   products?: ICart[];
+  listOrder?: boolean;
 }
 
-const OrderSummary: FC<IOrderSummary> = ({ products }) => {
+export const OrderSummary: FC<IOrderSummary> = ({ products, listOrder }) => {
   let totalSumPrice = 0;
 
   if (products) {
-    totalSumPrice = products.reduce((sum, product) => sum + product?.sumPrice || 0, 0);
+    totalSumPrice = products.reduce(
+      (sum, product) => sum + product?.sumPrice || 0,
+      0
+    );
   }
 
-  const cartConfirm = useCartConfirm()
+  const cartConfirm = useCartConfirm();
   const { profile } = useAuthContext();
-  const orderId = products?.[0]?.orderId
+  const orderId = products?.[0]?.orderId;
   const onFinish = () => {
     cartConfirm.mutate({ id: profile?.id, orderId });
   };
@@ -149,14 +159,15 @@ const OrderSummary: FC<IOrderSummary> = ({ products }) => {
       <Space
         aria-labelledby="summary-heading"
         direction="vertical"
-        className=" w-full rounded-lg border p-5"
+        className={`${
+          !!listOrder && "border-t-0 rounded-lg rounded-t-none"
+        } w-full border p-5 `}
       >
         <Typography.Title
           level={2}
           id="summary-heading"
           className="text-lg font-medium text-gray-900"
         >
-
           สรุปการสั่งซื้อ
         </Typography.Title>
 
@@ -173,9 +184,7 @@ const OrderSummary: FC<IOrderSummary> = ({ products }) => {
             }}
           />
           <Row align={"middle"} justify="space-between">
-            <Col className="text-base font-medium text-gray-900">
-              ราคารวม
-            </Col>
+            <Col className="text-base font-medium text-gray-900">ราคารวม</Col>
             <Col className="text-base font-medium text-gray-900">
               {totalSumPrice}
             </Col>
@@ -183,7 +192,12 @@ const OrderSummary: FC<IOrderSummary> = ({ products }) => {
         </dl>
 
         <div className="mt-6">
-          <Button type="primary" className="w-full" size="large" onClick={onFinish}>
+          <Button
+            type="primary"
+            className="w-full"
+            size="large"
+            onClick={onFinish}
+          >
             สั่งซื้อ
           </Button>
         </div>
