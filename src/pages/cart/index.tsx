@@ -2,10 +2,11 @@ import { XMarkIcon } from "@heroicons/react/20/solid";
 import { Row, Col, Button, Space, Typography, Divider, Image } from "antd";
 import React from "react";
 import { FC } from "react";
-import { useQueryClient } from "react-query";
+import { QueryClient, useQueryClient } from "react-query";
 import Container from "../../components/container";
 import HeadTitle from "../../components/headtitle";
 import OptionalLayout from "../../components/layouts/optionalLayout";
+import { openNotification } from "../../components/notification";
 import { ICart } from "../../interface/ICart";
 import { useAuthContext } from "../../provider/auth/provider.auth";
 import { breadcrumbNameMap } from "../../routes/breadcrumb";
@@ -147,12 +148,23 @@ export const OrderSummary: FC<IOrderSummary> = ({ products, listOrder }) => {
       0
     );
   }
-
+  const qClient = useQueryClient();
   const cartConfirm = useCartConfirm();
   const { profile } = useAuthContext();
   const orderId = products?.[0]?.orderId;
   const onFinish = () => {
-    cartConfirm.mutate({ id: profile?.id, orderId });
+    cartConfirm.mutate(
+      { id: profile?.id, orderId },
+      {
+        onSuccess: () => {
+          openNotification({ type: "success", title: "สั่งซื้อสำเร็จ" });
+          qClient.invalidateQueries(["cart"]);
+        },
+        onError: ({ message }) => {
+          openNotification({ type: "error", description: message });
+        },
+      }
+    );
   };
   return (
     <React.Fragment>
