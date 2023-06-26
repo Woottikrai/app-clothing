@@ -68,20 +68,40 @@ interface Nav {
 }
 
 const Link = () => {
-  const nav: Array<Nav> = [
+  const { profile } = useAuthContext();
+
+  const nav: Array<Nav> = profile?.roleId === 2 ? [
     {
       name: "หน้าหลัก",
       path: "/home",
+    },
+    {
+      name: "สินค้า",
+      path: "/listproduct",
+    },
+    {
+      name: "สินค้าที่สั่งซื้อ",
+      path: "/orderlist",
+    },
+
+  ] : [
+    {
+      name: "สินค้า",
+      path: "/listproductadmin",
     },
     {
       name: "เพิ่มสินค้า",
       path: "/addproduct",
     },
     {
-      name: "สินค้า",
-      path: "/listproduct",
+      name: "จัดการคำสั่งซื้อ",
+      path: "/listorderadmin",
     },
-  ];
+    {
+      name: "ประวัติการขาย",
+      path: "/orderhistoryadmin",
+    },
+  ]
   const navigate = useNavigate();
   return (
     <React.Fragment>
@@ -123,7 +143,7 @@ const Profile = () => {
       className: "profile",
       label: (
         <Row>
-          <Typography.Text onClick={() => {}}>
+          <Typography.Text onClick={() => { }}>
             <ProfileOutlined /> โปรไฟล์
           </Typography.Text>
         </Row>
@@ -189,8 +209,8 @@ const Profile = () => {
   );
 };
 
-interface ModalProfileProps {}
+interface ModalProfileProps { }
 
-const ModalProfile: FC<ModalProfileProps> = ({}) => {
+const ModalProfile: FC<ModalProfileProps> = ({ }) => {
   return <React.Fragment></React.Fragment>;
 };

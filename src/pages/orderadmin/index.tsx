@@ -5,15 +5,20 @@ import {
   CModalProduct,
   DisplayProduct,
 } from "../../components/modal/modal-product";
+import { useCartConfirm, useCartSuccess } from "../../services/auth/cart/cart.axios";
+import { openNotification } from "../../components/notification";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "react-query";
 
 export default function OrderAdmin() {
+  const navigate = useNavigate();
   const { data: orders } = useOrderAdmin();
-
+  const confirm = useCartSuccess()
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemsOrder, setOrder] = useState({} as any);
   const organizedData: Record<string, ICart[]> = {};
-
+  const qClient = useQueryClient();
   orders?.forEach((item: ICart) => {
     if (!organizedData[item.orderId]) {
       organizedData[item.orderId] = [];
@@ -27,7 +32,23 @@ export default function OrderAdmin() {
       items: organizedData[orderId],
     };
   });
-  //   console.log("🚀 ~ file: index.tsx:26 ~ mappedData ~ mappedData:", mappedData);
+
+  const onConfirm = (orderId: string) => {
+    confirm.mutateAsync(
+      {
+        orderId: orderId,
+      },
+      {
+        onSuccess: () => {
+          openNotification({ type: "success" });
+          qClient.invalidateQueries(["cart"]);
+        },
+        onError: ({ message }: any) => {
+          openNotification({ type: "error", description: message });
+        },
+      }
+    );
+  };
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -110,8 +131,8 @@ export default function OrderAdmin() {
                       </span>
                     </td>
                     <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                      <a className="text-indigo-600 hover:text-indigo-900">
-                        ยกเลิก<span className="sr-only"></span>
+                      <a className="text-indigo-600 hover:text-indigo-900" onClick={() => { onConfirm(order.orderId) }}>
+                        ยืนยันการสั่งซื้อ<span className="sr-only"></span>
                       </a>
                     </td>
                     <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">

@@ -7,9 +7,11 @@ import { openNotification } from "../../components/notification";
 import { useNavigate } from "react-router-dom";
 import { UseSignin } from "../../services/auth/authen/authen";
 import logo from "../../assets/images/LogoNo.png";
+import { useAuthContext } from "../../provider/auth/provider.auth";
 type Props = {};
 
 export default function SignIn({ }: Props) {
+  const { profile } = useAuthContext();
   const navigate = useNavigate();
   const signin = UseSignin();
   const onFinish = (value: ISignin) => {
@@ -28,7 +30,8 @@ export default function SignIn({ }: Props) {
           openNotification({ type: "error", description: message });
         },
         onSettled: () => {
-          navigate("/");
+          profile?.roleId === 2 ? navigate("/") : navigate('/listorderadmin');
+          window.location.reload()
         },
       }
     );

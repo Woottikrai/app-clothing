@@ -13,6 +13,8 @@ import ListProdcutAdmin from "../pages/listProductAdmin"
 import EditProduct from "../pages/editproduct";
 import OrderAdmin from "../pages/orderadmin";
 import OrderHistory from "../pages/orderlist";
+import OrderList from "../pages/orderlist";
+import OrderHistoryAdmin from "../pages/orderHistoryAdmin";
 export const routerDefault: Array<RouteObject> = [
   {
     path: "/error",
@@ -33,8 +35,8 @@ export const routerDefault: Array<RouteObject> = [
         element: <Home />,
       },
       {
-        path: "/addproduct",
-        element: <AddProduct />,
+        path: "/orderlist",
+        element: <OrderList />
       },
       {
         path: "/listproduct",
@@ -46,13 +48,46 @@ export const routerDefault: Array<RouteObject> = [
       },
     ],
   },
+
+
+  //admin
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/listproductadmin",
+        element: <ListProdcutAdmin />
+      },
+      {
+        path: "/addproduct",
+        element: <AddProduct />,
+      },
+      {
+        path: "/listorderadmin",
+        element: <OrderAdmin />
+      },
+      {
+        path: "/editproduct/:id",
+        element: <EditProduct />
+      },
+      {
+        path: "/cartproduct",
+        element: <Cart />,
+      },
+      {
+        path: "/orderhistoryadmin",
+        element: <OrderHistoryAdmin />,
+      },
+    ],
+  },
   { path: "*", element: <Error404 /> },
 
   { path: "/register", element: <Register /> },
 
-  { path: "/listproductadmin", element: <ListProdcutAdmin /> },
-  { path: "/editproduct/:id", element: <EditProduct /> },
+  // { path: "/listproductadmin", element: <ListProdcutAdmin /> },
+  // { path: "/editproduct/:id", element: <EditProduct /> },
 
-  { path: "/listorderadmin", element: <OrderAdmin /> },
-  { path: "/orderhistory", element: <OrderHistory /> }
+  // { path: "/listorderadmin", element: <OrderAdmin /> },
+  // { path: "/orderhistory", element: <OrderHistory /> }
 ];

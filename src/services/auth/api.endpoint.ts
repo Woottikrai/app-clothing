@@ -28,9 +28,11 @@ export const endpoints = {
     deleteCart: `${projectConfig.baseURL}/delete-from-cart`,
     cartConfirm: `${projectConfig.baseURL}/cart-confirm`, //user กดสั่งซื้อจาก cart patch
     cartSuccess: `${projectConfig.baseURL}/cart-success`, //admin กดยืนยันการสั่งซื้อ
-    orderHistory: `${projectConfig.baseURL}/orderhistory`,
+    orderHistory: `${projectConfig.baseURL}/orderhistory`, //คำสั่งซื้อ user
     OrderAdmin: `${projectConfig.baseURL}/cart-for-admin`,
     orderAdmin: `${projectConfig.baseURL}/user/Order-list`,
+    oderHistoryAdmin: `${projectConfig.baseURL}/order-history-admin`,
+    deleteOrder: `${projectConfig.baseURL}/delete-order`,
   },
 };
 

@@ -27,10 +27,7 @@ export const useAddToCart = (): UseMutationResult<unknown, Error> => {
 
 export const useCartSuccess = (): UseMutationResult<unknown, Error> => {
   return useMutation(async ({ id, ...values }: any) => {
-    const res = await axios.patch(
-      `${endpoints.cart.cartSuccess}/${id}`,
-      values
-    );
+    const res = await axios.patch(`${endpoints.cart.cartSuccess}`, values);
     if (res.status === 200 || res.status === 201) {
       return res.data;
     }
@@ -76,6 +73,16 @@ export const useDeleteCart = (): UseMutationResult<
 > => {
   return useMutation(async (id: any) => {
     const res = await axios.delete(`${endpoints.cart.deleteCart}/${id}`);
+    if (res.status === 200) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
+export const useOrderHistoryAdmin = (): UseQueryResult<ICart[], Error> => {
+  return useQuery(["cart"], async () => {
+    const res = await axios.get(`${endpoints.cart.oderHistoryAdmin}`);
     if (res.status === 200) {
       return res.data;
     }
