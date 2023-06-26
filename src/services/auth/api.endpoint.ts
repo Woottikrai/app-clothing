@@ -32,7 +32,8 @@ export const endpoints = {
     OrderAdmin: `${projectConfig.baseURL}/cart-for-admin`,
     orderAdmin: `${projectConfig.baseURL}/user/Order-list`,
     oderHistoryAdmin: `${projectConfig.baseURL}/order-history-admin`,
-    deleteOrder: `${projectConfig.baseURL}/delete-order`,
+    deleteOrder: `${projectConfig.baseURL}/delete-order`, //ลบคำสั่งซื่อ statusid2
+    uploadSlip: `${projectConfig.baseURL}/upload-slip`,
   },
 };
 

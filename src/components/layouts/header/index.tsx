@@ -114,7 +114,7 @@ const Link = () => {
             marginRight: 10,
           }}
         />
-        <nav className="grid grid-cols-3 gap-x-5">
+        <nav className="grid grid-cols-4 gap-x-5">
           {nav.map((item, idx) => {
             const { name, path } = item;
             return (
@@ -149,21 +149,7 @@ const Profile = () => {
         </Row>
       ),
     },
-    {
-      key: "signin",
-      className: "signin",
-      label: (
-        <Row>
-          <Typography.Text
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            <LogoutOutlined /> เข้าสู่ระบบ
-          </Typography.Text>
-        </Row>
-      ),
-    },
+
     {
       key: "signout",
       className: "signout",

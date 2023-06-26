@@ -1,19 +1,59 @@
 import { useQueryClient } from "react-query";
 import Container from "../../components/container";
-import { useOrderHistory } from "../../services/auth/order/order";
+import { useDeleteOrder, useOrderHistory, useUploadSlip } from "../../services/auth/order/order";
 import { useAuthContext } from "../../provider/auth/provider.auth";
 import { CModalProduct, DisplayProduct } from "../../components/modal/modal-product";
 import { ICart } from "../../interface/ICart";
 import { useState } from "react";
+import React from "react";
+import { UploadProps, UploadFile, Button } from "antd";
+import Upload, { UploadChangeParam, RcFile } from "antd/es/upload";
+import { openNotification } from "../../util";
+import { fileToDataUrl } from "../../util/media";
+import { UploadOutlined } from "@ant-design/icons";
 
 
 export default function OrderList() {
+    const [imageUrl, setImageUrl] = React.useState<string>();
+    console.log("🚀 ~ file: index.tsx:18 ~ OrderList ~ imageUrl:", imageUrl)
+    const [loading, setLoading] = React.useState(false);
+    const [statusUpload, setStatusUpload] = React.useState(true);
     const { profile } = useAuthContext();
     const qClient = useQueryClient();
     const { data: orderhistory } = useOrderHistory(profile?.id);
     const [itemsOrder, setOrder] = useState({} as any);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const organizedData: Record<string, ICart[]> = {};
+    const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>(undefined);
+    const uploadSlip = useUploadSlip()
+
+    const deletOrder = useDeleteOrder()
+    const onDelete = (orderId: string) => {
+        deletOrder.mutate({ id: profile?.id, orderId }, {
+            onSuccess: () => {
+                openNotification({ type: "success", title: "ยกเลิกสำเร็จ" });
+                qClient.invalidateQueries(["cart"]);
+            },
+            onError: ({ message }) => {
+                openNotification({ type: "error", description: message });
+            },
+        });
+    };
+
+    const onFinish = () => {
+        uploadSlip.mutate(
+            { id: profile?.id, selectedOrderId, imageUrl },
+            {
+                onSuccess: () => {
+                    openNotification({ type: "success", title: "สั่งซื้อสำเร็จ" });
+                    qClient.invalidateQueries(["cart"]);
+                },
+                onError: ({ message }) => {
+                    openNotification({ type: "error", description: message });
+                },
+            }
+        );
+    };
     orderhistory?.forEach((item: ICart) => {
         if (!organizedData[item.orderId]) {
             organizedData[item.orderId] = [];
@@ -28,6 +68,56 @@ export default function OrderList() {
         };
     });
 
+    const accepts = {
+        array: ["jpg", "jpeg", "png", "webp"],
+        string: ".jpg,.jpeg,.png,.webp",
+    };
+
+    interface UploadImageProps {
+        handleChange?: (info?: any) => void;
+        loading?: boolean;
+        imageUrl?: string;
+        emptyImg?: string;
+    }
+    const handleChange: UploadProps["onChange"] = async (
+        info: UploadChangeParam<UploadFile>
+    ) => {
+        setLoading(true);
+        if (info.file && info.fileList?.length > 0) {
+            try {
+                const image = info.file as RcFile;
+                const extension = image.name.split(".").pop()?.toLocaleLowerCase();
+                if (!extension || !accepts.array.includes(extension)) {
+                    throw new Error("รองรับไฟล์ประเภท .jpg, .jpeg และ .png เท่านั้น");
+                }
+                const base64 = await fileToDataUrl(image);
+                if (typeof base64 !== "string") {
+                    throw new Error("error-occured");
+                }
+
+                const isLt2M = image.size / 1024 / 1024 < 2;
+                if (!isLt2M) {
+                    throw new Error("กรุณาอัพไฟล์ไม่เกิน 2mb");
+                }
+                setTimeout(() => {
+                    uploadMedia();
+                }, 2000);
+                setImageUrl(base64);
+                console.log("success");
+            } catch (err: any) {
+                openNotification({
+                    type: "error",
+                    title: "เกิดข้อผิดพลาด",
+                    description: err?.message,
+                });
+            }
+        }
+    };
+
+    const uploadMedia = async () => {
+        setStatusUpload(true);
+        setLoading(false);
+    };
 
     return (
         <Container>
@@ -117,8 +207,24 @@ export default function OrderList() {
                                                     {order.items[0].status?.status_name}
                                                 </span>
                                             </td>
+                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+
+                                                <Upload
+                                                    onChange={handleChange}
+                                                    showUploadList={false}
+                                                    beforeUpload={() => false} // ไม่อัปโหลดไฟล์โดยอัตโนมัติ
+
+                                                >
+                                                    <Button loading={loading} icon={<UploadOutlined />} type="primary" onClick={onFinish}>
+                                                        เลือกไฟล์
+                                                    </Button>
+                                                </Upload>
+                                            </td>
                                             <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                                <a className="text-indigo-600 hover:text-indigo-900" >
+                                                <a
+                                                    className="text-indigo-600 hover:text-indigo-900"
+                                                    onClick={() => onDelete(order.orderId)}
+                                                >
                                                     ยกเลิกการสั่งซื้อ<span className="sr-only"></span>
                                                 </a>
                                             </td>
@@ -126,6 +232,7 @@ export default function OrderList() {
                                                 <a
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                     onClick={() => {
+                                                        setSelectedOrderId(order.orderId);
                                                         setIsModalOpen(true);
                                                         setOrder(order);
                                                     }}
@@ -151,4 +258,5 @@ export default function OrderList() {
             </div>
         </Container>
     )
+
 }
