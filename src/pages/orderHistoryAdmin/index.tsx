@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useOrderAdmin } from "../../services/auth/order/order";
+import { useOrderAdmin, useOrderHistoryAdmin } from "../../services/auth/order/order";
 import { ICart } from "../../interface/ICart";
 import {
     CModalProduct,
     DisplayProduct,
 } from "../../components/modal/modal-product";
-import { useCartConfirm, useCartSuccess, useOrderHistoryAdmin } from "../../services/auth/cart/cart.axios";
+import { useCartConfirm, useCartSuccess } from "../../services/auth/cart/cart.axios";
 import { openNotification } from "../../components/notification";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";

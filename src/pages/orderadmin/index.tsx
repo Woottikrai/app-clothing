@@ -9,8 +9,11 @@ import { useCartConfirm, useCartSuccess } from "../../services/auth/cart/cart.ax
 import { openNotification } from "../../components/notification";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";
+import { Button, Modal, Image } from "antd";
 
 export default function OrderAdmin() {
+  const [visible, setVisible] = useState(false);
+
   const navigate = useNavigate();
   const { data: orders } = useOrderAdmin();
   const confirm = useCartSuccess()
@@ -81,6 +84,13 @@ export default function OrderAdmin() {
                   </th>
                   <th
                     scope="col"
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    style={{ width: "300px" }}
+                  >
+                    สลิปโอนเงิน
+                  </th>
+                  <th
+                    scope="col"
                     className="relative py-3.5 pl-3 pr-4 sm:pr-0"
                     style={{ width: "100px" }}
                   >
@@ -130,6 +140,25 @@ export default function OrderAdmin() {
                         {order.items[0].status?.status_name}
                       </span>
                     </td>
+                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+
+                      <Button type="primary" onClick={() => setVisible(true)}>
+                        คลิกเพื่อดูสลิป
+                      </Button>
+                      <Image
+                        width={200}
+                        style={{ display: 'none' }}
+                        src={order.items[0].img}
+                        preview={{
+                          visible,
+                          src: order.items[0].img,
+                          onVisibleChange: (value) => {
+                            setVisible(value);
+                          },
+                        }}
+                      />
+
+                    </td>
                     <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                       <a className="text-indigo-600 hover:text-indigo-900" onClick={() => { onConfirm(order.orderId) }}>
                         ยืนยันการสั่งซื้อ<span className="sr-only"></span>
@@ -160,6 +189,9 @@ export default function OrderAdmin() {
       >
         <DisplayProduct product={{ itemsOrder, listOrder: true }} />
       </CModalProduct>
+      <Modal>
+
+      </Modal>
     </div>
   );
 }

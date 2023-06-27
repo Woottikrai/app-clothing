@@ -11,7 +11,7 @@ import { useAuthContext } from "../../provider/auth/provider.auth";
 type Props = {};
 
 export default function SignIn({ }: Props) {
-  const { profile } = useAuthContext();
+  // const { profile } = useAuthContext();
   const navigate = useNavigate();
   const signin = UseSignin();
   const onFinish = (value: ISignin) => {
@@ -30,7 +30,7 @@ export default function SignIn({ }: Props) {
           openNotification({ type: "error", description: message });
         },
         onSettled: () => {
-          profile?.roleId === 2 ? navigate("/") : navigate('/listorderadmin');
+          // profile?.roleId === 2 ? navigate("/") : navigate('/listproductadmin');
           window.location.reload()
         },
       }
@@ -90,10 +90,11 @@ export default function SignIn({ }: Props) {
                 เข้าสู่ระบบ
               </Button>
             </Form.Item>
+            <Button type="primary" htmlType="submit" className="w-full " onClick={() => navigate("/register")}>
+              ลงทะเบียน
+            </Button>
           </Form>
-          <Button type="primary" htmlType="submit" className="w-full mt-5">
-            ลงทะเบียน
-          </Button>
+
         </Col>
       </Row>
     </React.Fragment>

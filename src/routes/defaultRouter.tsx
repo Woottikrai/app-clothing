@@ -24,7 +24,7 @@ export const routerDefault: Array<RouteObject> = [
       { path: "/error/500", element: <Error500 /> },
     ],
   },
-
+  { path: "/register", element: <Register /> },
   { path: "/login", element: <Signin /> },
   {
     path: "/",
@@ -83,7 +83,7 @@ export const routerDefault: Array<RouteObject> = [
   },
   { path: "*", element: <Error404 /> },
 
-  { path: "/register", element: <Register /> },
+
 
   // { path: "/listproductadmin", element: <ListProdcutAdmin /> },
   // { path: "/editproduct/:id", element: <EditProduct /> },

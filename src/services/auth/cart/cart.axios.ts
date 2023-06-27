@@ -79,13 +79,3 @@ export const useDeleteCart = (): UseMutationResult<
     throwResponse(res);
   });
 };
-
-export const useOrderHistoryAdmin = (): UseQueryResult<ICart[], Error> => {
-  return useQuery(["cart"], async () => {
-    const res = await axios.get(`${endpoints.cart.oderHistoryAdmin}`);
-    if (res.status === 200) {
-      return res.data;
-    }
-    throwResponse(res);
-  });
-};

@@ -6,6 +6,8 @@ export interface ICart {
   quantity: number;
   sumPrice: number;
 
+  img?: string;
+
   product: IProduct;
   productId?: number;
 

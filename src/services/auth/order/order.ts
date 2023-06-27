@@ -45,7 +45,11 @@ export const useOrderAdmins = (): UseQueryResult<IUser[], Error> => {
 
 export const useUploadSlip = (): UseMutationResult<unknown, Error> => {
   return useMutation(async ({ id, ...values }: any) => {
-    const res = await axios.patch(`${endpoints.cart.uploadSlip}/${id}`, values);
+    console.log(values);
+    const res = await axios.patch(`${endpoints.cart.uploadSlip}/${id}`, {
+      orderId: values.orderId,
+      img: values.img,
+    });
     if (res.status === 200 || res.status === 201) {
       return res.data;
     }
@@ -54,12 +58,22 @@ export const useUploadSlip = (): UseMutationResult<unknown, Error> => {
 };
 
 export const useDeleteOrder = (): UseMutationResult<unknown, Error> => {
-  return useMutation(async ({ id, orderId }: any) => {
+  return useMutation(async (values: any) => {
     const res = await axios.delete(
-      `${endpoints.cart.deleteOrder}/${id}`,
-      orderId
+      `${endpoints.cart.deleteOrder}/${values.id}`,
+      { data: { orderId: values.orderId } }
     );
     if (res.status === 200 || res.status === 201) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
+export const useOrderHistoryAdmin = (): UseQueryResult<ICart[], Error> => {
+  return useQuery(["cart"], async () => {
+    const res = await axios.get(`${endpoints.cart.oderHistoryAdmin}`);
+    if (res.status === 200) {
       return res.data;
     }
     throwResponse(res);

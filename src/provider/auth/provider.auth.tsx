@@ -29,7 +29,7 @@ export const AuthProvider: FC<AuthProps> = ({ children }) => {
     })();
   }, []);
 
-  if (!token && !isPublic) {
+  if (!token && !isPublic && pathname !== "/register") {
     return <Navigate to="/login" replace />;
   }
 

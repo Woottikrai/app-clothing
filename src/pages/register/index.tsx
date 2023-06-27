@@ -7,12 +7,36 @@ import { openNotification } from "../../components/notification";
 import { useNavigate } from "react-router-dom";
 import { UseSignin } from "../../services/auth/authen/authen";
 import logo from "../../assets/images/LogoNo.png";
-import { IRegister } from "../../interface/IUser";
+import { IRegister, IUser } from "../../interface/IUser";
+import { useRegister } from "../../services/auth/user/user.axios";
+import { useQueryClient } from "react-query";
 type Props = {};
 
 export default function Register({ }: Props) {
   const navigate = useNavigate();
+  const register = useRegister()
+  const qClient = useQueryClient();
 
+
+  const onFinish = (value: IUser) => {
+    const { name, email, password } = value;
+    register.mutate(
+      {
+        name,
+        email,
+        password,
+      },
+      {
+        onSuccess: (res: any) => {
+          openNotification({ type: "success" });
+
+        },
+        onError: ({ message }) => {
+          openNotification({ type: "error", description: message });
+        },
+      }
+    );
+  };
   return (
     <React.Fragment>
       <Row justify="center" align="middle" style={{ minHeight: "100vh" }}>
@@ -31,9 +55,9 @@ export default function Register({ }: Props) {
             />
           </Space>
           <Form
-            name="login"
+            name="register"
             initialValues={{ remember: true }}
-            // onFinish={onFinish}
+            onFinish={onFinish}
             autoComplete="off"
             size="large"
           >
@@ -77,13 +101,13 @@ export default function Register({ }: Props) {
               />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" className="w-full ">
+              <Button type="primary" htmlType="submit" className="w-full " >
                 ลงทะเบียน
               </Button>
             </Form.Item>
             <Form.Item>
 
-              <Button type="primary" htmlType="submit" className="w-full">
+              <Button type="primary" htmlType="submit" className="w-full" onClick={() => navigate("/login")}>
                 เข้าสู่ระบบ
               </Button>
 
