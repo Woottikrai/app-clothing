@@ -6,16 +6,16 @@ import { CModalProduct, DisplayProduct } from "../../components/modal/modal-prod
 import { ICart } from "../../interface/ICart";
 import { useState } from "react";
 import React from "react";
-import { UploadProps, UploadFile, Button } from "antd";
-import Upload, { UploadChangeParam, RcFile } from "antd/es/upload";
+
 import { openNotification } from "../../util";
 import { fileToDataUrl } from "../../util/media";
 import { UploadOutlined } from "@ant-design/icons";
+import { Button, Upload } from "antd";
+import { RcFile, UploadChangeParam, UploadFile, UploadProps } from "antd/es/upload/interface";
+import { log } from "console";
 
 
 export default function OrderList() {
-    const [imageUrl, setImageUrl] = React.useState<string>();
-    console.log("🚀 ~ file: index.tsx:18 ~ OrderList ~ imageUrl:", imageUrl)
     const [loading, setLoading] = React.useState(false);
     const [statusUpload, setStatusUpload] = React.useState(true);
     const { profile } = useAuthContext();
@@ -28,25 +28,33 @@ export default function OrderList() {
     const uploadSlip = useUploadSlip()
 
     const deletOrder = useDeleteOrder()
-    const onDelete = (orderId: string) => {
-        deletOrder.mutate({ id: profile?.id, orderId }, {
-            onSuccess: () => {
-                openNotification({ type: "success", title: "ยกเลิกสำเร็จ" });
-                qClient.invalidateQueries(["cart"]);
-            },
-            onError: ({ message }) => {
-                openNotification({ type: "error", description: message });
-            },
-        });
-    };
 
-    const onFinish = () => {
-        uploadSlip.mutate(
-            { id: profile?.id, selectedOrderId, imageUrl },
+    const onDelete = (orderId: string) => {
+        deletOrder.mutateAsync(
+            {
+                id: profile?.id,
+                orderId: orderId,
+            },
             {
                 onSuccess: () => {
-                    openNotification({ type: "success", title: "สั่งซื้อสำเร็จ" });
-                    qClient.invalidateQueries(["cart"]);
+                    openNotification({ type: "success" });
+                    qClient.invalidateQueries(["order-history"]);
+                },
+                onError: ({ message }: any) => {
+                    openNotification({ type: "error", description: message });
+                },
+            }
+        );
+    };
+
+    const onFinish = (img: string, orderId: string) => {
+        uploadSlip.mutate(
+            { id: profile?.id, img, orderId },
+
+            {
+                onSuccess: () => {
+                    openNotification({ type: "success", title: "อัปโหลดสำเร็จ" });
+                    qClient.invalidateQueries(["order-history"]);
                 },
                 onError: ({ message }) => {
                     openNotification({ type: "error", description: message });
@@ -73,51 +81,30 @@ export default function OrderList() {
         string: ".jpg,.jpeg,.png,.webp",
     };
 
-    interface UploadImageProps {
-        handleChange?: (info?: any) => void;
-        loading?: boolean;
-        imageUrl?: string;
-        emptyImg?: string;
-    }
-    const handleChange: UploadProps["onChange"] = async (
-        info: UploadChangeParam<UploadFile>
-    ) => {
-        setLoading(true);
-        if (info.file && info.fileList?.length > 0) {
-            try {
-                const image = info.file as RcFile;
-                const extension = image.name.split(".").pop()?.toLocaleLowerCase();
-                if (!extension || !accepts.array.includes(extension)) {
-                    throw new Error("รองรับไฟล์ประเภท .jpg, .jpeg และ .png เท่านั้น");
-                }
-                const base64 = await fileToDataUrl(image);
-                if (typeof base64 !== "string") {
-                    throw new Error("error-occured");
-                }
+    const getBase64 = (img: RcFile, callback: (url: string) => void) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result as string));
+        reader.readAsDataURL(img);
+    };
 
-                const isLt2M = image.size / 1024 / 1024 < 2;
-                if (!isLt2M) {
-                    throw new Error("กรุณาอัพไฟล์ไม่เกิน 2mb");
-                }
-                setTimeout(() => {
-                    uploadMedia();
-                }, 2000);
-                setImageUrl(base64);
-                console.log("success");
-            } catch (err: any) {
-                openNotification({
-                    type: "error",
-                    title: "เกิดข้อผิดพลาด",
-                    description: err?.message,
-                });
-            }
+    const handleChange = (info: UploadChangeParam<UploadFile>, orderId: string) => {
+        if (info.file.status === 'uploading') {
+            setLoading(true);
+            info.file.status = 'done'
         }
+
+
+        if (info.file.status === 'done') {
+
+            getBase64(info.file.originFileObj as RcFile, (url) => {
+                setLoading(false);
+                onFinish(url, orderId)
+            });
+
+        }
+
     };
 
-    const uploadMedia = async () => {
-        setStatusUpload(true);
-        setLoading(false);
-    };
 
     return (
         <Container>
@@ -210,12 +197,12 @@ export default function OrderList() {
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
 
                                                 <Upload
-                                                    onChange={handleChange}
-                                                    showUploadList={false}
-                                                    beforeUpload={() => false} // ไม่อัปโหลดไฟล์โดยอัตโนมัติ
+                                                    onChange={(value) => handleChange(value, order.orderId)}
+                                                    name="file"
+                                                    customRequest={() => { }}
 
                                                 >
-                                                    <Button loading={loading} icon={<UploadOutlined />} type="primary" onClick={onFinish}>
+                                                    <Button loading={loading} icon={<UploadOutlined />} type="primary" >
                                                         เลือกไฟล์
                                                     </Button>
                                                 </Upload>
