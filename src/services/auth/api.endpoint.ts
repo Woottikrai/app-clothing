@@ -20,6 +20,7 @@ export const endpoints = {
     profile: `${projectConfig.baseURL}/authentication/profile`,
     updateUser: `${projectConfig.baseURL}/user/update`,
     updatePssword: `${projectConfig.baseURL}/user/update-password`,
+    getUserOne: `${projectConfig.baseURL}/user/fine-one`,
   },
 
   cart: {

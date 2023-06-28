@@ -15,6 +15,7 @@ import OrderAdmin from "../pages/orderadmin";
 import OrderHistory from "../pages/orderlist";
 import OrderList from "../pages/orderlist";
 import OrderHistoryAdmin from "../pages/orderHistoryAdmin";
+import Profile from "../pages/profile";
 export const routerDefault: Array<RouteObject> = [
   {
     path: "/error",
@@ -46,6 +47,7 @@ export const routerDefault: Array<RouteObject> = [
         path: "/cartproduct",
         element: <Cart />,
       },
+      { path: "/profile", element: <Profile /> },
     ],
   },
 
@@ -78,7 +80,7 @@ export const routerDefault: Array<RouteObject> = [
       {
         path: "/orderhistoryadmin",
         element: <OrderHistoryAdmin />,
-      },
+      }, { path: "/profile", element: <Profile /> },
     ],
   },
   { path: "*", element: <Error404 /> },
@@ -88,6 +90,6 @@ export const routerDefault: Array<RouteObject> = [
   // { path: "/listproductadmin", element: <ListProdcutAdmin /> },
   // { path: "/editproduct/:id", element: <EditProduct /> },
 
-  // { path: "/listorderadmin", element: <OrderAdmin /> },
+
   // { path: "/orderhistory", element: <OrderHistory /> }
 ];

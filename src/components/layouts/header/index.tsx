@@ -143,7 +143,7 @@ const Profile = () => {
       className: "profile",
       label: (
         <Row>
-          <Typography.Text onClick={() => { }}>
+          <Typography.Text onClick={() => { navigate('/profile') }}>
             <ProfileOutlined /> โปรไฟล์
           </Typography.Text>
         </Row>

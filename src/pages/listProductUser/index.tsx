@@ -26,7 +26,7 @@ function ListProduct() {
       setProduct(res.data);
     })();
   }, []);
-  interface cardProductUser extends IProduct {}
+  interface cardProductUser extends IProduct { }
 
   const CardProductUser: FC<{
     product?: cardProductUser;

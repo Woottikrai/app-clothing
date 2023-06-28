@@ -21,3 +21,25 @@ export const useRegister = (): UseMutationResult<unknown, Error> => {
     throwResponse(res);
   });
 };
+
+export const useUpdateUser = (): UseMutationResult<unknown, Error> => {
+  return useMutation(async ({ id, ...values }: any) => {
+    console.log({ id, ...values });
+
+    const res = await axios.patch(`${endpoints.user.updateUser}/${id}`, values);
+    if (res.status === 200 || res.status === 201) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
+export const useGetMe = (id?: number): UseQueryResult<any, Error> => {
+  return useQuery(["user-one", id], async () => {
+    const res = await axios.get(`${endpoints.user.getUserOne}/${id}`);
+    if (res.status === 200) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
