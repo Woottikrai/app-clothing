@@ -66,4 +66,6 @@ export interface IProductResult {
   page: number;
   limit: number;
   pageCount: number;
+  suitability: number;
+  producttype: number;
 }

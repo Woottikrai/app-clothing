@@ -123,7 +123,7 @@ export default function EditProduct() {
           form.setFieldsValue({ ...getProduct });
           setImageUrl(getProduct.img);
         }
-      } catch (err) {}
+      } catch (err) { }
     })();
   }, [getProduct, form]);
 
@@ -263,7 +263,6 @@ const InputForm: FC<InputFormProps> = ({
   optionSuitability,
   optionsProducttype,
 }) => {
-  console.log(optionSize);
   return (
     <React.Fragment>
       <CCard>

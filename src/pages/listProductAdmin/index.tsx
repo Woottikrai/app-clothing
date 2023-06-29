@@ -1,11 +1,14 @@
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/20/solid'
 import Container from '../../components/container'
-import productApi, { getProductAll, useDeleteProduct, useGetProductAll, } from '../../services/auth/product/product.axios';
+import productApi, { getAllColor, getProductAll, getProducttypeAll, getSizeAll, getSuitabilityAll, useDeleteProduct, useGetProductAll, } from '../../services/auth/product/product.axios';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import authenApi from '../../services/auth/authen/authen';
 import { QueryClient, useQueryClient } from 'react-query';
-import { Button, message } from 'antd';
+import { Button, Col, Form, Row, Select, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { IColor, IProductResult, IProducttype, ISize, ISuitability } from '../../interface/IProduct';
+import React from 'react';
+import form from 'antd/es/form';
 
 
 
@@ -23,12 +26,79 @@ export default function ListProductAdmin() {
       }
     })
   }
+  const [getColor, setColor] = React.useState<Array<IColor>>([]);
+  const [getProducttype, setProducttype] = React.useState<Array<IProducttype>>(
+    []
+  );
+  const [getSize, setSize] = React.useState<Array<ISize>>([]);
+  const [getSuitability, setSuitability] = React.useState<Array<ISuitability>>(
+    []
+  );
+  React.useEffect(() => {
+    (async () => {
+      const res1 = await getAllColor();
+      setColor(res1);
+
+      const res2 = await getProducttypeAll();
+      setProducttype(res2);
+
+      const res3 = await getSizeAll();
+      setSize(res3);
+
+      const res4 = await getSuitabilityAll();
+      setSuitability(res4);
+    })();
+  }, []);
 
 
+  const [params, setParams] = React.useState<any>();
+
+  const getAllProduct =
+    useGetProductAll(params);
+
+  const handleOnSearch = (values: IProductResult) => {
+
+    setParams({
+      ...values
+    });
+  };
+  const [form] = Form.useForm();
   return (
     <Container>
+      <Form layout="horizontal" onFinish={handleOnSearch} form={form}>
+        <Row gutter={16}>
+          <Col span={16}>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item name="producttype" label="">
+                  <Select
+                    options={getProducttype?.map((it) => ({ value: it.id, label: it.producttype_name }))}
+                    placeholder="เลือกหมวดหมู่ เพื่อค้นหา"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name="suitability" label="">
+                  <Select
+                    options={getSuitability?.map((it) => ({ value: it.id, label: it.suitability_name }))}
+                    placeholder="เลือกความเหมาะสม เพื่อค้นหา"
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Col>
+          <Col span={8} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button htmlType="reset" type="primary" size="large" onClick={() => setParams('')}>
+              ยกเลิก
+            </Button>
+            <Button htmlType="submit" type="primary" size="large" style={{ marginLeft: '8px' }}>
+              ค้นหา
+            </Button>
+          </Col>
+        </Row>
+      </Form>
       <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {products?.data?.map((product) => (
+        {getAllProduct.data?.data.map((product) => (
           <li
             key={product.name}
             className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"

@@ -1,11 +1,11 @@
 import React, { FC } from "react";
-import { IColor, IProduct, IProducttype, ISize, ISuitability, useColor } from "../../interface/IProduct";
+import { IColor, IProduct, IProductResult, IProducttype, ISize, ISuitability, useColor } from "../../interface/IProduct";
 import { getAllColor, getProductAll, getProducttypeAll, getSizeAll, getSuitabilityAll, useGetProductAll } from "../../services/auth/product/product.axios";
 import OptionalLayout from "../../components/layouts/optionalLayout";
 import Container from "../../components/container";
 import HeadTitle from "../../components/headtitle";
 import { breadcrumbNameMap } from "../../routes/breadcrumb";
-import { Col, Form, Row, Select, Typography } from "antd";
+import { Button, Col, Form, Row, Select, Typography } from "antd";
 import {
   CModalProduct,
   DisplayProduct,
@@ -13,9 +13,10 @@ import {
 import WithListProduct, {
   useListProduct,
 } from "../../provider/listProduct/provider.listProcuts";
+import { useQueryClient } from "react-query";
 
 function ListProduct() {
-  const products = useGetProductAll()
+
   const { open, setOpen, cart, setCart } = useListProduct();
   const HeadTitleProps = {
     breadcrumbNameMap: breadcrumbNameMap,
@@ -44,15 +45,15 @@ function ListProduct() {
                   ellipsis={{ tooltip: true }}
                   level={5}
                   style={{
-                    color: "#E7C98D",
+                    color: "#000000",
                   }}
                 >
                   <div className="mb-2.5">{product?.name}</div>
-                  <span>${product?.price}</span>
+                  <span>${product?.price} บาท</span>
                 </Typography.Title>
               </Col>
               <Col style={{
-                color: "#E7C98D",
+                color: "#000000",
               }}>
                 <span>สี {product?.color?.color_name}</span>
               </Col>
@@ -92,40 +93,60 @@ function ListProduct() {
       setSuitability(res4);
     })();
   }, []);
+
+  const [params, setParams] = React.useState<any>();
+
+  const getAllProduct =
+    useGetProductAll(params);
+
+  const handleOnSearch = (values: IProductResult) => {
+
+    setParams({
+      ...values
+    });
+  };
+
+
+
+  const [form] = Form.useForm();
   return (
     <Container>
       <HeadTitle {...HeadTitleProps} />
-      <Form>
-        <Row>
-          <Form.Item
-
-            name="producttypeId"
-            label=""
-          >
-            <Select
-              options={getProducttype?.map((it) => {
-                return { value: it.id, label: it.producttype_name };
-              })}
-              placeholder="เลือกหมวดหมู่ เพื่อค้นหา"
-            />
-          </Form.Item>{" "}
-          <Form.Item
-
-            name="suitabilityId"
-            label=""
-          >
-            <Select
-              options={getSuitability?.map((it) => {
-                return { value: it.id, label: it.suitability_name };
-              })}
-              placeholder="เลือกความเหมาะสม เพื่อค้นหา"
-            />
-          </Form.Item>{" "}
+      <Form layout="horizontal" onFinish={handleOnSearch} form={form}>
+        <Row gutter={16}>
+          <Col span={16}>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item name="producttype" label="">
+                  <Select
+                    options={getProducttype?.map((it) => ({ value: it.id, label: it.producttype_name }))}
+                    placeholder="เลือกหมวดหมู่ เพื่อค้นหา"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name="suitability" label="">
+                  <Select
+                    options={getSuitability?.map((it) => ({ value: it.id, label: it.suitability_name }))}
+                    placeholder="เลือกความเหมาะสม เพื่อค้นหา"
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Col>
+          <Col span={8} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button htmlType="reset" type="primary" size="large" onClick={() => setParams('')}>
+              ยกเลิก
+            </Button>
+            <Button htmlType="submit" type="primary" size="large" style={{ marginLeft: '8px' }}>
+              ค้นหา
+            </Button>
+          </Col>
         </Row>
       </Form>
 
       <OptionalLayout
-        items={products.data?.data}
+        items={getAllProduct.data?.data}
         className="mt-8 grid grid-cols-1  gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
         renderItem={({
           item,
