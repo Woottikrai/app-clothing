@@ -202,16 +202,18 @@ export const OrderSummary: FC<IOrderSummary> = ({ products, listOrder }) => {
             </Col>
           </Row>
         </dl>
-
-        <div className="mt-6">
-          <Button
-            type="primary"
-            className="w-full"
-            size="large"
-            onClick={onFinish}
-          >
-            สั่งซื้อ
-          </Button>
+        <div className={!!listOrder ? "hidden" : "block"}>
+          {" "}
+          <div className="mt-6">
+            <Button
+              type="primary"
+              className="w-full"
+              size="large"
+              onClick={onFinish}
+            >
+              สั่งซื้อ
+            </Button>
+          </div>
         </div>
       </Space>
     </React.Fragment>

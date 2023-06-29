@@ -77,8 +77,9 @@ export const DisplayProduct: FC<{ product?: displayProductProps }> = ({
       {!!product?.listOrder ? (
         <>
           <OptionalLayout
-            className={`${!!product.listOrder && "rounded-t-lg border-b-0"
-              } overflow-scroll h-[285px]   border`}
+            className={`${
+              !!product.listOrder && "rounded-t-lg border-b-0"
+            } overflow-scroll h-[285px]   border`}
             items={itemsOrder?.items}
             renderItem={({
               item,
