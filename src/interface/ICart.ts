@@ -18,6 +18,8 @@ export interface ICart {
   userId?: number;
   orderId: string;
 
+  CreateAt: Date;
+  UpdateAt: Date;
   listOrder?: boolean;
 }
 

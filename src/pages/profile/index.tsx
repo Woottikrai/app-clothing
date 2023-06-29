@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Modal, Upload, message } from 'antd';
+import { Button, Col, Form, Modal, Row, Upload, message } from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import Container from '../../components/container';
@@ -11,10 +11,13 @@ import axios from 'axios';
 import { useGetMe, useUpdateUser } from '../../services/auth/user/user.axios';
 import { openNotification } from '../../util';
 import { useQueryClient } from 'react-query';
+import { styled } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const Profile: React.FC = () => {
+    const navigate = useNavigate();
     const getBase64 = (img: RcFile, callback: (url: string) => void) => {
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result as string));
@@ -36,7 +39,7 @@ const Profile: React.FC = () => {
     const [imageUrl, setImageUrl] = useState<string>();
 
     const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
-        console.log(info);
+
 
         if (info.file.status === 'uploading') {
             setLoading(true);
@@ -58,10 +61,13 @@ const Profile: React.FC = () => {
     );
     const { profile } = useAuthContext();
     const [form] = Form.useForm()
-    const { data: userOne } = useGetMe(profile?.id)
+
+    const userMe = useGetMe()
+
     React.useEffect(() => {
-        form.setFieldsValue({ name: userOne?.name, email: userOne?.email, address: userOne?.address, tel: userOne?.tel });
-        setImageUrl(userOne?.img)
+
+        form.setFieldsValue({ name: userMe.data?.name, email: userMe.data?.email, address: userMe.data?.address, tel: userMe.data?.tel });
+        setImageUrl(userMe.data?.img)
     }, []);
 
     const qClient = useQueryClient();
@@ -69,7 +75,7 @@ const Profile: React.FC = () => {
     const onUpdate = (value: any) => {
         updateUser.mutateAsync(
             {
-                id: profile?.id, ...value, img: imageUrl
+                id: userMe.data?.id, ...value, img: imageUrl
             },
             {
                 onSuccess: () => {
@@ -85,40 +91,49 @@ const Profile: React.FC = () => {
     }
     return (
         <Container>
-            <Form form={form} onFinish={onUpdate}>
-                <Upload
-                    name="avatar"
-                    listType="picture-circle"
-                    className="avatar-uploader"
-                    showUploadList={false}
-                    beforeUpload={beforeUpload}
-                    onChange={handleChange}
-                    customRequest={() => { }}
-                >
-                    {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-                </Upload>
-                <Col span={12}>
-                    <Form.Item name="name" label="ชื่อ-นามสกุล" rules={[{ required: true }]}>
-                        <CInput type="string" min={0} placeholder="ชื่อ-นามสกุล" />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item name="email" label="อีเมล" rules={[{ required: true }]}>
-                        <CInput type="email" min={0} placeholder="อีเมล" />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item name="address" label="ที่อยู่" rules={[{ required: true }]}>
-                        <CInput type="string" min={0} placeholder="ที่อยู่" />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item name="tel" label="เบอร์โทรศัพท์" rules={[{ required: true }]}>
-                        <CInput type="string" min={0} placeholder="เบอร์โทรศัพท์" />
-                    </Form.Item>
-                </Col>
+            <Form form={form} onFinish={onUpdate} layout="vertical">
+                <Row >
+                    <Upload
+                        name="avatar"
+                        listType="picture-circle"
+                        className="avatar-uploader"
+                        showUploadList={false}
+                        beforeUpload={beforeUpload}
+                        onChange={handleChange}
+                        customRequest={() => { }}
 
-                <Button htmlType='submit'>
+                    >
+                        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                    </Upload>
+                </Row>
+                <Row gutter={8}>
+                    <Col span={12} >
+                        <Form.Item name="name" label="ชื่อ-นามสกุล" rules={[{ required: true }]}>
+                            <CInput type="string" placeholder="ชื่อ-นามสกุล" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item name="email" label="อีเมล" rules={[{ required: true }]}>
+                            <CInput type="email" placeholder="อีเมล" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={8}>
+                    <Col span={12}>
+                        <Form.Item name="address" label="ที่อยู่" rules={[{ required: true }]}>
+                            <CInput type="string" placeholder="ที่อยู่" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item name="tel" label="เบอร์โทรศัพท์" rules={[{ required: true }]}>
+                            <CInput type="string" placeholder="เบอร์โทรศัพท์" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Button onClick={() => { navigate(-1) }} >
+                    ย้อนกลับ
+                </Button>
+                <Button htmlType='submit' >
                     บันทึก
                 </Button>
             </Form>

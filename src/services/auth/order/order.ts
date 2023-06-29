@@ -23,6 +23,7 @@ export const useOrderHistory = (
     throwResponse(res);
   });
 };
+
 export const useOrderAdmin = (): UseQueryResult<ICart[], Error> => {
   return useQuery(["cart"], async () => {
     const res = await axios.get(`${endpoints.cart.OrderAdmin}`);
@@ -73,6 +74,18 @@ export const useDeleteOrder = (): UseMutationResult<unknown, Error> => {
 export const useOrderHistoryAdmin = (): UseQueryResult<ICart[], Error> => {
   return useQuery(["cart"], async () => {
     const res = await axios.get(`${endpoints.cart.oderHistoryAdmin}`);
+    if (res.status === 200) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
+export const useOrderHistoryUser = (
+  id?: number
+): UseQueryResult<ICart[], Error> => {
+  return useQuery(["order-history-user", id], async () => {
+    const res = await axios.get(`${endpoints.cart.orderHistoryUser}/${id}`);
     if (res.status === 200) {
       return res.data;
     }

@@ -120,7 +120,7 @@ export default function OrderList() {
                                             className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                                             style={{ width: "300px" }}
                                         >
-                                            ผู้สั่งซื้อ
+                                            #
                                         </th>
                                         <th
                                             scope="col"
@@ -160,26 +160,10 @@ export default function OrderList() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                    {mappedData.map((order) => (
+                                    {mappedData.map((order, index) => (
                                         <tr key={order.orderId}>
                                             <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
-                                                <div className="flex items-center">
-                                                    <div className="h-11 w-11 flex-shrink-0">
-                                                        <img
-                                                            className="h-11 w-11 rounded-full"
-                                                            src={order.items[0].user.img}
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                    <div className="ml-4">
-                                                        <div className="font-medium text-gray-900">
-                                                            {order.items[0].user.name}
-                                                        </div>
-                                                        <div className="mt-1 text-gray-500">
-                                                            {order.items[0].user.email}
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                {index + 1}
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                                 <div className="text-gray-900">

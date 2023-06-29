@@ -16,6 +16,7 @@ import OrderHistory from "../pages/orderlist";
 import OrderList from "../pages/orderlist";
 import OrderHistoryAdmin from "../pages/orderHistoryAdmin";
 import Profile from "../pages/profile";
+import OrderHistoryUser from "../pages/orderHistoryUser";
 export const routerDefault: Array<RouteObject> = [
   {
     path: "/error",
@@ -48,6 +49,7 @@ export const routerDefault: Array<RouteObject> = [
         element: <Cart />,
       },
       { path: "/profile", element: <Profile /> },
+      { path: "/orderhistoryuser", element: <OrderHistoryUser /> },
     ],
   },
 

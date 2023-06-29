@@ -1,11 +1,11 @@
 import React, { FC } from "react";
-import { IProduct, useColor } from "../../interface/IProduct";
-import { getProductAll } from "../../services/auth/product/product.axios";
+import { IColor, IProduct, IProducttype, ISize, ISuitability, useColor } from "../../interface/IProduct";
+import { getAllColor, getProductAll, getProducttypeAll, getSizeAll, getSuitabilityAll, useGetProductAll } from "../../services/auth/product/product.axios";
 import OptionalLayout from "../../components/layouts/optionalLayout";
 import Container from "../../components/container";
 import HeadTitle from "../../components/headtitle";
 import { breadcrumbNameMap } from "../../routes/breadcrumb";
-import { Col, Row, Typography } from "antd";
+import { Col, Form, Row, Select, Typography } from "antd";
 import {
   CModalProduct,
   DisplayProduct,
@@ -15,17 +15,12 @@ import WithListProduct, {
 } from "../../provider/listProduct/provider.listProcuts";
 
 function ListProduct() {
-  const [getProduct, setProduct] = React.useState<Array<IProduct>>([]);
+  const products = useGetProductAll()
   const { open, setOpen, cart, setCart } = useListProduct();
   const HeadTitleProps = {
     breadcrumbNameMap: breadcrumbNameMap,
   };
-  React.useEffect(() => {
-    (async () => {
-      const res = await getProductAll();
-      setProduct(res.data);
-    })();
-  }, []);
+
   interface cardProductUser extends IProduct { }
 
   const CardProductUser: FC<{
@@ -56,15 +51,10 @@ function ListProduct() {
                   <span>${product?.price}</span>
                 </Typography.Title>
               </Col>
-              <Col>
-                <div
-                  style={{
-                    backgroundColor: useColor.find(
-                      (e) => e.id === product?.color?.id
-                    )?.color,
-                  }}
-                  className="border p-2.5"
-                ></div>
+              <Col style={{
+                color: "#E7C98D",
+              }}>
+                <span>สี {product?.color?.color_name}</span>
               </Col>
             </Row>
             <div className="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4 cursor-pointer z-0">
@@ -79,11 +69,63 @@ function ListProduct() {
     );
   };
 
+  const [getColor, setColor] = React.useState<Array<IColor>>([]);
+  const [getProducttype, setProducttype] = React.useState<Array<IProducttype>>(
+    []
+  );
+  const [getSize, setSize] = React.useState<Array<ISize>>([]);
+  const [getSuitability, setSuitability] = React.useState<Array<ISuitability>>(
+    []
+  );
+  React.useEffect(() => {
+    (async () => {
+      const res1 = await getAllColor();
+      setColor(res1);
+
+      const res2 = await getProducttypeAll();
+      setProducttype(res2);
+
+      const res3 = await getSizeAll();
+      setSize(res3);
+
+      const res4 = await getSuitabilityAll();
+      setSuitability(res4);
+    })();
+  }, []);
   return (
     <Container>
       <HeadTitle {...HeadTitleProps} />
+      <Form>
+        <Row>
+          <Form.Item
+
+            name="producttypeId"
+            label=""
+          >
+            <Select
+              options={getProducttype?.map((it) => {
+                return { value: it.id, label: it.producttype_name };
+              })}
+              placeholder="เลือกหมวดหมู่ เพื่อค้นหา"
+            />
+          </Form.Item>{" "}
+          <Form.Item
+
+            name="suitabilityId"
+            label=""
+          >
+            <Select
+              options={getSuitability?.map((it) => {
+                return { value: it.id, label: it.suitability_name };
+              })}
+              placeholder="เลือกความเหมาะสม เพื่อค้นหา"
+            />
+          </Form.Item>{" "}
+        </Row>
+      </Form>
+
       <OptionalLayout
-        items={getProduct}
+        items={products.data?.data}
         className="mt-8 grid grid-cols-1  gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
         renderItem={({
           item,

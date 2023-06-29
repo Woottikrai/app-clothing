@@ -1,4 +1,4 @@
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { HomeOutlined, LockOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons";
 import { Row, Col, Typography, Form, Button, Image, Space } from "antd";
 import React from "react";
 import { CInput, CInputPassword } from "../../components/input/c-input";
@@ -19,12 +19,14 @@ export default function Register({ }: Props) {
 
 
   const onFinish = (value: IUser) => {
-    const { name, email, password } = value;
+    const { name, email, password, address, tel } = value;
     register.mutate(
       {
         name,
         email,
         password,
+        address,
+        tel
       },
       {
         onSuccess: (res: any) => {
@@ -67,12 +69,12 @@ export default function Register({ }: Props) {
                 {
                   type: "string",
                   required: true,
-                  message: "Please input your Name!",
+                  message: "กรุณากรอกชื่อ!",
                 },
               ]}
               className="input-register"
             >
-              <CInput prefix={<UserOutlined />} placeholder="Name..." />
+              <CInput prefix={<UserOutlined />} placeholder="ชื่อ..." />
             </Form.Item>
 
             <Form.Item
@@ -81,26 +83,52 @@ export default function Register({ }: Props) {
                 {
                   type: "email",
                   required: true,
-                  message: "Please input your email!",
+                  message: "กรุณากรอกอีเมล!",
                 },
               ]}
               className="input-register"
             >
-              <CInput prefix={<UserOutlined />} placeholder="Email..." />
+              <CInput prefix={<UserOutlined />} placeholder="อีเมล..." />
             </Form.Item>
             <Form.Item
               name="password"
               rules={[
-                { required: true, message: "Please input your password!" },
+                { required: true, message: "กรุณากรอกรหัสผ่าน!" },
               ]}
               className="input-register"
             >
               <CInputPassword
                 prefix={<LockOutlined />}
-                placeholder="Password"
+                placeholder="รหัสผ่าน..."
               />
             </Form.Item>
             <Form.Item>
+              <Form.Item
+                name="address"
+                rules={[
+                  {
+                    type: "string",
+                    required: true,
+                    message: "กรุณากรอกที่อยู่!",
+                  },
+                ]}
+                className="input-register"
+              >
+                <CInput prefix={<HomeOutlined />} placeholder="ที่อยู่..." />
+              </Form.Item>
+              <Form.Item
+                name="tel"
+                rules={[
+                  {
+                    type: "string",
+                    required: true,
+                    message: "กรุณากรอกเบอร์โทรศัพท์!",
+                  },
+                ]}
+                className="input-register"
+              >
+                <CInput prefix={<PhoneOutlined />} placeholder="เบอร์โทรศัพท์..." />
+              </Form.Item>
               <Button type="primary" htmlType="submit" className="w-full " >
                 ลงทะเบียน
               </Button>

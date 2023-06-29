@@ -7,6 +7,7 @@ import {
   UseQueryResult,
 } from "react-query";
 import endpoints from "../api.endpoint";
+import { IProfile, IUser } from "../../../interface/IUser";
 
 const statusSuccess = [200, 201];
 
@@ -34,9 +35,33 @@ export const useUpdateUser = (): UseMutationResult<unknown, Error> => {
   });
 };
 
-export const useGetMe = (id?: number): UseQueryResult<any, Error> => {
-  return useQuery(["user-one", id], async () => {
-    const res = await axios.get(`${endpoints.user.getUserOne}/${id}`);
+// export const useGetMe = (id?: number): UseQueryResult<any, Error> => {
+//   return useQuery(["user-one"], async () => {
+//     const res = await axios.get(`${endpoints.user.getMe}`);
+//     if (res.status === 200) {
+//       return res.data;
+//     }
+//     throwResponse(res);
+//   });
+// };
+
+// export const useGetMe = (isPublic: boolean): UseQueryResult<IUser> => {
+//   return useQuery(
+//     ["get-me", isPublic],
+//     async () => {
+//       const res = await axios.get(`${endpoints.user.getMe}`);
+//       if (res.status === 200) {
+//         return res.data;
+//       }
+//       throwResponse(res);
+//     },
+//     { enabled: !isPublic }
+//   );
+// };
+
+export const useGetMe = (): UseQueryResult<any, Error> => {
+  return useQuery(["user-one"], async () => {
+    const res = await axios.get(`${endpoints.user.getMe}`);
     if (res.status === 200) {
       return res.data;
     }

@@ -26,6 +26,8 @@ import {
   UseGetProfile,
 } from "../../../services/auth/authen/authen";
 import { useAuthContext } from "../../../provider/auth/provider.auth";
+import { useGetMe } from "../../../services/auth/user/user.axios";
+import OrderHistoryUser from "../../../pages/orderHistoryUser";
 
 export default function Header() {
   return (
@@ -82,7 +84,7 @@ const Link = () => {
     {
       name: "สินค้าที่สั่งซื้อ",
       path: "/orderlist",
-    },
+    }, { name: "ประวัติการสั่งซื้อ", path: "/orderhistoryuser" },
 
   ] : [
     {
@@ -135,15 +137,15 @@ const Link = () => {
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { profile: getData } = useAuthContext();
+  const getData = useGetMe();
 
   const items: MenuProps["items"] = [
     {
       key: "profile",
       className: "profile",
       label: (
-        <Row>
-          <Typography.Text onClick={() => { navigate('/profile') }}>
+        <Row onClick={() => { navigate("/profile") }}>
+          <Typography.Text >
             <ProfileOutlined /> โปรไฟล์
           </Typography.Text>
         </Row>
@@ -173,7 +175,7 @@ const Profile = () => {
       <Space wrap size={30}>
         <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
           <Avatar
-            src={getData?.img || emptyProfile}
+            src={getData?.data?.img || emptyProfile}
             alt={"image-profile"}
             style={{
               backgroundColor: "#FFFFFF",

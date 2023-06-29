@@ -21,6 +21,7 @@ export const endpoints = {
     updateUser: `${projectConfig.baseURL}/user/update`,
     updatePssword: `${projectConfig.baseURL}/user/update-password`,
     getUserOne: `${projectConfig.baseURL}/user/fine-one`,
+    getMe: `${projectConfig.baseURL}/authentication/profile`,
   },
 
   cart: {
@@ -35,6 +36,7 @@ export const endpoints = {
     oderHistoryAdmin: `${projectConfig.baseURL}/order-history-admin`,
     deleteOrder: `${projectConfig.baseURL}/delete-order`, //ลบคำสั่งซื่อ statusid2
     uploadSlip: `${projectConfig.baseURL}/upload-slip`,
+    orderHistoryUser: `${projectConfig.baseURL}/order-history-user`,
   },
 };
 
