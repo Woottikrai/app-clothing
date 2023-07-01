@@ -134,7 +134,7 @@ const Profile: React.FC = () => {
                     ย้อนกลับ
                 </Button>
                 <Button htmlType='submit' >
-                    บันทึก
+                    ยืนยันการแก้ไข
                 </Button>
             </Form>
 

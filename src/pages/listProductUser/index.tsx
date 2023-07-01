@@ -49,7 +49,7 @@ function ListProduct() {
                   }}
                 >
                   <div className="mb-2.5">{product?.name}</div>
-                  <span>${product?.price} บาท</span>
+                  <span>{product?.price?.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })} </span>
                 </Typography.Title>
               </Col>
               <Col style={{

@@ -20,11 +20,6 @@ export async function register(params?: Partial<IUser>) {
   return !statusSuccess.includes(res.status) ? throwResponse(res) : res.data;
 }
 
-export async function getProfile() {
-  const res = await axios.get(`${endpoints.user.profile}`);
-  return !statusSuccess.includes(res.status) ? throwResponse(res) : res.data;
-}
-
 // useQuery
 
 export const UseSignin = (): UseMutationResult<unknown, Error> => {
@@ -47,7 +42,7 @@ export const UseRegister = (): UseMutationResult<unknown, Error> => {
   });
 };
 
-export const UseGetProfile = (): UseQueryResult<IProfile, Error> => {
+export const useGetProfile = (): UseQueryResult<IProfile, Error> => {
   return useQuery([
     "get-profile",
     async () => {
@@ -60,8 +55,11 @@ export const UseGetProfile = (): UseQueryResult<IProfile, Error> => {
   ]);
 };
 
+export async function getProfile() {
+  const res = await axios.get(`${endpoints.user.profile}`);
+  return !statusSuccess.includes(res.status) ? throwResponse(res) : res.data;
+}
 export const authenApi = {
-  UseGetProfile,
   getProfile,
   UseRegister,
   register,

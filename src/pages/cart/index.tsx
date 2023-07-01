@@ -171,9 +171,8 @@ export const OrderSummary: FC<IOrderSummary> = ({ products, listOrder }) => {
       <Space
         aria-labelledby="summary-heading"
         direction="vertical"
-        className={`${
-          !!listOrder && "border-t-0 rounded-lg rounded-t-none"
-        } w-full border p-5 `}
+        className={`${!!listOrder && "border-t-0 rounded-lg rounded-t-none"
+          } w-full border p-5 `}
       >
         <Typography.Title
           level={2}
@@ -187,7 +186,7 @@ export const OrderSummary: FC<IOrderSummary> = ({ products, listOrder }) => {
           <Row align={"middle"} justify="space-between">
             <Col className="text-sm text-gray-600">ราคารวม</Col>
             <Col className="text-sm font-medium text-gray-900">
-              {totalSumPrice}
+              {totalSumPrice.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })}
             </Col>
           </Row>
           <Divider
@@ -198,7 +197,7 @@ export const OrderSummary: FC<IOrderSummary> = ({ products, listOrder }) => {
           <Row align={"middle"} justify="space-between">
             <Col className="text-base font-medium text-gray-900">ราคารวม</Col>
             <Col className="text-base font-medium text-gray-900">
-              {totalSumPrice}
+              {totalSumPrice.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })}
             </Col>
           </Row>
         </dl>

@@ -11,7 +11,9 @@ import React from 'react';
 import form from 'antd/es/form';
 
 
-
+function numberComma(num: number) {
+  return num.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })
+}
 
 export default function ListProductAdmin() {
   const qClient = useQueryClient();
@@ -110,7 +112,7 @@ export default function ListProductAdmin() {
                 <dt className="sr-only">Title</dt>
                 <dd className="text-sm text-gray-500">{product.detail}</dd>
                 <dd className="text-sm text-gray-500"> สี {product.color?.color_name}</dd>
-                <dd className="text-sm text-gray-500"> ราคา {product.price} บาท</dd>
+                <dd className="text-sm text-gray-500">  {product?.price?.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })} </dd>
                 <dd className="mt-3">
                   <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                     <p>ไซต์ {product.size?.size_name}</p>

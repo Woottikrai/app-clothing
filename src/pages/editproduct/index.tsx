@@ -278,7 +278,7 @@ const InputForm: FC<InputFormProps> = ({
           </Col>
           <Col span={12}>
             <Form.Item name="price" label="ราคา" rules={[{ required: true }]}>
-              <CInput type="number" min={0} placeholder="ราคา" />
+              <CInput type="number" min={1} placeholder="ราคา" />
             </Form.Item>
           </Col>
         </Row>

@@ -111,13 +111,13 @@ export const DisplayProduct: FC<{ product?: displayProductProps }> = ({
                 <Typography.Title level={4}>{product?.name}</Typography.Title>
                 <Typography.Title
                   level={4}
-                >{`$${product?.price}`}</Typography.Title>
+                >{`${product?.price?.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })}`}</Typography.Title>
                 <Typography.Text>{`${product?.detail}` || `-`}</Typography.Text>
                 <Form.Item name={"quantity"} rules={[{ required: true }]}>
                   <InputNumber
                     prefix={<NumberOutlined />}
-                    min={0}
-                    max={99}
+                    min={1}
+                    max={100}
                     size={"middle"}
                   />
                 </Form.Item>

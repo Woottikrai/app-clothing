@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { IProfile } from "../../interface/IUser";
-import { getProfile, UseGetProfile } from "../../services/auth/authen/authen";
+import { getProfile, useGetProfile } from "../../services/auth/authen/authen";
 type AuthContextProps = {
   profile?: IProfile;
 };

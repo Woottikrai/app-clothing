@@ -23,7 +23,7 @@ import { IProfile } from "../../../interface/IUser";
 import {
   authenApi,
   getProfile,
-  UseGetProfile,
+  useGetProfile,
 } from "../../../services/auth/authen/authen";
 import { useAuthContext } from "../../../provider/auth/provider.auth";
 import { useGetMe } from "../../../services/auth/user/user.axios";
@@ -70,6 +70,7 @@ interface Nav {
 }
 
 const Link = () => {
+
   const { profile } = useAuthContext();
 
   const nav: Array<Nav> = profile?.roleId === 2 ? [
@@ -84,7 +85,11 @@ const Link = () => {
     {
       name: "สินค้าที่สั่งซื้อ",
       path: "/orderlist",
-    }, { name: "ประวัติการสั่งซื้อ", path: "/orderhistoryuser" },
+    },
+    {
+      name: "ประวัติการสั่งซื้อ",
+      path: "/orderhistoryuser"
+    },
 
   ] : [
     {

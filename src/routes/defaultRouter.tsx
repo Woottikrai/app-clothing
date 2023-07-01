@@ -48,8 +48,14 @@ export const routerDefault: Array<RouteObject> = [
         path: "/cartproduct",
         element: <Cart />,
       },
-      { path: "/profile", element: <Profile /> },
-      { path: "/orderhistoryuser", element: <OrderHistoryUser /> },
+      {
+        path: "/profile",
+        element: <Profile />
+      },
+      {
+        path: "/orderhistoryuser",
+        element: <OrderHistoryUser />
+      },
     ],
   },
 
@@ -82,7 +88,11 @@ export const routerDefault: Array<RouteObject> = [
       {
         path: "/orderhistoryadmin",
         element: <OrderHistoryAdmin />,
-      }, { path: "/profile", element: <Profile /> },
+      },
+      {
+        path: "/profile",
+        element: <Profile />
+      },
     ],
   },
   { path: "*", element: <Error404 /> },

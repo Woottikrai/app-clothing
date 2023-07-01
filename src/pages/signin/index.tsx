@@ -1,4 +1,4 @@
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Row, Col, Typography, Form, Button, Image, Space } from "antd";
 import React from "react";
 import { CInput, CInputPassword } from "../../components/input/c-input";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { UseSignin } from "../../services/auth/authen/authen";
 import logo from "../../assets/images/LogoNo.png";
 import { useAuthContext } from "../../provider/auth/provider.auth";
+import { useGetMe } from "../../services/auth/user/user.axios";
 type Props = {};
 
 export default function SignIn({ }: Props) {
@@ -20,18 +21,17 @@ export default function SignIn({ }: Props) {
       {
         email,
         password,
+
       },
       {
         onSuccess: (res: any) => {
           openNotification({ type: "success" });
           localStorage.setItem("token", res.accessToken);
+          res?.profile.roleId === 1 ? navigate("/listproductadmin") : navigate('/home');
+          window.location.reload();
         },
         onError: ({ message }) => {
           openNotification({ type: "error", description: message });
-        },
-        onSettled: () => {
-          profile?.roleId === 2 ? navigate("/") : navigate('/listproductadmin');
-          window.location.reload()
         },
       }
     );
@@ -71,7 +71,7 @@ export default function SignIn({ }: Props) {
               ]}
               className="input-signin"
             >
-              <CInput prefix={<UserOutlined />} placeholder="Email..." />
+              <CInput prefix={<MailOutlined />} placeholder="Email..." />
             </Form.Item>
             <Form.Item
               name="password"

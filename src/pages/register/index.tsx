@@ -1,4 +1,4 @@
-import { HomeOutlined, LockOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons";
+import { HomeOutlined, LockOutlined, MailOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons";
 import { Row, Col, Typography, Form, Button, Image, Space } from "antd";
 import React from "react";
 import { CInput, CInputPassword } from "../../components/input/c-input";
@@ -88,7 +88,7 @@ export default function Register({ }: Props) {
               ]}
               className="input-register"
             >
-              <CInput prefix={<UserOutlined />} placeholder="อีเมล..." />
+              <CInput prefix={<MailOutlined />} placeholder="อีเมล..." />
             </Form.Item>
             <Form.Item
               name="password"
