@@ -140,7 +140,7 @@ export default function EditProduct() {
       },
       {
         onSuccess: () => {
-          openNotification({ type: "success" });
+          openNotification({ type: "success", description: "แก้ไขสินค้าสำเร็จ" });
           navigate(-1);
         },
         onError: ({ message }: any) => {

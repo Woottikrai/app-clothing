@@ -5,7 +5,7 @@ import OptionalLayout from "../../components/layouts/optionalLayout";
 import Container from "../../components/container";
 import HeadTitle from "../../components/headtitle";
 import { breadcrumbNameMap } from "../../routes/breadcrumb";
-import { Button, Col, Form, Row, Select, Typography } from "antd";
+import { Button, Col, Form, Input, Row, Select, Typography } from "antd";
 import {
   CModalProduct,
   DisplayProduct,
@@ -52,10 +52,17 @@ function ListProduct() {
                   <span>{product?.price?.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })} </span>
                 </Typography.Title>
               </Col>
-              <Col style={{
-                color: "#000000",
-              }}>
-                <span>สี {product?.color?.color_name}</span>
+              <Col>
+                <Typography.Title
+                  ellipsis={{ tooltip: true }}
+                  level={5}
+                  style={{
+                    color: "#000000",
+                  }}
+                >
+                  <div className="mb-2.5 ">สี{product?.color?.color_name}</div>
+                  <div className="mb-2.5">ขนาด {product?.size?.size_name}</div>
+                </Typography.Title>
               </Col>
             </Row>
             <div className="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4 cursor-pointer z-0">
@@ -116,7 +123,14 @@ function ListProduct() {
         <Row gutter={16}>
           <Col span={16}>
             <Row gutter={16}>
-              <Col span={12}>
+              <Col span={6}>
+                <Form.Item name="name" label="">
+                  <Input
+                    placeholder="ค้นหา"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
                 <Form.Item name="producttype" label="">
                   <Select
                     options={getProducttype?.map((it) => ({ value: it.id, label: it.producttype_name }))}
@@ -124,7 +138,7 @@ function ListProduct() {
                   />
                 </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col span={6}>
                 <Form.Item name="suitability" label="">
                   <Select
                     options={getSuitability?.map((it) => ({ value: it.id, label: it.suitability_name }))}
@@ -132,8 +146,26 @@ function ListProduct() {
                   />
                 </Form.Item>
               </Col>
+              <Col span={6}>
+                <Form.Item name="size" label="">
+                  <Select
+                    options={getSize?.map((it) => ({ value: it.id, label: it.size_name }))}
+                    placeholder="เลือกไซ เพื่อค้นหา"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item name="color" label="">
+                  <Select
+                    options={getColor?.map((it) => ({ value: it.id, label: it.color_name }))}
+                    placeholder="เลือกสี เพื่อค้นหา"
+                  />
+                </Form.Item>
+              </Col>
+
             </Row>
           </Col>
+
           <Col span={8} style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button htmlType="reset" type="primary" size="large" onClick={() => setParams('')}>
               ยกเลิก

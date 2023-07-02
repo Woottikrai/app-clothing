@@ -66,7 +66,7 @@ export default function SignIn({ }: Props) {
                 {
                   type: "email",
                   required: true,
-                  message: "Please input your email!",
+                  message: "กรุณากรอกอีเมล!",
                 },
               ]}
               className="input-signin"
@@ -76,7 +76,7 @@ export default function SignIn({ }: Props) {
             <Form.Item
               name="password"
               rules={[
-                { required: true, message: "Please input your password!" },
+                { required: true, message: "กรุณากรอกรหัสผ่าน!" },
               ]}
               className="input-signin"
             >

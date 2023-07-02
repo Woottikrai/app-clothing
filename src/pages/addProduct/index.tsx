@@ -122,7 +122,7 @@ export default function AddProduct() {
       },
       {
         onSuccess: () => {
-          openNotification({ type: "success" });
+          openNotification({ type: "success", description: "เพิ่มสินค้าสำเร็จ" });
           form.resetFields();
           setImageUrl("");
         },

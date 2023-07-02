@@ -196,7 +196,7 @@ export default function OrderList() {
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                     onClick={() => onDelete(order.orderId)}
                                                 >
-                                                    ยกเลิกการสั่งซื้อ<span className="sr-only"></span>
+
                                                 </a>
                                             </td>
                                             <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
@@ -208,7 +208,8 @@ export default function OrderList() {
                                                         setOrder(order);
                                                     }}
                                                 >
-                                                    รายละเอียด<span className="sr-only"></span>
+                                                    <Button type="primary" >ยกเลิกการสั่งซื้อ</Button>
+
                                                 </a>
                                             </td>
                                         </tr>

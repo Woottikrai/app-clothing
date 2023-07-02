@@ -21,6 +21,8 @@ export interface ICart {
   CreateAt: Date;
   UpdateAt: Date;
   listOrder?: boolean;
+
+  note?: string;
 }
 
 export interface IStatus {

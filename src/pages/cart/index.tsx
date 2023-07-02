@@ -141,6 +141,7 @@ interface IOrderSummary {
 
 export const OrderSummary: FC<IOrderSummary> = ({ products, listOrder }) => {
   let totalSumPrice = 0;
+  console.log(products);
 
   if (products) {
     totalSumPrice = products.reduce(

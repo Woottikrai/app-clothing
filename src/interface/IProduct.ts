@@ -68,4 +68,7 @@ export interface IProductResult {
   pageCount: number;
   suitability: number;
   producttype: number;
+  color: number;
+  size: number;
+  name: string;
 }

@@ -71,7 +71,7 @@ export default function ListProductAdmin() {
         <Row gutter={16}>
           <Col span={16}>
             <Row gutter={16}>
-              <Col span={12}>
+              <Col span={6}>
                 <Form.Item name="producttype" label="">
                   <Select
                     options={getProducttype?.map((it) => ({ value: it.id, label: it.producttype_name }))}
@@ -79,11 +79,27 @@ export default function ListProductAdmin() {
                   />
                 </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col span={6}>
                 <Form.Item name="suitability" label="">
                   <Select
                     options={getSuitability?.map((it) => ({ value: it.id, label: it.suitability_name }))}
                     placeholder="เลือกความเหมาะสม เพื่อค้นหา"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item name="size" label="">
+                  <Select
+                    options={getSize?.map((it) => ({ value: it.id, label: it.size_name }))}
+                    placeholder="เลือกไซ เพื่อค้นหา"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Form.Item name="color" label="">
+                  <Select
+                    options={getColor?.map((it) => ({ value: it.id, label: it.color_name }))}
+                    placeholder="เลือกสี เพื่อค้นหา"
                   />
                 </Form.Item>
               </Col>
@@ -112,7 +128,7 @@ export default function ListProductAdmin() {
                 <dt className="sr-only">Title</dt>
                 <dd className="text-sm text-gray-500">{product.detail}</dd>
                 <dd className="text-sm text-gray-500"> สี {product.color?.color_name}</dd>
-                <dd className="text-sm text-gray-500">  {product?.price?.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })} </dd>
+                <dd className="text-sm text-gray-500"> ราคา {product?.price?.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })} </dd>
                 <dd className="mt-3">
                   <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                     <p>ไซต์ {product.size?.size_name}</p>

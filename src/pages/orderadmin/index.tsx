@@ -10,6 +10,7 @@ import { openNotification } from "../../components/notification";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import { Button, Modal, Image } from "antd";
+import { CheckOutlined } from "@ant-design/icons";
 
 export default function OrderAdmin() {
   const [visible, setVisible] = useState(false);
@@ -71,7 +72,7 @@ export default function OrderAdmin() {
                   <th
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    style={{ width: "300px" }}
+                    style={{ width: "400px" }}
                   >
                     ที่อยู่
                   </th>
@@ -160,9 +161,7 @@ export default function OrderAdmin() {
 
                     </td>
                     <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                      <a className="text-indigo-600 hover:text-indigo-900" onClick={() => { onConfirm(order.orderId) }}>
-                        ยืนยันการสั่งซื้อ<span className="sr-only"></span>
-                      </a>
+                      <Button type="primary" className=" background-color: #389e0d" onClick={() => { onConfirm(order.orderId) }}>ยืนยันการสั่งซื้อ</Button>
                     </td>
                     <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                       <a
@@ -172,7 +171,15 @@ export default function OrderAdmin() {
                           setOrder(order);
                         }}
                       >
-                        รายละเอียด<span className="sr-only"></span>
+                        <Button type="primary">รายละเอียด</Button>
+                      </a>
+                    </td>
+                    <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                      <a
+                        className="text-indigo-600 hover:text-indigo-900"
+
+                      >
+                        <Button type="primary">ยกเลิกการสั่งซื้อ</Button>
                       </a>
                     </td>
                   </tr>

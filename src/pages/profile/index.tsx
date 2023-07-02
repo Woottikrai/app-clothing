@@ -130,10 +130,10 @@ const Profile: React.FC = () => {
                         </Form.Item>
                     </Col>
                 </Row>
-                <Button onClick={() => { navigate(-1) }} >
+                <Button type='primary' onClick={() => { navigate(-1) }} style={{ marginRight: '10px' }}>
                     ย้อนกลับ
                 </Button>
-                <Button htmlType='submit' >
+                <Button type='primary' htmlType='submit'>
                     ยืนยันการแก้ไข
                 </Button>
             </Form>

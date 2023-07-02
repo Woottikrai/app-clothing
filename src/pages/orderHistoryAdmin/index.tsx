@@ -9,7 +9,14 @@ import { useCartConfirm, useCartSuccess } from "../../services/auth/cart/cart.ax
 import { openNotification } from "../../components/notification";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";
-
+import { Button } from "antd";
+import utc from 'dayjs/plugin/utc';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import buddhistEra from 'dayjs/plugin/buddhistEra';
+dayjs.extend(timezone);
+dayjs.extend(utc);
+dayjs.extend(buddhistEra);
 export default function OrderHistoryAdmin() {
     const navigate = useNavigate();
     const { data: orders } = useOrderHistoryAdmin();
@@ -70,7 +77,7 @@ export default function OrderHistoryAdmin() {
                                         className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                         style={{ width: "300px" }}
                                     >
-                                        ที่อยู่
+                                        วันที่ทำรายการ
                                     </th>
                                     <th
                                         scope="col"
@@ -119,11 +126,9 @@ export default function OrderHistoryAdmin() {
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                             <div className="text-gray-900">
-                                                {order.items[0].user.address}
+                                                {dayjs(order.items[0].UpdateAt).tz('Asia/Bangkok').locale('th').format('DD MMMM BBBB')}
                                             </div>
-                                            <div className="mt-1 text-gray-500">
-                                                {order.items[0].user.tel}
-                                            </div>
+
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                             <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
@@ -139,7 +144,7 @@ export default function OrderHistoryAdmin() {
                                                     setOrder(order);
                                                 }}
                                             >
-                                                รายละเอียด<span className="sr-only"></span>
+                                                <Button type="primary">รายละเอียด</Button>
                                             </a>
                                         </td>
                                     </tr>

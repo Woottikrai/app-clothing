@@ -16,6 +16,7 @@ import timezone from 'dayjs/plugin/timezone';
 import buddhistEra from 'dayjs/plugin/buddhistEra';
 import 'dayjs/locale/th';
 import Container from "../../components/container";
+import { Button } from "antd";
 dayjs.extend(timezone);
 dayjs.extend(utc);
 dayjs.extend(buddhistEra);
@@ -124,7 +125,7 @@ export default function OrderHistoryUser() {
                                                         setOrder(order);
                                                     }}
                                                 >
-                                                    รายละเอียด<span className="sr-only"></span>
+                                                    <Button type="primary">รายละเอียด</Button>
                                                 </a>
                                             </td>
                                         </tr>
