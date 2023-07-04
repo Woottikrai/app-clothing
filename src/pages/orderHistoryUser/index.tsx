@@ -69,7 +69,7 @@ export default function OrderHistoryUser() {
                                             className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                             style={{ width: "200" }}
                                         >
-                                            วันที่ทำรายการ
+                                            หมายเหตุ
                                         </th>
                                         <th
                                             scope="col"
@@ -85,13 +85,7 @@ export default function OrderHistoryUser() {
                                         >
                                             <span className="sr-only">ยกเลิก</span>
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                                            style={{ width: "100px" }}
-                                        >
-                                            <span className="sr-only">ยืนยัน</span>
-                                        </th>
+
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
@@ -108,13 +102,15 @@ export default function OrderHistoryUser() {
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                                 <div className="text-gray-900">
-                                                    {dayjs(order.items[0].UpdateAt).tz('Asia/Bangkok').locale('th').format('DD MMMM BBBB')}
+                                                    {order.items[0].note}
                                                 </div>
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                                <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                                {order.items[0].status?.id === 3 ? <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                                                     {order.items[0].status?.status_name}
-                                                </span>
+                                                </span> : <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-500 ring-1 ring-inset ring-red-500">
+                                                    {order.items[0].status?.status_name}
+                                                </span>}
                                             </td>
 
                                             <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">

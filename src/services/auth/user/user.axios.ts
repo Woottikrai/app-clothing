@@ -25,9 +25,20 @@ export const useRegister = (): UseMutationResult<unknown, Error> => {
 
 export const useUpdateUser = (): UseMutationResult<unknown, Error> => {
   return useMutation(async ({ id, ...values }: any) => {
-    console.log({ id, ...values });
-
     const res = await axios.patch(`${endpoints.user.updateUser}/${id}`, values);
+    if (res.status === 200 || res.status === 201) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
+export const useCancelOrder = (): UseMutationResult<unknown, Error> => {
+  return useMutation(async ({ id, ...values }: any) => {
+    const res = await axios.patch(
+      `${endpoints.cart.cancelOrder}/${id}`,
+      values
+    );
     if (res.status === 200 || res.status === 201) {
       return res.data;
     }
@@ -64,6 +75,17 @@ export const useGetMe = (): UseQueryResult<any, Error> => {
     const res = await axios.get(`${endpoints.user.getMe}`);
     if (res.status === 200) {
       return res.data;
+    }
+    throwResponse(res);
+  });
+};
+export const useAddress = (): UseQueryResult<any, Error> => {
+  return useQuery([], async () => {
+    const res = await axios.get(
+      `https://api.longdo.com/map/services/address?lon=100.53726&lat=13.72427&noelevation=1&key=29941494fb290a192a3426443fbab7e0`
+    );
+    if (res.status === 200) {
+      return res;
     }
     throwResponse(res);
   });

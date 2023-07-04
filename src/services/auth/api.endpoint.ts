@@ -35,8 +35,13 @@ export const endpoints = {
     orderAdmin: `${projectConfig.baseURL}/user/Order-list`,
     oderHistoryAdmin: `${projectConfig.baseURL}/order-history-admin`,
     deleteOrder: `${projectConfig.baseURL}/delete-order`, //ลบคำสั่งซื่อ statusid2
+    cancelOrder: `${projectConfig.baseURL}/cancel-order`, // admin cancel Order
     uploadSlip: `${projectConfig.baseURL}/upload-slip`,
     orderHistoryUser: `${projectConfig.baseURL}/order-history-user`,
+  },
+
+  address: {
+    address: "https://api.longdo.com/address-form/js/addressform.js",
   },
 };
 

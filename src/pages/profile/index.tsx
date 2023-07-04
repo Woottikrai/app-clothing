@@ -13,11 +13,14 @@ import { openNotification } from '../../util';
 import { useQueryClient } from 'react-query';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import TextArea from 'antd/es/input/TextArea';
 
 
 
 const Profile: React.FC = () => {
     const navigate = useNavigate();
+
+
     const getBase64 = (img: RcFile, callback: (url: string) => void) => {
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result as string));
@@ -59,7 +62,7 @@ const Profile: React.FC = () => {
             <div style={{ marginTop: 8 }}>Upload</div>
         </div>
     );
-    const { profile } = useAuthContext();
+
     const [form] = Form.useForm()
 
     const userMe = useGetMe()
@@ -69,6 +72,7 @@ const Profile: React.FC = () => {
         form.setFieldsValue({ name: userMe.data?.name, email: userMe.data?.email, address: userMe.data?.address, tel: userMe.data?.tel });
         setImageUrl(userMe.data?.img)
     }, []);
+
 
     const qClient = useQueryClient();
     const updateUser = useUpdateUser()
@@ -92,7 +96,7 @@ const Profile: React.FC = () => {
     return (
         <Container>
             <Form form={form} onFinish={onUpdate} layout="vertical">
-                <Row >
+                <Row justify="center">
                     <Upload
                         name="avatar"
                         listType="picture-circle"
@@ -101,12 +105,11 @@ const Profile: React.FC = () => {
                         beforeUpload={beforeUpload}
                         onChange={handleChange}
                         customRequest={() => { }}
-
                     >
                         {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
                     </Upload>
                 </Row>
-                <Row gutter={8}>
+                <Row gutter={8} style={{ marginTop: '50px' }}>
                     <Col span={12} >
                         <Form.Item name="name" label="ชื่อ-นามสกุล" rules={[{ required: true }]}>
                             <CInput type="string" placeholder="ชื่อ-นามสกุล" />
@@ -121,7 +124,7 @@ const Profile: React.FC = () => {
                 <Row gutter={8}>
                     <Col span={12}>
                         <Form.Item name="address" label="ที่อยู่" rules={[{ required: true }]}>
-                            <CInput type="string" placeholder="ที่อยู่" />
+                            <TextArea rows={5} placeholder="ที่อยู่" />
                         </Form.Item>
                     </Col>
                     <Col span={12}>

@@ -183,7 +183,7 @@ const UploadImage: FC<UploadImageProps> = ({
   return (
     <React.Fragment>
       <CCard className="">
-        <>
+        <div >
           <Form.Item
             valuePropName="fileList"
             rules={[{ required: true }]}
@@ -191,43 +191,38 @@ const UploadImage: FC<UploadImageProps> = ({
             style={{
               display: "grid",
               justifyContent: "center",
-              margin: 0,
+              marginTop: 200
             }}
           >
             <Upload
               name="img"
-              className="avatar-uploader !h-[250px]"
+              className="avatar-uploader !h-[250px] "
               showUploadList={false}
               accept={accepts.string}
               beforeUpload={() => false}
               onChange={handleChange}
               listType="picture-card"
-              style={{}}
+
             >
               <div className="">
                 {loading ? (
                   <LoadingOutlined />
                 ) : !!imageUrl ? (
-                  <Image
-                    preview={false}
-                    src={imageUrl}
-                    // alt="img"
-                    className="!object-fill"
-                  />
-                ) : (
-                  <Image
-                    preview={false}
-                    src={emptyImg}
-                    // alt="img"
-                    className="!object-fill"
-                  />
-                )}
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
+                  <img src={imageUrl} alt="avatar" style={{ width: '300px ', height: '100px' }} />
+                ) :
+                  (
+                    <Image
+                      preview={false}
+                      src={emptyImg}
+                      // alt="img"
+                      className="!object-fill"
+                    />
+                  )}
+
               </div>
             </Upload>
           </Form.Item>
-        </>
+        </div>
       </CCard>
     </React.Fragment>
   );

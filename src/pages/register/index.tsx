@@ -10,6 +10,7 @@ import logo from "../../assets/images/LogoNo.png";
 import { IRegister, IUser } from "../../interface/IUser";
 import { useRegister } from "../../services/auth/user/user.axios";
 import { useQueryClient } from "react-query";
+import TextArea from "antd/es/input/TextArea";
 type Props = {};
 
 export default function Register({ }: Props) {
@@ -114,7 +115,7 @@ export default function Register({ }: Props) {
                 ]}
                 className="input-register"
               >
-                <CInput prefix={<HomeOutlined />} placeholder="ที่อยู่..." />
+                <TextArea rows={5} placeholder="ที่อยู่" />
               </Form.Item>
               <Form.Item
                 name="tel"

@@ -4,11 +4,12 @@ import productApi, { getAllColor, getProductAll, getProducttypeAll, getSizeAll, 
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import authenApi from '../../services/auth/authen/authen';
 import { QueryClient, useQueryClient } from 'react-query';
-import { Button, Col, Form, Row, Select, message } from 'antd';
+import { Button, Col, Form, Input, Row, Select, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { IColor, IProductResult, IProducttype, ISize, ISuitability } from '../../interface/IProduct';
 import React from 'react';
 import form from 'antd/es/form';
+import { text } from 'stream/consumers';
 
 
 function numberComma(num: number) {
@@ -72,6 +73,11 @@ export default function ListProductAdmin() {
           <Col span={16}>
             <Row gutter={16}>
               <Col span={6}>
+                <Form.Item name="name" label="">
+                  <Input placeholder="กรอกชื่อสินค้าเพื่อค้นหา" />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
                 <Form.Item name="producttype" label="">
                   <Select
                     options={getProducttype?.map((it) => ({ value: it.id, label: it.producttype_name }))}
@@ -116,7 +122,7 @@ export default function ListProductAdmin() {
         </Row>
       </Form>
       <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {getAllProduct.data?.data.map((product) => (
+        {getAllProduct.data?.count === 0 ? <center >ไม่พบสินค้า</center> : getAllProduct.data?.data.map((product) => (
           <li
             key={product.name}
             className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"

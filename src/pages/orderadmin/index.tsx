@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useOrderAdmin } from "../../services/auth/order/order";
+import { useCancelOrder, useOrderAdmin } from "../../services/auth/order/order";
 import { ICart } from "../../interface/ICart";
 import {
   CModalProduct,
@@ -9,8 +9,8 @@ import { useCartConfirm, useCartSuccess } from "../../services/auth/cart/cart.ax
 import { openNotification } from "../../components/notification";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";
-import { Button, Modal, Image } from "antd";
-import { CheckOutlined } from "@ant-design/icons";
+import { Button, Modal, Image, Popconfirm, message, Form, Input } from "antd";
+import { CheckOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 
 export default function OrderAdmin() {
   const [visible, setVisible] = useState(false);
@@ -45,7 +45,7 @@ export default function OrderAdmin() {
       {
         onSuccess: () => {
           openNotification({ type: "success" });
-          qClient.invalidateQueries(["cart"]);
+          qClient.invalidateQueries(["cart-admin"]);
         },
         onError: ({ message }: any) => {
           openNotification({ type: "error", description: message });
@@ -53,6 +53,45 @@ export default function OrderAdmin() {
       }
     );
   };
+
+  const [open, setOpen] = useState(false);
+  const [orderId, setOrderId] = useState('')
+  const [userId, setuserId] = useState<any>()
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const hideModal = () => {
+    const onData = form.getFieldValue('note')
+    setOpen(false);
+
+  };
+
+  const cancel = useCancelOrder()
+  const onCancel = () => {
+    const onData = form.getFieldValue('note')
+    cancel.mutate({
+      id: userId,
+      orderId: orderId,
+      note: onData
+    },
+      {
+        onSuccess: () => {
+          openNotification({ type: "success", description: "ยกเลิกออเดอร์สำเร็จ" });
+          qClient.invalidateQueries(["cart-admin"]);
+        },
+        onError: ({ message }: any) => {
+          openNotification({ type: "error", description: message });
+        },
+      }
+    )
+
+    setOpen(false);
+
+  };
+
+  const [form] = Form.useForm();
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -72,7 +111,7 @@ export default function OrderAdmin() {
                   <th
                     scope="col"
                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    style={{ width: "400px" }}
+                    style={{ width: "300px" }}
                   >
                     ที่อยู่
                   </th>
@@ -89,6 +128,13 @@ export default function OrderAdmin() {
                     style={{ width: "300px" }}
                   >
                     สลิปโอนเงิน
+                  </th>
+                  <th
+                    scope="col"
+                    className="relative py-3.5 pl-3 pr-4 sm:pr-0"
+                    style={{ width: "100px" }}
+                  >
+                    <span className="sr-only">ยกเลิก</span>
                   </th>
                   <th
                     scope="col"
@@ -160,6 +206,25 @@ export default function OrderAdmin() {
                       />
 
                     </td>
+                    <td>
+                      <Button type="primary" onClick={() => { showModal(); setuserId(order.items[0].userId); setOrderId(order.items[0].orderId) }}>
+                        ยกเลิกคำสั่งซื้อ
+                      </Button>
+                      <Modal
+                        title="หมายเหตุ"
+                        open={open}
+                        onOk={onCancel}
+                        onCancel={hideModal} //ปิดmodal
+                        okText="ยกเลิกคำสังซื้อ"
+                        cancelText="กลับ"
+                      >
+                        <Form form={form}>
+                          <Form.Item name="note" label="หมายเหตุ">
+                            <Input placeholder="หมายเหตุ" />
+                          </Form.Item>
+                        </Form>
+                      </Modal>
+                    </td>
                     <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                       <Button type="primary" className=" background-color: #389e0d" onClick={() => { onConfirm(order.orderId) }}>ยืนยันการสั่งซื้อ</Button>
                     </td>
@@ -174,14 +239,7 @@ export default function OrderAdmin() {
                         <Button type="primary">รายละเอียด</Button>
                       </a>
                     </td>
-                    <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                      <a
-                        className="text-indigo-600 hover:text-indigo-900"
 
-                      >
-                        <Button type="primary">ยกเลิกการสั่งซื้อ</Button>
-                      </a>
-                    </td>
                   </tr>
                 ))}
               </tbody>

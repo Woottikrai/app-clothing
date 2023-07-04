@@ -25,7 +25,7 @@ export const useOrderHistory = (
 };
 
 export const useOrderAdmin = (): UseQueryResult<ICart[], Error> => {
-  return useQuery(["cart"], async () => {
+  return useQuery(["cart-admin"], async () => {
     const res = await axios.get(`${endpoints.cart.OrderAdmin}`);
     if (res.status === 200) {
       return res.data;
@@ -46,10 +46,22 @@ export const useOrderAdmins = (): UseQueryResult<IUser[], Error> => {
 
 export const useUploadSlip = (): UseMutationResult<unknown, Error> => {
   return useMutation(async ({ id, ...values }: any) => {
-    console.log(values);
     const res = await axios.patch(`${endpoints.cart.uploadSlip}/${id}`, {
       orderId: values.orderId,
       img: values.img,
+    });
+    if (res.status === 200 || res.status === 201) {
+      return res.data;
+    }
+    throwResponse(res);
+  });
+};
+
+export const useCancelOrder = (): UseMutationResult<unknown, Error> => {
+  return useMutation(async ({ id, ...values }: any) => {
+    const res = await axios.patch(`${endpoints.cart.cancelOrder}/${id}`, {
+      orderId: values.orderId,
+      note: values.note,
     });
     if (res.status === 200 || res.status === 201) {
       return res.data;

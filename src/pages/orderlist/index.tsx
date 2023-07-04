@@ -13,7 +13,13 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Upload } from "antd";
 import { RcFile, UploadChangeParam, UploadFile, UploadProps } from "antd/es/upload/interface";
 import { log } from "console";
-
+import utc from 'dayjs/plugin/utc';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import buddhistEra from 'dayjs/plugin/buddhistEra';
+dayjs.extend(timezone);
+dayjs.extend(utc);
+dayjs.extend(buddhistEra);
 
 export default function OrderList() {
     const [loading, setLoading] = React.useState(false);
@@ -127,7 +133,7 @@ export default function OrderList() {
                                             className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                             style={{ width: "300px" }}
                                         >
-                                            ที่อยู่
+                                            วันที่สั่งซื้อ
                                         </th>
                                         <th
                                             scope="col"
@@ -167,11 +173,9 @@ export default function OrderList() {
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                                 <div className="text-gray-900">
-                                                    {order.items[0].user.address}
+                                                    {dayjs(order.items[0].CreateAt).tz('Asia/Bangkok').locale('th').format('DD MMMM BBBB')}
                                                 </div>
-                                                <div className="mt-1 text-gray-500">
-                                                    {order.items[0].user.tel}
-                                                </div>
+
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                                 <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
@@ -196,7 +200,7 @@ export default function OrderList() {
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                     onClick={() => onDelete(order.orderId)}
                                                 >
-
+                                                    <Button type="primary">ยกเลิกการสั่งซื้อ</Button>
                                                 </a>
                                             </td>
                                             <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
@@ -208,7 +212,7 @@ export default function OrderList() {
                                                         setOrder(order);
                                                     }}
                                                 >
-                                                    <Button type="primary" >ยกเลิกการสั่งซื้อ</Button>
+                                                    <Button type="primary">รายละเอียด</Button>
 
                                                 </a>
                                             </td>

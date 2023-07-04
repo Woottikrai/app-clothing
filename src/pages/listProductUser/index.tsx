@@ -176,8 +176,7 @@ function ListProduct() {
           </Col>
         </Row>
       </Form>
-
-      <OptionalLayout
+      {getAllProduct.data?.count === 0 ? <>ไม่พบสินค้า</> : <OptionalLayout
         items={getAllProduct.data?.data}
         className="mt-8 grid grid-cols-1  gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
         renderItem={({
@@ -196,7 +195,8 @@ function ListProduct() {
             }}
           />
         )}
-      />
+      />}
+
       <CModalProduct
         open={open}
         onOk={() => setOpen(false)}
