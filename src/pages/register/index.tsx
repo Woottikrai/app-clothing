@@ -31,8 +31,8 @@ export default function Register({ }: Props) {
       },
       {
         onSuccess: (res: any) => {
-          openNotification({ type: "success" });
-
+          openNotification({ type: "success", description: "ลงทะเบียนสำเร็จ" });
+          navigate('/login')
         },
         onError: ({ message }) => {
           openNotification({ type: "error", description: message });

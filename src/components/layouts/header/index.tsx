@@ -74,10 +74,10 @@ const Link = () => {
   const { profile } = useAuthContext();
 
   const nav: Array<Nav> = profile?.roleId === 2 ? [
-    {
-      name: "หน้าหลัก",
-      path: "/home",
-    },
+    // {
+    //   name: "หน้าหลัก",
+    //   path: "/home",
+    // },
     {
       name: "สินค้า",
       path: "/listproduct",
@@ -87,7 +87,7 @@ const Link = () => {
       path: "/orderlist",
     },
     {
-      name: "ประวัติการสั่งซื้อ",
+      name: "ติดตามคำสังซื้อ",
       path: "/orderhistoryuser"
     },
 

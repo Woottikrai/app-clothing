@@ -25,9 +25,9 @@ export default function SignIn({ }: Props) {
       },
       {
         onSuccess: (res: any) => {
-          openNotification({ type: "success" });
+          openNotification({ type: "success", description: "เข้าสู่ระบบสำเร็จ" });
           localStorage.setItem("token", res.accessToken);
-          res?.profile.roleId === 1 ? navigate("/listproductadmin") : navigate('/home');
+          res?.profile.roleId === 1 ? navigate("/listproductadmin") : navigate('/listproduct');
           window.location.reload();
         },
         onError: ({ message }) => {

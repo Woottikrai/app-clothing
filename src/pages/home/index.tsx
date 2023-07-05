@@ -5,13 +5,13 @@ import HeadTitle from "../../components/headtitle";
 import { breadcrumbNameMap } from "../../routes/breadcrumb";
 type Props = {};
 
-export default function Home({}: Props) {
+export default function Home({ }: Props) {
   const headerOptions = {
     breadcrumbNameMap: breadcrumbNameMap,
   };
   return (
     <Container>
-      <HeadTitle {...headerOptions} />
+      <HeadTitle />
     </Container>
   );
 }

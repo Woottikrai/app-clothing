@@ -93,10 +93,7 @@ export default function AddProduct() {
     setLoading(false);
   };
 
-  const HeadTitleProps = {
-    // title: "เพิ่มสินค้า",
-    breadcrumbNameMap: breadcrumbNameMap,
-  };
+
 
   React.useEffect(() => {
     (async () => {
@@ -135,7 +132,7 @@ export default function AddProduct() {
 
   return (
     <Container>
-      <HeadTitle {...HeadTitleProps} />
+      <HeadTitle />
       <Form
         name="addproduct"
         labelCol={{ span: 24 }}
@@ -183,7 +180,7 @@ const UploadImage: FC<UploadImageProps> = ({
   return (
     <React.Fragment>
       <CCard className="">
-        <div >
+        <>
           <Form.Item
             valuePropName="fileList"
             rules={[{ required: true }]}
@@ -191,38 +188,43 @@ const UploadImage: FC<UploadImageProps> = ({
             style={{
               display: "grid",
               justifyContent: "center",
-              marginTop: 200
+              margin: 0,
             }}
           >
             <Upload
               name="img"
-              className="avatar-uploader !h-[250px] "
+              className="avatar-uploader !h-[250px]"
               showUploadList={false}
               accept={accepts.string}
               beforeUpload={() => false}
               onChange={handleChange}
               listType="picture-card"
-
+              style={{}}
             >
               <div className="">
                 {loading ? (
                   <LoadingOutlined />
                 ) : !!imageUrl ? (
-                  <img src={imageUrl} alt="avatar" style={{ width: '300px ', height: '100px' }} />
-                ) :
-                  (
-                    <Image
-                      preview={false}
-                      src={emptyImg}
-                      // alt="img"
-                      className="!object-fill"
-                    />
-                  )}
-
+                  <Image
+                    preview={false}
+                    src={imageUrl}
+                    // alt="img"
+                    className="!object-fill"
+                  />
+                ) : (
+                  <Image
+                    preview={false}
+                    src={emptyImg}
+                    // alt="img"
+                    className="!object-fill"
+                  />
+                )}
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
               </div>
             </Upload>
           </Form.Item>
-        </div>
+        </>
       </CCard>
     </React.Fragment>
   );

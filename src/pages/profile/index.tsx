@@ -96,18 +96,20 @@ const Profile: React.FC = () => {
     return (
         <Container>
             <Form form={form} onFinish={onUpdate} layout="vertical">
-                <Row justify="center">
-                    <Upload
-                        name="avatar"
-                        listType="picture-circle"
-                        className="avatar-uploader"
-                        showUploadList={false}
-                        beforeUpload={beforeUpload}
-                        onChange={handleChange}
-                        customRequest={() => { }}
-                    >
-                        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-                    </Upload>
+                <Row gutter={8} justify="center">
+                    <Col span={4}>
+                        <Upload
+                            name="avatar"
+                            listType="picture-circle"
+                            className="avatar-uploader"
+                            showUploadList={false}
+                            beforeUpload={beforeUpload}
+                            onChange={handleChange}
+                            customRequest={() => { }}
+                        >
+                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '200px', borderRadius: '50%' }} /> : uploadButton}
+                        </Upload></Col>
+
                 </Row>
                 <Row gutter={8} style={{ marginTop: '50px' }}>
                     <Col span={12} >
@@ -133,12 +135,16 @@ const Profile: React.FC = () => {
                         </Form.Item>
                     </Col>
                 </Row>
-                <Button type='primary' onClick={() => { navigate(-1) }} style={{ marginRight: '10px' }}>
-                    ย้อนกลับ
-                </Button>
-                <Button type='primary' htmlType='submit'>
-                    ยืนยันการแก้ไข
-                </Button>
+                <Row style={{ display: 'flex', justifyContent: 'flex-end' }}>
+
+                    <Button type='primary' onClick={() => { navigate(-1) }} style={{ marginRight: '10px' }}>
+                        ย้อนกลับ
+                    </Button>
+                    <Button type='primary' htmlType='submit'>
+                        ยืนยันการแก้ไข
+                    </Button>
+                </Row>
+
             </Form>
 
         </Container>

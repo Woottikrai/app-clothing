@@ -53,59 +53,47 @@ export default function OrderHistoryUser() {
             <div className="px-4 sm:px-6 lg:px-8">
                 <div className="mt-8 flow-root">
                     <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            <table className="min-w-full divide-y divide-gray-300">
-                                <thead>
+                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
+                                <thead className="text-xs text-white uppercase bg-slate-400 dark:text-white">
                                     <tr>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                                            style={{ width: "100" }}
-                                        >
+                                        <th scope="col" className="px-6 py-3 text-sm">
                                             #
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                            style={{ width: "200" }}
-                                        >
+                                        <th scope="col" className="px-6 py-3 text-sm">
+                                            วันที่ทำรายการ
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-sm">
                                             หมายเหตุ
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                            style={{ width: "200" }}
-                                        >
+                                        <th scope="col" className="px-6 py-3 text-sm">
                                             สถานะ
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                                            style={{ width: "100px" }}
-                                        >
-                                            <span className="sr-only">ยกเลิก</span>
+                                        <th scope="col" className="px-6 py-3 text-sm">
+                                            รายละเอียด
                                         </th>
 
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
                                     {mappedData.map((order, index) => (
-                                        <tr key={order.orderId}>
-                                            <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
-                                                <div className="flex items-center">
-                                                    <div className="h-11 w-11 flex-shrink-0">
-                                                        {index + 1}
-
-                                                    </div>
-
-                                                </div>
-                                            </td>
+                                        <tr key={order.orderId} className="bg-slate-100 border-b dark:bg-gray-900 dark:border-gray-700">
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {index + 1}
+                                            </th>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                                                <div className="text-gray-900">
+                                                    {dayjs(order.items[0].CreateAt).tz('Asia/Bangkok').locale('th').format('DD MMMM BBBB')}
+                                                </div>
+
+                                            </td>
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 <div className="text-gray-900">
                                                     {order.items[0].note}
                                                 </div>
-                                            </td>
+                                            </th>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+
                                                 {order.items[0].status?.id === 3 ? <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                                                     {order.items[0].status?.status_name}
                                                 </span> : <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-500 ring-1 ring-inset ring-red-500">
@@ -113,7 +101,8 @@ export default function OrderHistoryUser() {
                                                 </span>}
                                             </td>
 
-                                            <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+
                                                 <a
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                     onClick={() => {

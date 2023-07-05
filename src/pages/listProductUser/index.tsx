@@ -18,9 +18,9 @@ import { useQueryClient } from "react-query";
 function ListProduct() {
 
   const { open, setOpen, cart, setCart } = useListProduct();
-  const HeadTitleProps = {
-    breadcrumbNameMap: breadcrumbNameMap,
-  };
+  // const HeadTitleProps = {
+  //   breadcrumbNameMap: breadcrumbNameMap,
+  // };
 
   interface cardProductUser extends IProduct { }
 
@@ -118,7 +118,7 @@ function ListProduct() {
   const [form] = Form.useForm();
   return (
     <Container>
-      <HeadTitle {...HeadTitleProps} />
+      <HeadTitle />
       <Form layout="horizontal" onFinish={handleOnSearch} form={form}>
         <Row gutter={16}>
           <Col span={16}>

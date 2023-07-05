@@ -117,60 +117,37 @@ export default function OrderList() {
             <div className="px-4 sm:px-6 lg:px-8">
                 <div className="mt-8 flow-root">
                     <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            <table className="min-w-full divide-y divide-gray-300">
-                                <thead>
+                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
+                                <thead className="text-xs text-white uppercase bg-slate-400 dark:text-white">
                                     <tr>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                                            style={{ width: "300px" }}
-                                        >
+                                        <th scope="col" className="px-6 py-3 text-sm">
                                             #
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                            style={{ width: "300px" }}
-                                        >
-                                            วันที่สั่งซื้อ
+                                        <th scope="col" className="px-6 py-3 text-sm">
+                                            วันที่ทำรายการ
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                            style={{ width: "300px" }}
-                                        >
+                                        <th scope="col" className="px-6 py-3 text-sm">
                                             สถานะ
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                            style={{ width: "300px" }}
-                                        >
+                                        <th scope="col" className="px-6 py-3 text-sm">
                                             อัปโหลดสลิป
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                                            style={{ width: "100px" }}
-                                        >
-                                            <span className="sr-only">ยกเลิก</span>
+                                        <th scope="col" className="px-6 py-3 text-sm">
+                                            ยกเลิกการสั่งซื้อ
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                                            style={{ width: "100px" }}
-                                        >
-                                            <span className="sr-only">ยืนยัน</span>
+                                        <th scope="col" className="px-6 py-3 text-sm">
+                                            รายละเอียดการสั่งซื้อ
                                         </th>
+
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
                                     {mappedData.map((order, index) => (
-                                        <tr key={order.orderId}>
-                                            <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                                        <tr key={order.orderId} className="bg-slate-100 border-b dark:bg-gray-900 dark:border-gray-700">
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white align-middle">
                                                 {index + 1}
-                                            </td>
+                                            </th>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                                 <div className="text-gray-900">
                                                     {dayjs(order.items[0].CreateAt).tz('Asia/Bangkok').locale('th').format('DD MMMM BBBB')}
@@ -195,15 +172,8 @@ export default function OrderList() {
                                                     </Button>
                                                 </Upload>
                                             </td>
-                                            <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                                <a
-                                                    className="text-indigo-600 hover:text-indigo-900"
-                                                    onClick={() => onDelete(order.orderId)}
-                                                >
-                                                    <Button type="primary">ยกเลิกการสั่งซื้อ</Button>
-                                                </a>
-                                            </td>
-                                            <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+
                                                 <a
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                     onClick={() => {
@@ -216,6 +186,16 @@ export default function OrderList() {
 
                                                 </a>
                                             </td>
+                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+
+                                                <a
+                                                    className="text-indigo-600 hover:text-indigo-900"
+                                                    onClick={() => onDelete(order.orderId)}
+                                                >
+                                                    <Button danger type="default"> ยกเลิกการสั่งซื้อ</Button>
+                                                </a>
+                                            </td>
+
                                         </tr>
                                     ))}
                                 </tbody>
