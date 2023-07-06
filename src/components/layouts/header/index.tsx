@@ -22,7 +22,7 @@ import logo from "../../../assets/images/LogoNo.png";
 import { IProfile } from "../../../interface/IUser";
 import {
   authenApi,
-  getProfile,
+
   useGetProfile,
 } from "../../../services/auth/authen/authen";
 import { useAuthContext } from "../../../provider/auth/provider.auth";

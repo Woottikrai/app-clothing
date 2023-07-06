@@ -10,6 +10,7 @@ import { IColor, IProductResult, IProducttype, ISize, ISuitability } from '../..
 import React from 'react';
 import form from 'antd/es/form';
 import { text } from 'stream/consumers';
+import { openNotification } from '../../components/notification';
 
 
 function numberComma(num: number) {
@@ -25,6 +26,7 @@ export default function ListProductAdmin() {
   const onDelete = (id?: number) => {
     deleteProduct.mutate(id, {
       onSuccess: () => {
+        openNotification({ type: "success", description: "ลบสินค้าสำเร็จ" });
         qClient.invalidateQueries(["get-all"]);
       }
     })
@@ -157,7 +159,7 @@ export default function ListProductAdmin() {
                 <div className="-ml-px flex w-0 flex-1" onClick={() => onDelete(product?.id)}>
 
                   <a
-                    className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
+                    className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900 bg-red-500"
                   >
 
                     <DeleteOutlined className="h-5 w-5 text-gray-400" aria-hidden="true" />

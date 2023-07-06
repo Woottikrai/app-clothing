@@ -12,7 +12,6 @@ import { useGetMe } from "../../services/auth/user/user.axios";
 type Props = {};
 
 export default function SignIn({ }: Props) {
-  const { profile } = useAuthContext();
   const navigate = useNavigate();
   const signin = UseSignin();
   const onFinish = (value: ISignin) => {

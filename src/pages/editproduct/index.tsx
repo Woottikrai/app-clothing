@@ -101,7 +101,7 @@ export default function EditProduct() {
   const { data: getProduct, isLoading, isError } = useGetProductOne(id);
   const HeadTitleProps = {
     // title: "เพิ่มสินค้า",
-    breadcrumbNameMap: breadcrumbNameMap,
+    // breadcrumbNameMap: breadcrumbNameMap,
   };
 
   React.useEffect(() => {
@@ -189,6 +189,7 @@ interface UploadImageProps {
   loading?: boolean;
   imageUrl?: string;
   emptyImg?: string;
+  uploadButton?: any
 }
 
 const UploadImage: FC<UploadImageProps> = ({
@@ -196,6 +197,7 @@ const UploadImage: FC<UploadImageProps> = ({
   loading,
   imageUrl,
   emptyImg,
+  uploadButton
 }) => {
   return (
     <React.Fragment>
@@ -208,41 +210,30 @@ const UploadImage: FC<UploadImageProps> = ({
             style={{
               display: "grid",
               justifyContent: "center",
-              margin: 0,
+              marginTop: "50px"
             }}
           >
-            <Upload
-              name="img"
-              className="avatar-uploader !h-[250px]"
-              showUploadList={false}
-              accept={accepts.string}
-              beforeUpload={() => false}
-              onChange={handleChange}
-              listType="picture-card"
-              style={{}}
-            >
-              <div className="">
-                {loading ? (
-                  <LoadingOutlined />
-                ) : !!imageUrl ? (
-                  <Image
-                    preview={false}
-                    src={imageUrl}
-                    // alt="img"
-                    className="!object-fill"
-                  />
-                ) : (
-                  <Image
-                    preview={false}
-                    src={emptyImg}
-                    // alt="img"
-                    className="!object-fill"
-                  />
-                )}
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
-              </div>
-            </Upload>
+            <div className="justify-center">
+              <Upload
+                name="img"
+
+                showUploadList={false}
+                accept={accepts.string}
+                beforeUpload={() => false}
+                onChange={handleChange}
+                listType="picture"
+                style={{}}
+              >
+                <div className="justify-center">
+                  {imageUrl ? null : uploadButton}
+                  <Button type="primary" style={{ justifyContent: "center" }}>คลิกเพื่ออัปโหลดรูปภาพ</Button>
+
+                </div>
+              </Upload>
+              <img alt="" style={{ width: "100%", justifyContent: "center" }} src={imageUrl} />
+
+            </div>
+
           </Form.Item>
         </>
       </CCard>
@@ -263,6 +254,8 @@ const InputForm: FC<InputFormProps> = ({
   optionSuitability,
   optionsProducttype,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <React.Fragment>
       <CCard>
@@ -271,13 +264,13 @@ const InputForm: FC<InputFormProps> = ({
             <Form.Item
               name="name"
               label="ชื่อสินค้า"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: "กรุณากรอกชื่อสินค้า" }]}
             >
               <CInput placeholder="ชื่อสินค้า" />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="price" label="ราคา" rules={[{ required: true }]}>
+            <Form.Item name="price" label="ราคา" rules={[{ required: true, message: "กรุณากรอกราคา" }]}>
               <CInput type="number" min={1} placeholder="ราคา" />
             </Form.Item>
           </Col>
@@ -285,7 +278,7 @@ const InputForm: FC<InputFormProps> = ({
         <Form.Item
           name="detail"
           label="รายละเอียดสินค้า"
-          rules={[{ required: true }]}
+          rules={[{ required: true, message: "กรุณากรอกรายละเอียดสินค้า" }]}
         >
           <TextArea rows={5} placeholder="...รายละเอียดสินค้า" />
         </Form.Item>{" "}
@@ -294,7 +287,7 @@ const InputForm: FC<InputFormProps> = ({
             <Form.Item
               name="colorId"
               label="เลือกสี"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: "กรุณาเลือกเลือกสี" }]}
             >
               <CSelect
                 options={optionColors?.map((it) => {
@@ -307,14 +300,14 @@ const InputForm: FC<InputFormProps> = ({
           <Col span={12}>
             <Form.Item
               name="sizeId"
-              label="เลือกขนาด"
-              rules={[{ required: true }]}
+              label="เลือกไซซ์"
+              rules={[{ required: true, message: "กรุณาเลือกไซซ์" }]}
             >
               <CSelect
                 options={optionSize?.map((it) => {
                   return { value: it.id, label: it.size_name };
                 })}
-                placeholder="เลือกขนาด"
+                placeholder="เลือกไซซ์"
               />
             </Form.Item>{" "}
           </Col>
@@ -324,7 +317,7 @@ const InputForm: FC<InputFormProps> = ({
             <Form.Item
               name="producttypeId"
               label="เลือกหมวดหมู่"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: "กรุณาเลือกหมวดหมู่" }]}
             >
               <CSelect
                 options={optionsProducttype?.map((it) => {
@@ -338,7 +331,7 @@ const InputForm: FC<InputFormProps> = ({
             <Form.Item
               name="suitabilityId"
               label="เลือกความเหมาะสม"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: "กรุณาเลือกความเหมาะสม" }]}
             >
               <CSelect
                 options={optionSuitability?.map((it) => {
@@ -350,6 +343,9 @@ const InputForm: FC<InputFormProps> = ({
           </Col>
         </Row>
         <div className="text-end">
+          <Button type="default" onClick={() => navigate(-1)} size="large" className="mr-4">
+            ยกเลิก
+          </Button>
           <Button htmlType="submit" type="primary" size="large">
             บันทึก
           </Button>

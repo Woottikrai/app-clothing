@@ -7,7 +7,7 @@ import {
   ISuitability,
 } from "../../interface/IProduct";
 import React, { FC } from "react";
-
+import noPicture from '../../assets/images/nopicture.jpg'
 import Upload, { UploadChangeParam, RcFile } from "antd/es/upload";
 import { Image } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
@@ -129,7 +129,12 @@ export default function AddProduct() {
       }
     );
   };
-
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
   return (
     <Container>
       <HeadTitle />
@@ -169,6 +174,7 @@ interface UploadImageProps {
   loading?: boolean;
   imageUrl?: string;
   emptyImg?: string;
+  uploadButton?: any
 }
 
 const UploadImage: FC<UploadImageProps> = ({
@@ -176,6 +182,7 @@ const UploadImage: FC<UploadImageProps> = ({
   loading,
   imageUrl,
   emptyImg,
+  uploadButton
 }) => {
   return (
     <React.Fragment>
@@ -188,41 +195,30 @@ const UploadImage: FC<UploadImageProps> = ({
             style={{
               display: "grid",
               justifyContent: "center",
-              margin: 0,
+              marginTop: "50px"
             }}
           >
-            <Upload
-              name="img"
-              className="avatar-uploader !h-[250px]"
-              showUploadList={false}
-              accept={accepts.string}
-              beforeUpload={() => false}
-              onChange={handleChange}
-              listType="picture-card"
-              style={{}}
-            >
-              <div className="">
-                {loading ? (
-                  <LoadingOutlined />
-                ) : !!imageUrl ? (
-                  <Image
-                    preview={false}
-                    src={imageUrl}
-                    // alt="img"
-                    className="!object-fill"
-                  />
-                ) : (
-                  <Image
-                    preview={false}
-                    src={emptyImg}
-                    // alt="img"
-                    className="!object-fill"
-                  />
-                )}
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
-              </div>
-            </Upload>
+            <div className="justify-center">
+              <Upload
+                name="img"
+
+                showUploadList={false}
+                accept={accepts.string}
+                beforeUpload={() => false}
+                onChange={handleChange}
+                listType="picture"
+                style={{}}
+              >
+                <div className="justify-center">
+                  {imageUrl ? null : uploadButton}
+                  <Button type="primary" style={{ justifyContent: "center", width: "300px" }}>คลิกเพื่ออัปโหลดรูปภาพ</Button>
+
+                </div>
+              </Upload>
+              <img alt="" style={{ width: "300px", justifyContent: "center", marginTop: '10px' }} src={imageUrl ? imageUrl : noPicture} />
+
+            </div>
+
           </Form.Item>
         </>
       </CCard>
@@ -252,7 +248,7 @@ const InputForm: FC<InputFormProps> = ({
             <Form.Item
               name="name"
               label="ชื่อสินค้า"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: "กรุณากรอกชื่อสินค้า" }]}
             >
               <CInput placeholder="ชื่อสินค้า" />
             </Form.Item>
@@ -266,7 +262,7 @@ const InputForm: FC<InputFormProps> = ({
         <Form.Item
           name="detail"
           label="รายละเอียดสินค้า"
-          rules={[{ required: true }]}
+          rules={[{ required: true, message: "กรุณากรอกรายละเอียดสินค้า" }]}
         >
           <TextArea rows={5} placeholder="...รายละเอียดสินค้า" />
         </Form.Item>{" "}
@@ -275,7 +271,7 @@ const InputForm: FC<InputFormProps> = ({
             <Form.Item
               name="colorId"
               label="เลือกสี"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: "กรุณาเลือกเลือกสี" }]}
             >
               <CSelect
                 options={optionColors?.map((it) => {
@@ -288,14 +284,14 @@ const InputForm: FC<InputFormProps> = ({
           <Col span={12}>
             <Form.Item
               name="sizeId"
-              label="เลือกขนาด"
-              rules={[{ required: true }]}
+              label="เลือกไซซ์"
+              rules={[{ required: true, message: "กรุณาเลือกเลือกไซซ์" }]}
             >
               <CSelect
                 options={optionSize?.map((it) => {
                   return { value: it.id, label: it.size_name };
                 })}
-                placeholder="เลือกขนาด"
+                placeholder="เลือกเลือกไซซ์"
               />
             </Form.Item>{" "}
           </Col>
@@ -305,7 +301,7 @@ const InputForm: FC<InputFormProps> = ({
             <Form.Item
               name="producttypeId"
               label="เลือกหมวดหมู่"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: "กรุณาเลือกหมวดหมู่" }]}
             >
               <CSelect
                 options={optionsProducttype?.map((it) => {
@@ -319,7 +315,7 @@ const InputForm: FC<InputFormProps> = ({
             <Form.Item
               name="suitabilityId"
               label="เลือกความเหมาะสม"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: "กรุณาเลือกความเหมาะสม" }]}
             >
               <CSelect
                 options={optionSuitability?.map((it) => {

@@ -61,7 +61,7 @@ function ListProduct() {
                   }}
                 >
                   <div className="mb-2.5 ">สี{product?.color?.color_name}</div>
-                  <div className="mb-2.5">ขนาด {product?.size?.size_name}</div>
+                  <div className="mb-2.5">ไซซ์ {product?.size?.size_name}</div>
                 </Typography.Title>
               </Col>
             </Row>
@@ -150,7 +150,7 @@ function ListProduct() {
                 <Form.Item name="size" label="">
                   <Select
                     options={getSize?.map((it) => ({ value: it.id, label: it.size_name }))}
-                    placeholder="เลือกไซ เพื่อค้นหา"
+                    placeholder="เลือกไซซ์ เพื่อค้นหา"
                   />
                 </Form.Item>
               </Col>

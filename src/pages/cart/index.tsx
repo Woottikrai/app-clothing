@@ -20,7 +20,7 @@ import {
 export default function Cart() {
   const HeadTitleProps = {
     // title: "เพิ่มสินค้า",
-    breadcrumbNameMap: breadcrumbNameMap,
+    // breadcrumbNameMap: breadcrumbNameMap,
   };
   const { profile } = useAuthContext();
   const { data: products } = useGetCartByUser(profile?.id);
@@ -95,12 +95,12 @@ export const CartList: FC<{ product?: ICart }> = ({ product }) => {
               </div>
               <div className="mt-1 flex text-sm">
                 <p className="text-gray-500">
-                  สี {product?.product.color?.color_name}
+                  สี{product?.product.color?.color_name}
                 </p>
               </div>
               <div className="mt-1 flex text-sm">
                 <p className="text-gray-500">
-                  ไซต์ {product?.product.size?.size_name}
+                  ไซซ์ {product?.product.size?.size_name}
                 </p>
               </div>
               <div className="mt-1 flex text-sm">
@@ -108,6 +108,9 @@ export const CartList: FC<{ product?: ICart }> = ({ product }) => {
               </div>
               <p className="mt-1 text-sm font-medium text-gray-900">
                 {product?.product.price} บาท
+              </p>
+              <p className="mt-1 text-sm font-medium text-gray-900">
+                ราคารวม {product?.sumPrice} บาท
               </p>
             </div>
 
@@ -184,7 +187,7 @@ export const OrderSummary: FC<IOrderSummary> = ({ products, listOrder }) => {
         </Typography.Title>
 
         <dl className="mt-6 space-y-4">
-          <Row align={"middle"} justify="space-between">
+          {/* <Row align={"middle"} justify="space-between">
             <Col className="text-sm text-gray-600">ราคารวม</Col>
             <Col className="text-sm font-medium text-gray-900">
               {totalSumPrice.toLocaleString('th-TH', { style: 'currency', currency: 'THB' })}
@@ -194,7 +197,7 @@ export const OrderSummary: FC<IOrderSummary> = ({ products, listOrder }) => {
             style={{
               fontSize: 5,
             }}
-          />
+          /> */}
           <Row align={"middle"} justify="space-between">
             <Col className="text-base font-medium text-gray-900">ราคารวม</Col>
             <Col className="text-base font-medium text-gray-900">

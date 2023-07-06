@@ -118,7 +118,7 @@ export default function OrderHistoryAdmin() {
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                                 <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                                    {order.items[0].status?.status_name}
+                                                    {order.items[0].status?.status_name === 'SUCCESS' ? 'เสร็จสิ้น' : '-'}
                                                 </span>
                                             </td>
 

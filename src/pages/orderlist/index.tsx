@@ -156,10 +156,10 @@ export default function OrderList() {
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                                 <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                                    {order.items[0].status?.status_name}
+                                                    {order.items[0].status?.status_name === "PENDING" ? 'รอดำเนินการ' : '-'}
                                                 </span>
                                             </td>
-                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white align-middle">
 
                                                 <Upload
                                                     onChange={(value) => handleChange(value, order.orderId)}
@@ -171,8 +171,8 @@ export default function OrderList() {
                                                         เลือกไฟล์
                                                     </Button>
                                                 </Upload>
-                                            </td>
-                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                                            </th>
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white align-middle">
 
                                                 <a
                                                     className="text-indigo-600 hover:text-indigo-900"
@@ -185,8 +185,8 @@ export default function OrderList() {
                                                     <Button type="primary">รายละเอียด</Button>
 
                                                 </a>
-                                            </td>
-                                            <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                                            </th>
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white align-middle">
 
                                                 <a
                                                     className="text-indigo-600 hover:text-indigo-900"
@@ -194,7 +194,7 @@ export default function OrderList() {
                                                 >
                                                     <Button danger type="default"> ยกเลิกการสั่งซื้อ</Button>
                                                 </a>
-                                            </td>
+                                            </th>
 
                                         </tr>
                                     ))}
