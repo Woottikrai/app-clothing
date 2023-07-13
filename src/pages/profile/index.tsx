@@ -59,7 +59,7 @@ const Profile: React.FC = () => {
     const uploadButton = (
         <div>
             {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>Upload</div>
+            <div style={{ marginTop: 8 }}>อัปโหลด</div>
         </div>
     );
 
@@ -83,7 +83,7 @@ const Profile: React.FC = () => {
             },
             {
                 onSuccess: () => {
-                    openNotification({ type: "success" });
+                    openNotification({ type: "success", description: 'แก้ไขข้อมูลสำเร็จ' });
                     qClient.invalidateQueries(["user-one"]);
                 },
                 onError: ({ message }: any) => {
@@ -107,7 +107,7 @@ const Profile: React.FC = () => {
                             onChange={handleChange}
                             customRequest={() => { }}
                         >
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '200px', borderRadius: '50%' }} /> : uploadButton}
+                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> : uploadButton}
                         </Upload></Col>
 
                 </Row>

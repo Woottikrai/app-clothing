@@ -65,7 +65,7 @@ export default function OrderHistoryAdmin() {
                     <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                             <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
-                                <thead className="text-xs text-white uppercase bg-slate-400 dark:text-white">
+                                <thead className="text-xs text-white uppercase bg-gray-600 dark:text-white">
                                     <tr>
                                         <th scope="col" className="px-6 py-3 text-sm ">
                                             #

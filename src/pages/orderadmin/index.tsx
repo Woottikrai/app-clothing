@@ -37,6 +37,7 @@ export default function OrderAdmin() {
       items: organizedData[orderId],
     };
   });
+  console.log("🚀 ~ file: index.tsx:40 ~ mappedData ~ mappedData:", mappedData)
 
   const onConfirm = (orderId: string) => {
     confirm.mutateAsync(
@@ -101,7 +102,7 @@ export default function OrderAdmin() {
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
-                <thead className="text-xs text-white uppercase bg-slate-400 dark:text-white">
+                <thead className="text-xs text-white uppercase bg-gray-600 dark:text-white">
                   <tr>
                     <th scope="col" className="px-6 py-3 ml-10  text-sm" >
                       #
@@ -185,24 +186,25 @@ export default function OrderAdmin() {
 
                         <Button type="primary" className=" background-color: #389e0d" onClick={() => { onConfirm(order.orderId) }}>ยืนยันการสั่งซื้อ</Button>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                        <Button type="primary" onClick={() => setVisible(true)} >
+                      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                        {/* <Button type="primary" onClick={() => setVisible(true)} >
                           คลิกเพื่อดูสลิป
-                        </Button>
+                        </Button> */}
                         <Image
 
-                          style={{ display: 'none' }}
+                          // style={{ display: 'none' }}
                           src={order.items[0].img}
-                          preview={{
-                            visible,
-                            src: order.items[0].img,
-                            onVisibleChange: (value) => {
-                              setVisible(value);
-                            },
-                          }}
+                          style={{ width: "50px", height: '50px' }}
+                        // preview={{
+                        //   visible,
+                        //   src: order.items[0].img,
+                        //   onVisibleChange: (value) => {
+                        //     setVisible(value);
+                        //   },
+                        // }}
                         />
 
-                      </td>
+                      </th>
                       <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
 
                         <Button danger type="default" onClick={() => { showModal(); setuserId(order.items[0].userId); setOrderId(order.items[0].orderId) }}>

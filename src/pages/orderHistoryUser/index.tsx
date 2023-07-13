@@ -83,7 +83,7 @@ export default function OrderHistoryUser() {
                                             </th>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                                 <div className="text-gray-900">
-                                                    {dayjs(order.items[0].CreateAt).tz('Asia/Bangkok').locale('th').format('DD MMMM BBBB')}
+                                                    {dayjs(order.items[0].UpdateAt).tz('Asia/Bangkok').locale('th').format('DD MMMM BBBB')}
                                                 </div>
 
                                             </td>

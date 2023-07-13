@@ -226,11 +226,11 @@ const UploadImage: FC<UploadImageProps> = ({
               >
                 <div className="justify-center">
                   {imageUrl ? null : uploadButton}
-                  <Button type="primary" style={{ justifyContent: "center" }}>คลิกเพื่ออัปโหลดรูปภาพ</Button>
+                  <Button type="primary" style={{ justifyContent: "center", width: "300px" }}>คลิกเพื่ออัปโหลดรูปภาพ</Button>
 
                 </div>
               </Upload>
-              <img alt="" style={{ width: "100%", justifyContent: "center" }} src={imageUrl} />
+              <img alt="" style={{ width: "300px", justifyContent: "center", marginTop: '10px' }} src={imageUrl} />
 
             </div>
 

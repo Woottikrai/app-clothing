@@ -110,7 +110,7 @@ export const CartList: FC<{ product?: ICart }> = ({ product }) => {
                 {product?.product.price} บาท
               </p>
               <p className="mt-1 text-sm font-medium text-gray-900">
-                ราคารวม {product?.sumPrice} บาท
+                รวม {product?.sumPrice} บาท
               </p>
             </div>
 

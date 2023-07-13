@@ -81,6 +81,7 @@ export default function OrderList() {
             items: organizedData[orderId],
         };
     });
+    console.log("🚀 ~ file: index.tsx:84 ~ mappedData ~ mappedData:", mappedData)
 
     const accepts = {
         array: ["jpg", "jpeg", "png", "webp"],
@@ -114,6 +115,9 @@ export default function OrderList() {
 
     return (
         <Container>
+            <div>
+                <h1>หมายเหตุ : โอนเงินมาที่พร้อมเพย์ 0803767031 วุฒิไกร สังข์โกมล โอนแล้วกรุณาแนบสลิปมาด้วย </h1>
+            </div>
             <div className="px-4 sm:px-6 lg:px-8">
                 <div className="mt-8 flow-root">
                     <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -150,7 +154,7 @@ export default function OrderList() {
                                             </th>
                                             <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                                 <div className="text-gray-900">
-                                                    {dayjs(order.items[0].CreateAt).tz('Asia/Bangkok').locale('th').format('DD MMMM BBBB')}
+                                                    {dayjs(order.items[0].UpdateAt).tz('Asia/Bangkok').locale('th').format('DD MMMM BBBB')}
                                                 </div>
 
                                             </td>
